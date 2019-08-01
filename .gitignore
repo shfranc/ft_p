@@ -28,4 +28,5 @@ client
 *.pdb
 
 # Mac OS files
+.vscode
 .DS_Store
