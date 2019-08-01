@@ -41,7 +41,8 @@ int		main(int argc, char **argv)
 	if (argc != 3)
 		usage(argv[0]);
 	port = ft_atoi(argv[2]);
-	client_sock = create_client(argv[1], port);
+	if ((client_sock = create_client(argv[1], port)) == -1)
+		return (1);
 	ret = write(client_sock, "bonjour\n", 8);
 	if (ret == -1)
 		return (ret_error("write: error"));

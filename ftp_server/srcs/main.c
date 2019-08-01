@@ -42,18 +42,33 @@ int		main(int argc, char **argv)
 	unsigned int		client_sin_len;
 	int					ret;
 	char				buf[BUF_SIZE];
+	int					pid;
 
 	if (argc != 2)
 		usage(argv[0]);
 	port = ft_atoi(argv[1]);
 	server_sock = create_server(port);
-	client_sock = accept(server_sock, (struct sockaddr *)&client_sin, &client_sin_len);
-	while((ret = read(client_sock, &buf, BUF_SIZE - 1)) > 0)
+	while (1)
 	{
-		buf[ret] = '\0';
-		printf("recieved %d bytes: [%s]\n", ret, buf);
+		client_sock = accept(server_sock, (struct sockaddr *)&client_sin, &client_sin_len);
+		if ((pid = fork()) == 0)
+		{
+			// child process
+			while((ret = read(client_sock, &buf, BUF_SIZE - 1)) > 0)
+			{
+				buf[ret] = '\0';
+				printf("socket: %d - pid: %d - recieved %d bytes: [%s]\n", client_sock, pid, ret, buf);
+			}
+			close(client_sock);
+		}
+		else
+		{
+			close(client_sock);
+			// parent process
+		}
+
 	}
-	close(client_sock);
+
 	close(server_sock);
 	return (0);
 }
