@@ -10,11 +10,12 @@ int 			g_server_sock = -1;
 
 int				main(int argc, char **argv)
 {
-	int					port;
+	uint16_t				port;
 
 	if (argc != 2)
 		usage(argv[0]);
-	port = ft_atoi(argv[1]);
+	if (!(port = get_port(argv[1])))
+		return (FAILURE);
 	if ((g_server_sock = create_server(port)) == -1)
 		return (FAILURE);
 	signal(SIGINT, handle_sigint);
