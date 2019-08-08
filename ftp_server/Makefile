@@ -9,6 +9,11 @@ PATH_OBJS = objs
 
 SRCS = $(addprefix $(PATH_SRCS)/,\
 	main.c \
+	server.c \
+	handle_clients.c \
+	get_commands.c \
+	signals.c \
+	utils.c \
 	)
 OBJS = $(SRCS:$(PATH_SRCS)/%.c=$(PATH_OBJS)/%.o)
 INCS = incs $(PATH_LIB)/includes
