@@ -10,7 +10,7 @@ uint16_t			get_port(char *port_str)
 		return (0);
 	}
 	port = ft_atoi(port_str);
-	if (port <= 0 || port > USHRT_MAX)
+	if (port < 1024 || port > USHRT_MAX)
 	{
 		dprintf(STDERR_FILENO, "Port range not valid: %s\n", port_str);
 		return (0);
