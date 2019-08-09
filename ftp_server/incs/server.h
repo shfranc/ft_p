@@ -7,6 +7,8 @@
 # include <sys/socket.h>
 # include <netdb.h>
 # include <limits.h>
+#include <time.h>
+#include <stdlib.h>
 
 # define NB_CONNECT		42
 # define BUF_SIZE		1024
@@ -18,6 +20,8 @@ uint16_t				get_port(char *port_str);
 int						close_server(t_ex_ret ret);
 t_ex_ret				handle_clients(int server_sock);
 int						get_client_commands(int client_sock);
+void					extended_passive_mode(int client_sock);
+void					passive_mode(int client_sock);
 void					handle_sigint(int sig);
 void					handle_child_signals(void);
 int						ret_error(char *message);

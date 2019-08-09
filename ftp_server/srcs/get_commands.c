@@ -47,13 +47,22 @@ int				get_client_commands(int client_sock)
 
 	while ((ret = read(client_sock, &buf, BUF_SIZE - 1)) > 0)
 	{
-		buf[ret] = '\0';
+		if (buf[ret - 2] == '\r')
+			buf[ret - 2] = '\0';
+		else if (buf[ret - 1] == '\n')
+			buf[ret - 2] = '\0';
+		else
+			buf[ret] = '\0';
 		log_client_command(ret, buf);
-		if (ft_strcmp(buf, "pwd\n") == 0)
+		if (ft_strcmp(buf, "EPSV") == 0)
+			extended_passive_mode(client_sock);
+		else if (ft_strcmp(buf, "EPSV") == 0)
+			passive_mode(client_sock);
+		if (ft_strcmp(buf, "PWD") == 0)
 			ret = exec_cmd(client_sock, "/bin/pwd", NULL);
-		if (ft_strcmp(buf, "ls\n") == 0)
+		else if (ft_strcmp(buf, "LIST") == 0)
 			ret = exec_cmd(client_sock, "/bin/ls", "-al");
-		if (write(client_sock, "OK\n", 3) == -1)
+		if (write(client_sock, "OK", 3) == -1)
 			return (ret_error("write: Failed to write to client"));
 	}
 	if (ret == -1)
