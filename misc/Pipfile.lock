@@ -1,0 +1,29 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "f8ed531b548a4cb9c7f3f694273b68b9d1412d952d67c9a4f565975f26486fda"
+        },
+        "pipfile-spec": 6,
+        "requires": {
+            "python_version": "3.7"
+        },
+        "sources": [
+            {
+                "name": "pypi",
+                "url": "https://pypi.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "pyftpdlib": {
+            "hashes": [
+                "sha256:1adf1c03d1508749e7c2f26dc9850ec0ef834318d725b7ae5ac91698f5c86752",
+                "sha256:404ca62e3765f7a2bf14a8e369ec5595a073df7a1fc90baedcf44cbd6fb4622f"
+            ],
+            "index": "pypi",
+            "version": "==1.5.5"
+        }
+    },
+    "develop": {}
+}
