@@ -1,6 +1,24 @@
 #include "server.h"
 
-int				create_server(int port)
+uint16_t			get_port(char *port_str)
+{
+	uint32_t	port;
+
+	if (!ft_isnumber(port_str))
+	{
+		dprintf(STDERR_FILENO, "Unknown port: %s\n", port_str);
+		return (0);
+	}
+	port = ft_atoi(port_str);
+	if (port < 1024 || port > USHRT_MAX)
+	{
+		dprintf(STDERR_FILENO, "Port range not valid: %s\n", port_str);
+		return (0);
+	}
+	return ((uint16_t)port);
+}
+
+int				create_server(uint16_t port)
 {
 	int						server_sock;
 	struct protoent			*proto;

@@ -1,5 +1,10 @@
 #include "server.h"
 
+int			server_is_ready(int client_sock)
+{
+	return (write(client_sock, "220 Service ready\r\n", 19));
+}
+
 t_ex_ret	handle_clients(int server_sock)
 {
 	int					client_sock;
@@ -20,6 +25,8 @@ t_ex_ret	handle_clients(int server_sock)
 			handle_child_signals();
 			// child process
 			ft_putendl("client connected");
+			if (server_is_ready(client_sock) == -1)
+				exit(FAILURE);
 			if (get_client_commands(client_sock) == -1)
 				exit(FAILURE);
 			ft_putendl("client disconnected");
