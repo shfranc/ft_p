@@ -1,12 +1,8 @@
 #include "server.h"
 
-static void			log_client_command(int bytes, char *cmd)
+void			log_client_command(char *cmd)
 {
-	ft_putstr("recieved ");
-	ft_putnbr(bytes);
-	ft_putstr(" bytes: [");
-	ft_putstr(cmd);
-	ft_putendl("]");
+	printf("---> %s\n", cmd);
 }
 
 int				exec_cmd(int client_sock, char *bin_path, char *options)
@@ -44,25 +40,24 @@ int				get_client_commands(int client_sock)
 {
 	int					ret;
 	char				buf[BUF_SIZE];
+	int 				data_sock;
 
 	while ((ret = read(client_sock, &buf, BUF_SIZE - 1)) > 0)
 	{
 		if (buf[ret - 2] == '\r')
 			buf[ret - 2] = '\0';
 		else if (buf[ret - 1] == '\n')
-			buf[ret - 2] = '\0';
+			buf[ret - 1] = '\0';
 		else
 			buf[ret] = '\0';
-		log_client_command(ret, buf);
-		if (ft_strcmp(buf, "EPSV") == 0)
-			extended_passive_mode(client_sock);
-		else if (ft_strcmp(buf, "EPSV") == 0)
-			passive_mode(client_sock);
+		log_client_command(buf);
+		if (ft_strcmp(buf, "PASV") == 0)
+			data_sock = passive_mode(client_sock);
 		if (ft_strcmp(buf, "PWD") == 0)
-			ret = exec_cmd(client_sock, "/bin/pwd", NULL);
+			ret = exec_cmd(data_sock, "/bin/pwd", NULL);
 		else if (ft_strcmp(buf, "LIST") == 0)
-			ret = exec_cmd(client_sock, "/bin/ls", "-al");
-		if (write(client_sock, "OK", 3) == -1)
+			ret = exec_cmd(data_sock, "/bin/ls", "-al");
+		else if (write(client_sock, "OK\r\n", 4) == -1)
 			return (ret_error("write: Failed to write to client"));
 	}
 	if (ret == -1)
