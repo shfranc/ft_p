@@ -36,7 +36,6 @@ int				create_server(uint16_t port)
 		return (ret_error("bind: error"));
 	listen(server_sock, NB_CONNECT);
 	return (server_sock);
-
 }
 
 int					close_server(t_ex_ret ret)
