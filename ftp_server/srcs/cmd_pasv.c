@@ -36,13 +36,14 @@ int				create_DTP_server(t_user *user)
 	return (ret_error("Maximum tries to find a port reach"));
 }
 
-void		cmd_pasv(t_user *user)
+void		cmd_pasv(t_user *user, char **cmd)
 {
 	int					server_DTP_sock;
 	char				*message;
 	struct sockaddr_in	data_sin;
 	unsigned int		data_sin_len;
 
+	(void)cmd;
 	if ((server_DTP_sock = create_DTP_server(user)) == -1)
 	{
 		send_to_user_ctrl(user, RESP_425);

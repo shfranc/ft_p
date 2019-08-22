@@ -10,3 +10,7 @@ void			log_client_command(char *cmd)
 	printf("[CTRL]\t<--- %s\n", cmd);
 }
 
+void			log_server_response(char *cmd)
+{
+	printf("[CTRL]\t---> %s\n", cmd);
+}
