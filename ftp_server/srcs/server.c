@@ -32,7 +32,7 @@ int				create_server(uint16_t port)
 	server_sin.sin_family = AF_INET;
 	server_sin.sin_port = htons(port);
 	server_sin.sin_addr.s_addr = htonl(INADDR_ANY);
-	if (bind(server_sock, (const struct sockaddr *)&server_sin, sizeof(server_sin)))
+	if (bind(server_sock, (const struct sockaddr *)&server_sin, sizeof(server_sin)) != 0)
 		return (ret_error("bind: error"));
 	listen(server_sock, NB_CONNECT);
 	return (server_sock);

@@ -18,11 +18,13 @@
 # define END_OF_MESG	"\r\n"
 # define RESP_220		"220 Server is ready"
 # define RESP_500		"500 No such command"
+# define RESP_425		"425 Error while openning the data channel"
 
 typedef struct			s_user
 {
-	int					port;
 	int					control_sock;
+	int					server_dtp_sock;
+	int					dtp_port;
 	int					data_sock;
 
 }						t_user;
