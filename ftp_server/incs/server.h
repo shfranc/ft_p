@@ -24,6 +24,7 @@
 # define RESP_226		"226 Transfer done, closing the data channel"
 # define RESP_425		"425 Error while openning the data channel"
 # define RESP_500		"500 No such command"
+# define RESP_501		"501 Error in params"
 # define RESP_550		"550 No such file or directory"
 
 typedef struct			s_user

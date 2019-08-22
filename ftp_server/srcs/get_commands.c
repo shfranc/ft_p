@@ -20,7 +20,6 @@ void			loop_commands(t_user *user, char **cmd)
 	{
 		if (ft_strcmp(cmd[0], g_commands[i].name) == 0)
 		{
-			log_info("command found");
 			g_commands[i].run(user, cmd);
 			return ;
 		}
@@ -47,6 +46,8 @@ int				get_client_commands(t_user *user)
 			buf[ret] = '\0';
 		log_client_command(buf);
 		cmd = ft_strsplit(buf, ' ');
+		if (ft_strcmp(cmd[0], "QUIT") == 0)
+			break ;
 		loop_commands(user, cmd);
 		ft_freetab(&cmd);
 	}

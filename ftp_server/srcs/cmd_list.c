@@ -41,6 +41,12 @@ void		cmd_list(t_user *user, char **cmd)
 	char	*args[5];
 	int		ret;
 
+	if (ft_tablen(cmd) > 2)
+	{
+		send_to_user_ctrl(user, RESP_501);
+		close_data_channel(user);
+		return ;
+	}
 	if (user->data_sock != -1)
 		send_to_user_ctrl(user, RESP_125);
 	else
