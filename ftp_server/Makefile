@@ -1,5 +1,5 @@
 NAME = server
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 CC = gcc
 
 LIB = libft.a

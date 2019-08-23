@@ -30,10 +30,10 @@ t_ex_ret		handle_clients(int server_sock)
 	unsigned int		client_sin_len;
 	int					pid;
 
+	log_info("Waiting for clients");
 	init_user(&user);
 	while (1)
 	{
-		log_info("waiting for clients");
 		if ((user.control_sock = accept(server_sock,
 			(struct sockaddr *)&client_sin, &client_sin_len)) < 0)
 			return(ret_error("accept: error"));
@@ -42,11 +42,11 @@ t_ex_ret		handle_clients(int server_sock)
 		if (pid == 0)
 		{
 			handle_child_signals();
-			log_info("client connected");
+			log_info("Client connected");
 			send_to_user_ctrl(&user, RESP_220);
 			if (get_client_commands(&user) == -1)
 				exit(FAILURE);
-			log_info("client disconnected");
+			log_info("Client disconnected");
 			exit(SUCCESS);
 		}
 		else

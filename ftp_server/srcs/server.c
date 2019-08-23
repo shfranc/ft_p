@@ -41,9 +41,9 @@ int				create_server(uint16_t port)
 int					close_server(t_ex_ret ret)
 {
 	printf("Exiting...\n");
-	if (g_server_sock == -1)
+	if (g_server.server_sock == -1)
 		exit(ret);
-	if (close(g_server_sock) == -1)
+	if (close(g_server.server_sock) == -1)
 		return (FAILURE);
 	return (ret);
 }

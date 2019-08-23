@@ -18,6 +18,8 @@
 # define LS_OPTIONS		"-l"
 # define LS_SEP			"--"
 
+# define ROOT_ERR		"Impossible to get root directory."
+
 # define END_OF_MESG	"\r\n"
 # define RESP_125		"125 Data channel already opened"
 # define RESP_220		"220 Server is ready"
@@ -26,6 +28,13 @@
 # define RESP_500		"500 No such command"
 # define RESP_501		"501 Error in params"
 # define RESP_550		"550 No such file or directory"
+
+typedef struct 			s_server
+{
+	uint16_t			port;
+	int					server_sock;
+	char				*root_dir;
+}						t_server;
 
 typedef struct			s_user
 {
@@ -43,7 +52,7 @@ typedef struct			s_command
 	f_command			*run;
 }						t_command;
 
-extern int				g_server_sock;
+extern t_server			g_server;
 extern t_command		g_commands[NB_COMMAND];
 
 /*
@@ -79,5 +88,6 @@ void					log_server_response(char *cmd);
 void					handle_sigint(int sig);
 void					handle_child_signals(void);
 int						ret_error(char *message);
+t_ex_ret				ret_failure(char *message);
 
 #endif

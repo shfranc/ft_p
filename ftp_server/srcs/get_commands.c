@@ -10,13 +10,8 @@ void			loop_commands(t_user *user, char **cmd)
 {
 	int 				i;
 
-	if (!cmd[0])
-	{
-		send_to_user_ctrl(user, RESP_500);
-		return ;
-	}
 	i = 0;
-	while (i < NB_COMMAND)
+	while (i < NB_COMMAND && cmd[0])
 	{
 		if (ft_strcmp(cmd[0], g_commands[i].name) == 0)
 		{
@@ -45,9 +40,9 @@ int				get_client_commands(t_user *user)
 		else
 			buf[ret] = '\0';
 		log_client_command(buf);
-		cmd = ft_strsplit(buf, ' ');
-		if (ft_strcmp(cmd[0], "QUIT") == 0)
+		if (ft_strcmp(buf, "QUIT") == 0)
 			break ;
+		cmd = ft_strsplit(buf, ' ');
 		loop_commands(user, cmd);
 		ft_freetab(&cmd);
 	}
