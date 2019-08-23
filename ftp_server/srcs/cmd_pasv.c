@@ -48,7 +48,7 @@ void		cmd_pasv(t_user *user, char **cmd)
 	if ((ret = create_DTP_server(user)) == -1)
 		return (send_to_user_ctrl(user, RESP_425));
 	message = NULL;
-	asprintf(&message, "227 Data chanel open (127,0,0,1,%d,%d)", (unsigned char)(user->dtp_port >> 8), (unsigned char)user->dtp_port);
+	asprintf(&message, "227 Data channel open (127,0,0,1,%d,%d)", (unsigned char)(user->dtp_port >> 8), (unsigned char)user->dtp_port);
 	send_to_user_ctrl(user, message);
 	if ((user->data_sock = accept(user->server_dtp_sock,
 		(struct sockaddr *)&data_sin, &data_sin_len)) < 0)

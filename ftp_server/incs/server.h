@@ -7,9 +7,12 @@
 # include <sys/socket.h>
 # include <netdb.h>
 # include <limits.h>
-#include <time.h>
-#include <stdlib.h>
-#include <arpa/inet.h>
+# include <time.h>
+# include <stdlib.h>
+# include <arpa/inet.h>
+# include <fcntl.h>
+# include <sys/stat.h>
+# include <sys/mman.h>
 
 # define OPTIONS		"d"
 # define LS_PATH		"/bin/ls"
@@ -21,14 +24,17 @@
 
 # define BUF_SIZE		1024
 # define NB_CONNECT		42
-# define NB_COMMAND		4
+# define NB_COMMAND		5
 
 # define ROOT_ERR		"Impossible to get root directory."
 # define RESP_125		"125 Data channel already opened"
 # define RESP_200		"200 Active data connection established"
+# define RESP_200_1		"200 New type set"
 # define RESP_220		"220 Server is ready"
 # define RESP_226		"226 Transfer done, closing the data channel"
 # define RESP_425		"425 Error while openning the data channel"
+# define RESP_426		"426 Data channel is closed"
+# define RESP_451		"451 Service interrupted"
 # define RESP_500		"500 No such command"
 # define RESP_501		"501 Error in params"
 # define RESP_550		"550 No such file or directory"
@@ -84,6 +90,7 @@ void					cmd_list(t_user *user, char **cmd);
 void					cmd_pasv(t_user *user, char **cmd);
 void					cmd_port(t_user *user, char **cmd);
 void					cmd_retr(t_user *user, char **cmd);
+void					cmd_type(t_user *user, char **cmd);
 
 /*
 ** LOGS
@@ -95,6 +102,7 @@ void					log_client_command(char *cmd);
 void					log_server_response(char *cmd);
 void					log_data(char *cmd);
 void					log_data_str(char *desc, char *message);
+void					log_data_progress(int progress);
 
 /*
 ** TOOLS
