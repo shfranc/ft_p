@@ -1,5 +1,5 @@
 NAME = server
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 CC = gcc
 
 LIB = libft.a
@@ -12,6 +12,9 @@ SRCS = $(addprefix $(PATH_SRCS)/,\
 	server.c \
 	handle_clients.c \
 	get_commands.c \
+	cmd_pasv.c \
+	cmd_list.c \
+	logs.c \
 	signals.c \
 	utils.c \
 	)

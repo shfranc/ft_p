@@ -1,66 +1,56 @@
 #include "server.h"
 
-static void			log_client_command(int bytes, char *cmd)
+t_command		g_commands[NB_COMMAND] =
 {
-	ft_putstr("recieved ");
-	ft_putnbr(bytes);
-	ft_putstr(" bytes: [");
-	ft_putstr(cmd);
-	ft_putendl("]");
+	{"PASV", &cmd_pasv},
+	{"LIST", &cmd_list}
+};
+
+void			loop_commands(t_user *user, char **cmd)
+{
+	int 				i;
+
+	i = 0;
+	while (i < NB_COMMAND && cmd[0])
+	{
+		if (ft_strcmp(cmd[0], g_commands[i].name) == 0)
+		{
+			g_commands[i].run(user, cmd);
+			return ;
+		}
+		i++;
+	}
+	send_to_user_ctrl(user, RESP_500);
 }
 
-int				exec_cmd(int client_sock, char *bin_path, char *options)
-{
-	char	*argv[3];
-	int		pid;
-	int		waitstatus;
-	int		ret;
-
-	if ((pid = fork()) < 0)
-		return(ret_error("fork: error"));
-	if (pid == 0)
-	{
-		// child process
-		handle_child_signals();
-		argv[0] = bin_path;
-		argv[1] = options;
-		argv[2] = NULL;
-		dup2(client_sock, STDOUT_FILENO);
-		execv(bin_path, argv);
-		perror("execv");
-		printf("execv: error");
-		exit(FAILURE);
-	}
-	else
-	{
-		// parent process
-        wait(&waitstatus);
-        ret = WEXITSTATUS(waitstatus);
-	}
-	return (ret);
-}
-
-int				get_client_commands(int client_sock)
+int				get_client_commands(t_user *user)
 {
 	int					ret;
 	char				buf[BUF_SIZE];
+	int 				client_data_sock;
+	char				**cmd;
 
-	while ((ret = read(client_sock, &buf, BUF_SIZE - 1)) > 0)
+	client_data_sock = -1;
+	while ((ret = read(user->control_sock, &buf, BUF_SIZE - 1)) > 0)
 	{
-		buf[ret] = '\0';
-		log_client_command(ret, buf);
-		if (ft_strcmp(buf, "pwd\n") == 0)
-			ret = exec_cmd(client_sock, "/bin/pwd", NULL);
-		if (ft_strcmp(buf, "ls\n") == 0)
-			ret = exec_cmd(client_sock, "/bin/ls", "-al");
-		if (write(client_sock, "OK\n", 3) == -1)
-			return (ret_error("write: Failed to write to client"));
+		if (buf[ret - 2] == '\r')
+			buf[ret - 2] = '\0';
+		else if (buf[ret - 1] == '\n')
+			buf[ret - 1] = '\0';
+		else
+			buf[ret] = '\0';
+		log_client_command(buf);
+		if (ft_strcmp(buf, "QUIT") == 0)
+			break ;
+		cmd = ft_strsplit(buf, ' ');
+		loop_commands(user, cmd);
+		ft_freetab(&cmd);
 	}
 	if (ret == -1)
 	{
-		close(client_sock);
+		close(user->control_sock);
 		return (ret_error("read: Failed to read from client"));
 	}
-	close(client_sock);
+	close(user->control_sock);
 	return (SUCCESS);
 }
