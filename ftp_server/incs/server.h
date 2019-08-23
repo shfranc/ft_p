@@ -17,7 +17,7 @@
 # define LS_PATH		"/bin/ls"
 # define LS_OPTIONS		"-l"
 # define LS_SEP			"--"
-# define NB_COMMAND		3
+# define NB_COMMAND		4
 
 # define ROOT_ERR		"Impossible to get root directory."
 
@@ -79,6 +79,7 @@ void					close_data_channel(t_user *user);
 void					cmd_list(t_user *user, char **cmd);
 void					cmd_pasv(t_user *user, char **cmd);
 void					cmd_port(t_user *user, char **cmd);
+void					cmd_retr(t_user *user, char **cmd);
 
 /*
 ** LOGS
