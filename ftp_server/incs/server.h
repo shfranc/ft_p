@@ -9,19 +9,21 @@
 # include <limits.h>
 #include <time.h>
 #include <stdlib.h>
+#include <arpa/inet.h>
 
 # define OPTIONS		"d"
 # define NB_CONNECT		42
 # define BUF_SIZE		1024
-# define NB_COMMAND		2
 # define LS_PATH		"/bin/ls"
 # define LS_OPTIONS		"-l"
 # define LS_SEP			"--"
+# define NB_COMMAND		3
 
 # define ROOT_ERR		"Impossible to get root directory."
 
 # define END_OF_MESG	"\r\n"
 # define RESP_125		"125 Data channel already opened"
+# define RESP_200		"200 Active data connection established"
 # define RESP_220		"220 Server is ready"
 # define RESP_226		"226 Transfer done, closing the data channel"
 # define RESP_425		"425 Error while openning the data channel"
@@ -42,6 +44,7 @@ typedef struct			s_user
 	int					server_dtp_sock;
 	int					data_sock;
 	uint16_t			dtp_port;
+	char				*addr;
 }						t_user;
 
 typedef void (f_command)(t_user *user, char **cmd);
@@ -69,16 +72,20 @@ t_ex_ret				handle_clients(int server_sock);
 int						get_client_commands(t_user *user);
 void					send_to_user_ctrl(t_user *user, char *message);
 void					close_data_channel(t_user *user);
+
 /*
 ** CMD
 */
-void					cmd_pasv(t_user *user, char **cmd);
 void					cmd_list(t_user *user, char **cmd);
+void					cmd_pasv(t_user *user, char **cmd);
+void					cmd_port(t_user *user, char **cmd);
 
 /*
 ** LOGS
 */
 void					log_info(char *message);
+void					log_info_nbr(char *message, int nb);
+void					log_info_str(char *desc, char *message);
 void					log_client_command(char *cmd);
 void					log_server_response(char *cmd);
 

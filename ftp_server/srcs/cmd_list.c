@@ -43,17 +43,13 @@ void		cmd_list(t_user *user, char **cmd)
 
 	if (ft_tablen(cmd) > 2)
 	{
-		send_to_user_ctrl(user, RESP_501);
 		close_data_channel(user);
-		return ;
+		return (send_to_user_ctrl(user, RESP_501));
 	}
 	if (user->data_sock != -1)
 		send_to_user_ctrl(user, RESP_125);
 	else
-	{
-		send_to_user_ctrl(user, RESP_425);
-		return ;
-	}
+		return (send_to_user_ctrl(user, RESP_425));
 	log_info("Sending ls ouput...");
 	prepare_args(args, cmd[1]);
 	ret = exec_cmd(user, args);

@@ -27,7 +27,8 @@ int					main(int argc, char **argv)
 	if ((g_server.server_sock = create_server(g_server.port)) == -1)
 		return (FAILURE);
 	signal(SIGINT, handle_sigint);
-	log_info(g_server.root_dir);
+	log_info_str("Server root dir", g_server.root_dir);
+	log_info_nbr("Server open on port", g_server.port);
 	if (handle_clients(g_server.server_sock) == FAILURE)
 		return (close_server(FAILURE));
 	return (close_server(SUCCESS));
