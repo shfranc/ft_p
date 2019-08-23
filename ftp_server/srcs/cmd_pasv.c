@@ -22,8 +22,8 @@ static int				create_DTP_server(t_user *user)
 	i = 0;
 	while (i < 100)
 	{
-		log_info("Trying to bind a random port...");
 		user->dtp_port = get_random_port();
+		log_info_nbr("Trying to bind a random port", user->dtp_port);
 		server_sin.sin_port = htons(user->dtp_port);
 		if (bind(user->server_dtp_sock, (const struct sockaddr *)&server_sin, sizeof(server_sin)) == 0)
 		{

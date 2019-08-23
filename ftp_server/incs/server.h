@@ -12,16 +12,18 @@
 #include <arpa/inet.h>
 
 # define OPTIONS		"d"
-# define NB_CONNECT		42
-# define BUF_SIZE		1024
 # define LS_PATH		"/bin/ls"
 # define LS_OPTIONS		"-l"
 # define LS_SEP			"--"
+# define LOG_INFO		"\033[1;37m[INFO]\033[0m"
+# define LOG_CTRL		"\033[1;36m[CTRL]\033[0m"
+# define LOG_DATA		"\033[1;35m[DATA]\033[0m"
+
+# define BUF_SIZE		1024
+# define NB_CONNECT		42
 # define NB_COMMAND		4
 
 # define ROOT_ERR		"Impossible to get root directory."
-
-# define END_OF_MESG	"\r\n"
 # define RESP_125		"125 Data channel already opened"
 # define RESP_200		"200 Active data connection established"
 # define RESP_220		"220 Server is ready"
@@ -30,6 +32,8 @@
 # define RESP_500		"500 No such command"
 # define RESP_501		"501 Error in params"
 # define RESP_550		"550 No such file or directory"
+# define END_OF_MESG	"\r\n"
+
 
 typedef struct 			s_server
 {
@@ -89,6 +93,8 @@ void					log_info_nbr(char *message, int nb);
 void					log_info_str(char *desc, char *message);
 void					log_client_command(char *cmd);
 void					log_server_response(char *cmd);
+void					log_data(char *cmd);
+void					log_data_str(char *desc, char *message);
 
 /*
 ** TOOLS
