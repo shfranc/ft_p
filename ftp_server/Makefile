@@ -12,8 +12,9 @@ SRCS = $(addprefix $(PATH_SRCS)/,\
 	server.c \
 	handle_clients.c \
 	get_commands.c \
-	cmd_pasv.c \
 	cmd_list.c \
+	cmd_pasv.c \
+	cmd_port.c \
 	logs.c \
 	signals.c \
 	utils.c \

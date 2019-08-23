@@ -2,8 +2,9 @@
 
 t_command		g_commands[NB_COMMAND] =
 {
+	{"LIST", &cmd_list},
 	{"PASV", &cmd_pasv},
-	{"LIST", &cmd_list}
+	{"PORT", &cmd_port}
 };
 
 void			loop_commands(t_user *user, char **cmd)
