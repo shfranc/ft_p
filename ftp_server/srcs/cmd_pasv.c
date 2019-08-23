@@ -22,8 +22,8 @@ static int				create_DTP_server(t_user *user)
 	i = 0;
 	while (i < 100)
 	{
-		log_info("Trying to bind a random port...");
 		user->dtp_port = get_random_port();
+		log_info_nbr("Trying to bind a random port", user->dtp_port);
 		server_sin.sin_port = htons(user->dtp_port);
 		if (bind(user->server_dtp_sock, (const struct sockaddr *)&server_sin, sizeof(server_sin)) == 0)
 		{
@@ -48,7 +48,7 @@ void		cmd_pasv(t_user *user, char **cmd)
 	if ((ret = create_DTP_server(user)) == -1)
 		return (send_to_user_ctrl(user, RESP_425));
 	message = NULL;
-	asprintf(&message, "227 Data chanel open (127,0,0,1,%d,%d)", (unsigned char)(user->dtp_port >> 8), (unsigned char)user->dtp_port);
+	asprintf(&message, "227 Data channel open (127,0,0,1,%d,%d)", (unsigned char)(user->dtp_port >> 8), (unsigned char)user->dtp_port);
 	send_to_user_ctrl(user, message);
 	if ((user->data_sock = accept(user->server_dtp_sock,
 		(struct sockaddr *)&data_sin, &data_sin_len)) < 0)
