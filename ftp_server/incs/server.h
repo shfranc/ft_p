@@ -18,6 +18,7 @@
 # define LS_PATH		"/bin/ls"
 # define LS_OPTIONS		"-l"
 # define LS_SEP			"--"
+# define LOG_ERROR		"\033[1;31m[ERROR]\033[0m"
 # define LOG_INFO		"\033[1;37m[INFO]\033[0m"
 # define LOG_CTRL		"\033[1;36m[CTRL]\033[0m"
 # define LOG_DATA		"\033[1;35m[DATA]\033[0m"
@@ -53,6 +54,7 @@ typedef struct 			s_server
 
 typedef struct			s_user
 {
+	char				*cwd;
 	int					control_sock;
 	int					server_dtp_sock;
 	int					data_sock;
@@ -81,8 +83,8 @@ int						close_server(t_ex_ret ret);
 /*
 ** CLIENT
 */
-t_ex_ret				handle_clients(int server_sock);
-int						get_client_commands(t_user *user);
+void					handle_clients(int server_sock);
+void					get_client_commands(t_user *user);
 void					send_to_user_ctrl(t_user *user, char *message);
 void					close_data_channel(t_user *user);
 
@@ -98,8 +100,17 @@ void					cmd_retr(t_user *user, char **cmd);
 void					cmd_type(t_user *user, char **cmd);
 
 /*
+** FILESYSTEM
+*/
+char					*convert_path_real_to_virtual(char *path);
+char					*convert_path_virtual_to_real(char *path);
+char					*get_virtual_absolute_path(char *path);
+t_bool					is_valid_path(char *path);
+
+/*
 ** LOGS
 */
+void					log_error(char *message);
 void					log_info(char *message);
 void					log_info_nbr(char *message, int nb);
 void					log_info_str(char *desc, char *message);
