@@ -14,6 +14,8 @@
 	- symlink  
 - replace asprintf in cmd_pasv  
 - stor  
+- refaire mieux les logs
+- close_server avec pas de t_ex_ret en param
 
 ## Client
 - ls  
