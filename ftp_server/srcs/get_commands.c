@@ -2,6 +2,7 @@
 
 t_command		g_commands[NB_COMMAND] =
 {
+	{"CWD", &cmd_cwd},
 	{"LIST", &cmd_list},
 	{"PASV", &cmd_pasv},
 	{"PORT", &cmd_port},
