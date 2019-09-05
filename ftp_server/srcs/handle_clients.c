@@ -23,7 +23,13 @@ static void		init_user(t_user *user)
 	user->dtp_port = 0;
 }
 
-t_ex_ret		handle_clients(int server_sock)
+static void		init_root_dir_user(t_user *user)
+{
+	user->cwd = ft_strdup("/");
+	log_info_str("cwd", user->cwd);
+}
+
+void		handle_clients(int server_sock)
 {
 	t_user				user;
 	struct sockaddr_in	client_sin;
@@ -36,23 +42,24 @@ t_ex_ret		handle_clients(int server_sock)
 	{
 		if ((user.control_sock = accept(server_sock,
 			(struct sockaddr *)&client_sin, &client_sin_len)) < 0)
-			return(ret_error("accept: error"));
+			return(log_error("accept: error"));
 		if ((pid = fork()) < 0)
-			return(ret_error("fork: error"));
+			return(log_error("fork: error"));
 		if (pid == 0)
 		{
 			handle_child_signals();
 			log_info("Client connected");
+			init_root_dir_user(&user);
 			send_to_user_ctrl(&user, RESP_220);
-			if (get_client_commands(&user) == -1)
-				exit(FAILURE);
+			get_client_commands(&user);
+			user.cwd ? free(user.cwd) : 0;
 			log_info("Client disconnected");
-			exit(SUCCESS);
+			exit(0);
 		}
 		else
 		{
 			close(user.control_sock);
 		}
 	}
-	return (SUCCESS);
+	return ;
 }

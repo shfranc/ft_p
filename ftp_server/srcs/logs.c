@@ -1,5 +1,10 @@
 #include "server.h"
 
+void			log_error(char *message)
+{
+	dprintf(STDERR_FILENO, "%s\t%s\n", LOG_ERROR, message);
+}
+
 void			log_info(char *message)
 {
 	printf("%s\t%s\n", LOG_INFO, message);

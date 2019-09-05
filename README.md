@@ -10,6 +10,16 @@ make
 ./server 4242
 ```
 
+### Commands
+- CWD: change directory
+- LIST: list content of the directory, send the result in the data channel
+- PASV: Passive mode, create a data channel and send IP + port to the client
+- PORT: Active mode, connect to the data channel the client already openned
+- PWD: send the path of the current working directory
+- RETR: get and send a file to the client through the data channel
+- STOR: get and store a file the client has sent through the data channel
+- TYPE: set type for the tranfer
+
 ## Client
 
 ### Usage

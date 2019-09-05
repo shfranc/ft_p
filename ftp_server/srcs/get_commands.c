@@ -2,6 +2,7 @@
 
 t_command		g_commands[NB_COMMAND] =
 {
+	{"CWD", &cmd_cwd},
 	{"LIST", &cmd_list},
 	{"PASV", &cmd_pasv},
 	{"PORT", &cmd_port},
@@ -27,7 +28,7 @@ void			loop_commands(t_user *user, char **cmd)
 	send_to_user_ctrl(user, RESP_500);
 }
 
-int				get_client_commands(t_user *user)
+void				get_client_commands(t_user *user)
 {
 	int					ret;
 	char				buf[BUF_SIZE];
@@ -53,8 +54,8 @@ int				get_client_commands(t_user *user)
 	if (ret == -1)
 	{
 		close(user->control_sock);
-		return (ret_error("read: Failed to read from client"));
+		return (log_error("read: Failed to read from client"));
 	}
 	close(user->control_sock);
-	return (SUCCESS);
+	return ;
 }
