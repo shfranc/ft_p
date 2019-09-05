@@ -15,10 +15,16 @@ char		*convert_path_real_to_virtual(char *path)
 
 char		*convert_path_virtual_to_real(char *path)
 {
-	return (path);
+	if (ft_strcmp(g_server.root_dir, path) == 0)
+		return (ft_strdup("/"));
+	else
+		return (ft_strdup2(g_server.root_dir, path));
 }
 
-char		*get_virtual_absolute_path(char *path)
+char		*get_virtual_absolute_path(t_user *user, char *path)
 {
-	return (path);
+	if (ft_strcmp(user->cwd, path) == 0)
+		return (ft_strdup("/"));
+	else
+		return (ft_strdup2(user->cwd, path));
 }

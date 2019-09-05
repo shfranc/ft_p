@@ -104,7 +104,7 @@ void					cmd_type(t_user *user, char **cmd);
 */
 char					*convert_path_real_to_virtual(char *path);
 char					*convert_path_virtual_to_real(char *path);
-char					*get_virtual_absolute_path(char *path);
+char					*get_virtual_absolute_path(t_user *user, char *path);
 t_bool					is_valid_path(char *path);
 
 /*
@@ -127,5 +127,6 @@ void					handle_sigint(int sig);
 void					handle_child_signals(void);
 int						ret_error(char *message);
 t_ex_ret				ret_failure(char *message);
+char					*ft_strdup2(char *s1, char *s2);
 
 #endif
