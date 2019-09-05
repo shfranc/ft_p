@@ -105,6 +105,7 @@ void					cmd_type(t_user *user, char **cmd);
 char					*convert_path_real_to_virtual(char *path);
 char					*convert_path_virtual_to_real(char *path);
 char					*get_virtual_absolute_path(t_user *user, char *path);
+void					update_user_cwd(t_user *user);
 t_bool					is_valid_path(char *path);
 
 /*

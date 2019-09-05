@@ -17,11 +17,16 @@ void			close_data_channel(t_user *user)
 
 static void		init_user(t_user *user)
 {
-	user->cwd = ft_strdup("/");
 	user->control_sock = -1;
 	user->server_dtp_sock = -1;
 	user->data_sock = -1;
 	user->dtp_port = 0;
+}
+
+static void		init_root_dir_user(t_user *user)
+{
+	user->cwd = ft_strdup("/");
+	log_info_str("cwd", user->cwd);
 }
 
 void		handle_clients(int server_sock)
@@ -44,6 +49,7 @@ void		handle_clients(int server_sock)
 		{
 			handle_child_signals();
 			log_info("Client connected");
+			init_root_dir_user(&user);
 			send_to_user_ctrl(&user, RESP_220);
 			get_client_commands(&user);
 			free(user.cwd);

@@ -14,10 +14,18 @@ void		cmd_pwd(t_user *user, char **cmd)
 		return (send_to_user_ctrl(user, RESP_550_1));
 	}
 	client_pwd = convert_path_real_to_virtual(pwd);
-	msg = ft_strnew(ft_strlen(RESP_257) + ft_strlen(client_pwd) + 1);
-	msg = ft_strcat(ft_strcat(ft_strcpy(msg, RESP_257), client_pwd), "\"");
-	send_to_user_ctrl(user, msg);
-	free(pwd);
-	free(client_pwd);
-	free(msg);
+	if (client_pwd)
+	{
+		msg = ft_strnew(ft_strlen(RESP_257) + ft_strlen(client_pwd) + 1);
+		msg = ft_strcat(ft_strcat(ft_strcpy(msg, RESP_257), client_pwd), "\"");
+		send_to_user_ctrl(user, msg);
+		free(pwd);
+		free(client_pwd);
+		free(msg);
+	}
+	else
+	{
+		send_to_user_ctrl(user, RESP_550_1);
+
+	}
 }
