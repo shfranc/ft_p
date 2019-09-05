@@ -25,7 +25,7 @@
 
 # define BUF_SIZE		1024
 # define NB_CONNECT		42
-# define NB_COMMAND		7
+# define NB_COMMAND		8
 
 # define ROOT_ERR		"Impossible to get root directory."
 # define ROOT_ERR_1		"No espace char `\\' in the root directory name."
@@ -99,6 +99,7 @@ void					cmd_pasv(t_user *user, char **cmd);
 void					cmd_port(t_user *user, char **cmd);
 void					cmd_pwd(t_user *user, char **cmd);
 void					cmd_retr(t_user *user, char **cmd);
+void					cmd_stor(t_user *user, char **cmd);
 void					cmd_type(t_user *user, char **cmd);
 
 /*

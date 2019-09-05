@@ -8,6 +8,7 @@ t_command		g_commands[NB_COMMAND] =
 	{"PORT", &cmd_port},
 	{"PWD", &cmd_pwd},
 	{"RETR", &cmd_retr},
+	{"STOR", &cmd_stor},
 	{"TYPE", &cmd_type}
 };
 

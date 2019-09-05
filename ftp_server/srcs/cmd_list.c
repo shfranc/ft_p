@@ -15,8 +15,7 @@ int				exec_cmd(t_user *user, char **args)
 			|| dup2(user->data_sock, STDERR_FILENO) == -1)
 			exit(ret_error("dup2: error"));
 		execv(LS_PATH, args);
-		perror("execv");
-		ft_putendl("execv: error");
+		log_error("execv: error");
 		exit(FAILURE);
 	}
 	else
