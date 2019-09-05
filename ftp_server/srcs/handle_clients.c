@@ -52,7 +52,7 @@ void		handle_clients(int server_sock)
 			init_root_dir_user(&user);
 			send_to_user_ctrl(&user, RESP_220);
 			get_client_commands(&user);
-			free(user.cwd);
+			user.cwd ? free(user.cwd) : 0;
 			log_info("Client disconnected");
 			exit(0);
 		}

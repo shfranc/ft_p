@@ -28,6 +28,7 @@
 # define NB_COMMAND		7
 
 # define ROOT_ERR		"Impossible to get root directory."
+# define ROOT_ERR_1		"No espace char `\\' in the root directory name."
 # define RESP_125		"125 Data channel already opened"
 # define RESP_200		"200 Active data connection established"
 # define RESP_200_1		"200 New type set"
@@ -50,6 +51,7 @@ typedef struct 			s_server
 	uint16_t			port;
 	int					server_sock;
 	char				*root_dir;
+	int					tree_lvl;
 }						t_server;
 
 typedef struct			s_user
@@ -102,11 +104,12 @@ void					cmd_type(t_user *user, char **cmd);
 /*
 ** FILESYSTEM
 */
+char					*get_virtual_absolute_path(t_user *user, char *path);
 char					*convert_path_real_to_virtual(char *path);
 char					*convert_path_virtual_to_real(char *path);
-char					*get_virtual_absolute_path(t_user *user, char *path);
-void					update_user_cwd(t_user *user);
 t_bool					is_valid_path(char *path);
+void					update_user_cwd(t_user *user);
+void					going_back_to_root_dir(t_user *user);
 
 /*
 ** LOGS

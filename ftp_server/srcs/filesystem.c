@@ -1,5 +1,26 @@
 #include "server.h"
 
+char		*get_virtual_absolute_path(t_user *user, char *path)
+{
+	char	*tmp;
+
+	if (ft_strcmp(user->cwd, path) == 0)
+		return (ft_strdup("/"));
+	if (ft_strcmp(".", path) == 0)
+		return (ft_strdup(user->cwd));
+	else
+	{
+		if (ft_strlen(user->cwd) > 1
+			&& user->cwd[ft_strlen(user->cwd) - 1] != '/')
+		{
+			tmp = user->cwd;
+			user->cwd = ft_strdup2(user->cwd, "/");
+			free(tmp);
+		}
+		return (ft_strdup2(user->cwd, path));
+	}
+}
+
 char		*convert_path_real_to_virtual(char *path)
 {
 	char *start;
@@ -23,46 +44,44 @@ char		*convert_path_virtual_to_real(char *path)
 		return (ft_strdup2(g_server.root_dir, path));
 }
 
-char		*get_virtual_absolute_path(t_user *user, char *path)
+t_bool		is_valid_path(char *virtual_path)
 {
-	char	*tmp;
+	char	**steps;
+	int		move;
+	int		i;
 
-	if (ft_strcmp(user->cwd, path) == 0)
-		return (ft_strdup("/"));
-	if (ft_strcmp(".", path) == 0)
-		return (ft_strdup(user->cwd));
-	else
+	steps = ft_strsplit(virtual_path, '/');
+	move = g_server.tree_lvl;
+	i = 0;
+	while (steps[i])
 	{
-		if (ft_strlen(user->cwd) > 1
-			&& user->cwd[ft_strlen(user->cwd) - 1] != '/')
+		if (ft_strcmp(steps[i], "..") == 0)
+			move--;
+		else if (move < g_server.tree_lvl
+			&& !ft_strstr(g_server.root_dir, steps[i]))
 		{
-			tmp = user->cwd;
-			user->cwd = ft_strdup2(user->cwd, "/");
-			free(tmp);
+			move = -1;
+			break ;
 		}
-		return (ft_strdup2(user->cwd, path));
+		else
+			move++;
+		i++;
 	}
+	ft_freetab(&steps);
+	if (move >= g_server.tree_lvl)
+		return (TRUE);
+	return (FALSE);
 }
 
-void		update_user_cwd(t_user *user)
+void		going_back_to_root_dir(t_user *user)
 {
-	char	*real_path;
-	char	*virtual_path;
-
-	if (!(real_path = getcwd(NULL, 0)))
+	log_info_str("Going back to root dir", g_server.root_dir);
+	if (chdir(g_server.root_dir) == 0)
 	{
-		free(real_path);
-		log_error("Enable to update user cwd");
-		return ;
+		free(user->cwd);
+		user->cwd = ft_strdup("/");
+		return (send_to_user_ctrl(user, RESP_250));
 	}
-	free(user->cwd);
-	virtual_path = convert_path_real_to_virtual(real_path);
-	if (!virtual_path)
-	{
-		user->cwd = real_path;
-		log_error("Oups! User has accessed an unauthorized directory...");
-		return ;
-	}
-	user->cwd = virtual_path;
-	free(real_path);
+	else
+	return (send_to_user_ctrl(user, RESP_550_1));
 }
