@@ -35,6 +35,11 @@ void			log_data_str(char *desc, char *message)
 	printf("%s\t%s: %s\n", LOG_DATA, desc, message);
 }
 
+void			log_data_nbr(char *desc, int nb)
+{
+	printf("%s\t%s: %d\n", LOG_DATA, desc, nb);
+}
+
 void			log_data_progress(int progress)
 {
 	printf("%s\tProgress... %d%%\n", LOG_DATA, progress);

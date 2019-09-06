@@ -21,6 +21,7 @@ SRCS = $(addprefix $(PATH_SRCS)/,\
 	cmd_stor.c \
 	cmd_type.c \
 	filesystem.c \
+	get_next_line_crlf.c \
 	logs.c \
 	signals.c \
 	utils.c \

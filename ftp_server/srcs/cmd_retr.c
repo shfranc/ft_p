@@ -26,9 +26,7 @@ static void 			get_file(t_user *user, char *filename)
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0 || fstat(fd, &buf) < 0)
-	{
 		return(send_to_user_ctrl(user, RESP_550));
-	}
 	ptr = NULL;
 	if ((ptr = mmap(ptr, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0))
 		== MAP_FAILED)

@@ -123,11 +123,13 @@ void					log_client_command(char *cmd);
 void					log_server_response(char *cmd);
 void					log_data(char *cmd);
 void					log_data_str(char *desc, char *message);
+void					log_data_nbr(char *desc, int nb);
 void					log_data_progress(int progress);
 
 /*
 ** TOOLS
 */
+int						get_next_line_crlf(int fd, char **line);
 void					handle_sigint(int sig);
 void					handle_child_signals(void);
 int						ret_error(char *message);
