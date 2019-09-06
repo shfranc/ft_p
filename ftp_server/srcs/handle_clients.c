@@ -21,6 +21,7 @@ static void		init_user(t_user *user)
 	user->server_dtp_sock = -1;
 	user->data_sock = -1;
 	user->dtp_port = 0;
+	user->data_type = ASCII;
 }
 
 static void		init_root_dir_user(t_user *user)
