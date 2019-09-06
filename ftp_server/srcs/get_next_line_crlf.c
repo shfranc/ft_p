@@ -24,7 +24,7 @@ static int	empty_buff_crlf(char *buff, char **line, off_t *offset)
 	if ((stop = ft_strstr(buff, END_OF_MESG)))
 	{
 		*stop = '\0';
-		*offset = ft_strlen(stop);
+		*offset += stop - buff;
 		fill_line_crlf(buff, line);
 		return (1);
 	}
@@ -36,21 +36,26 @@ static int	empty_buff_crlf(char *buff, char **line, off_t *offset)
 
 int			get_next_line_crlf(int fd, char **line)
 {
-	static off_t	offset;
+	static off_t	offset = 0;
 	ssize_t			ret;
-	char			buff[BUF_SIZE];
+	char			buff[BUFF_SIZE];
 
-	offset = 0;
 	if (!line || fd < 0 || BUFF_SIZE < 0)
 		return (-1);
+	ft_putnbr_endl(offset);
+	if (offset && lseek(fd, offset, SEEK_SET) == -1)
+	{
+		perror("lseek");
+		return (-1);
+	}
 	if (empty_buff_crlf(buff, line, &offset) == 1)
 		return (1);
-	while ((ret = recv(fd, &buff, BUF_SIZE - 1, 0)) > 0)
+	while ((ret = read(fd, &buff, BUFF_SIZE - 1)) > 0)
 	{
 		if (empty_buff_crlf(buff, line, &offset) == 1)
 			return (1);
 	}
-	if (ret < 0)
+	if (ret == -1)
 		return (-1);
 	if (*line != NULL)
 		return (1);

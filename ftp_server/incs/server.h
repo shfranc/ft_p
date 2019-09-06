@@ -26,6 +26,8 @@
 # define BUF_SIZE		1024
 # define NB_CONNECT		42
 # define NB_COMMAND		8
+# define TYPE_ASCII		"A"
+# define TYPE_BIN		"I"
 
 # define ROOT_ERR		"Impossible to get root directory."
 # define ROOT_ERR_1		"No espace char `\\' in the root directory name."
@@ -54,6 +56,12 @@ typedef struct 			s_server
 	int					tree_lvl;
 }						t_server;
 
+typedef enum e_data_type
+{
+	ASCII,
+	BIN
+}	t_data_type;
+
 typedef struct			s_user
 {
 	char				*cwd;
@@ -62,7 +70,11 @@ typedef struct			s_user
 	int					data_sock;
 	uint16_t			dtp_port;
 	char				*addr;
+	t_data_type			data_type;
 }						t_user;
+
+
+
 
 typedef void (f_command)(t_user *user, char **cmd);
 
@@ -115,16 +127,16 @@ void					going_back_to_root_dir(t_user *user);
 /*
 ** LOGS
 */
-void					log_error(char *message);
+void					log_client_command(char *cmd);
+void					log_server_response(char *cmd);
 void					log_info(char *message);
 void					log_info_nbr(char *message, int nb);
 void					log_info_str(char *desc, char *message);
-void					log_client_command(char *cmd);
-void					log_server_response(char *cmd);
-void					log_data(char *cmd);
+void					log_data(char *message);
 void					log_data_str(char *desc, char *message);
 void					log_data_nbr(char *desc, int nb);
 void					log_data_progress(int progress);
+void					log_error(char *message);
 
 /*
 ** TOOLS
