@@ -17,7 +17,7 @@ void		read_line_crlf(int fd, char *buf, int len)
 		}
 		else
 		{
-			ft_putstr(start);
+			ft_putstr_fd(start, fd);
 			break ;
 		}
 	}
