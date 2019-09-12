@@ -36,7 +36,7 @@ static int				create_DTP_server(t_user *user)
 	return (ret_error("Maximum tries to find a port reach"));
 }
 
-void		cmd_pasv(t_user *user, char **cmd)
+void		cmd_epsv(t_user *user, char **cmd)
 {
 	int					ret;
 	char				*message;

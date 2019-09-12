@@ -25,7 +25,7 @@
 
 # define BUF_SIZE		1024
 # define NB_CONNECT		42
-# define NB_COMMAND		8
+# define NB_COMMAND		9
 # define TYPE_ASCII		"A"
 # define TYPE_BIN		"I"
 
@@ -106,6 +106,7 @@ void					close_data_channel(t_user *user);
 ** CMD
 */
 void					cmd_cwd(t_user *user, char **cmd);
+void					cmd_epsv(t_user *user, char **cmd);
 void					cmd_list(t_user *user, char **cmd);
 void					cmd_pasv(t_user *user, char **cmd);
 void					cmd_port(t_user *user, char **cmd);
