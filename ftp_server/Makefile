@@ -14,6 +14,7 @@ SRCS = $(addprefix $(PATH_SRCS)/,\
 	get_commands.c \
 	cmd_cwd.c \
 	cmd_epsv.c \
+	cmd_eprt.c \
 	cmd_list.c \
 	cmd_pasv.c \
 	cmd_port.c \

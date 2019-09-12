@@ -8,24 +8,16 @@ static uint16_t		get_random_port(void)
 
 static int				create_DTP_server(t_user *user)
 {
-	struct protoent			*proto;
-	struct sockaddr_in		server_sin;
 	int						i;
 
-	proto = getprotobyname("tcp");
-	if (!proto)
-		return (ret_error("getprotobyname: error"));
-	if (!(user->server_dtp_sock = socket(PF_INET, SOCK_STREAM, proto->p_proto)))
-		return (ret_error("socket: error"));
-	server_sin.sin_family = AF_INET;
-	server_sin.sin_addr.s_addr = htonl(INADDR_ANY);
+	if (!(user->server_dtp_sock = create_socket(g_server.family)))
+		return (-1);
 	i = 0;
 	while (i < 100)
 	{
 		user->dtp_port = get_random_port();
 		log_info_nbr("Trying to bind a random port", user->dtp_port);
-		server_sin.sin_port = htons(user->dtp_port);
-		if (bind(user->server_dtp_sock, (const struct sockaddr *)&server_sin, sizeof(server_sin)) == 0)
+		if (bind_server(user->server_dtp_sock, user->dtp_port) == 0)
 		{
 			log_info("Port binded, server DTP created");
 			listen(user->server_dtp_sock, NB_CONNECT);

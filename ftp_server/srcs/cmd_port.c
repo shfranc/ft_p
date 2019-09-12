@@ -1,6 +1,6 @@
 #include "server.h"
 
-static char			*get_addr_from_cmd(char *client_info)
+static char			*get_addr_from_cmd_ipv4(char *client_info)
 {
 	char 		**details;
 	char		*addr;
@@ -30,7 +30,7 @@ static char			*get_addr_from_cmd(char *client_info)
 	return (addr);
 }
 
-static uint16_t		get_port_from_cmd(char *client_info)
+static uint16_t		get_port_from_cmd_ipv4(char *client_info)
 {
 	char 		**details;
 	uint16_t	port;
@@ -53,13 +53,6 @@ static uint16_t		get_port_from_cmd(char *client_info)
 	return (port);
 }
 
-static int		get_inet_addr(char *addr)
-{
-	if (ft_strcmp(addr, "localhost") == 0)
-		return (INADDR_ANY);
-	else return (inet_addr(addr));
-}
-
 static int			connect_to_client(char *addr, int port)
 {
 	int						client_sock;
@@ -73,7 +66,7 @@ static int			connect_to_client(char *addr, int port)
 		return (ret_error("socket: error"));
 	client_sin.sin_family = AF_INET;
 	client_sin.sin_port = htons(port);
-	client_sin.sin_addr.s_addr = get_inet_addr(addr);
+	client_sin.sin_addr.s_addr = inet_addr(addr);
 	if (connect(client_sock, (const struct sockaddr *)&client_sin, sizeof(client_sin)))
 		return (ret_error("connect: error"));
 	return (client_sock);
@@ -85,10 +78,10 @@ void				cmd_port(t_user *user, char **cmd)
 	if (ft_tablen(cmd) != 2)
 		return (send_to_user_ctrl(user, RESP_501));
 	log_info("Fetching port...");
-	if ((user->dtp_port = get_port_from_cmd(cmd[1])) == 0)
+	if ((user->dtp_port = get_port_from_cmd_ipv4(cmd[1])) == 0)
 		return (send_to_user_ctrl(user, RESP_501));
 	log_info("Fetching addr...");
-	if ((user->addr = get_addr_from_cmd(cmd[1])) == 0)
+	if ((user->addr = get_addr_from_cmd_ipv4(cmd[1])) == 0)
 		return (send_to_user_ctrl(user, RESP_501));
 	log_info("Connect to the data channel...");
 	if ((user->data_sock = connect_to_client(user->addr, user->dtp_port)) == -1)

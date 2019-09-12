@@ -15,6 +15,9 @@
 # include <sys/mman.h>
 
 # define OPTIONS		"d"
+# define IP_V4			AF_INET
+# define IP_V6			AF_INET6
+
 # define LS_PATH		"/bin/ls"
 # define LS_OPTIONS		"-l"
 # define LS_SEP			"--"
@@ -25,7 +28,7 @@
 
 # define BUF_SIZE		1024
 # define NB_CONNECT		42
-# define NB_COMMAND		9
+# define NB_COMMAND		10
 # define TYPE_ASCII		"A"
 # define TYPE_BIN		"I"
 
@@ -50,6 +53,7 @@
 
 typedef struct 			s_server
 {
+	uint8_t				family;
 	uint16_t			port;
 	int					server_sock;
 	char				*root_dir;
@@ -91,6 +95,8 @@ extern t_command		g_commands[NB_COMMAND];
 ** SERVER
 */
 int						create_server(uint16_t port);
+int						create_socket(int family);
+int						bind_server(int server_sock, uint16_t port);
 uint16_t				get_port(char *port_str);
 int						close_server(t_ex_ret ret);
 
@@ -106,6 +112,7 @@ void					close_data_channel(t_user *user);
 ** CMD
 */
 void					cmd_cwd(t_user *user, char **cmd);
+void					cmd_eprt(t_user *user, char **cmd);
 void					cmd_epsv(t_user *user, char **cmd);
 void					cmd_list(t_user *user, char **cmd);
 void					cmd_pasv(t_user *user, char **cmd);
