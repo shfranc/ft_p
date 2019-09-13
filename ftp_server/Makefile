@@ -26,6 +26,7 @@ SRCS = $(addprefix $(PATH_SRCS)/,\
 	logs.c \
 	signals.c \
 	utils.c \
+	options.c \
 	)
 OBJS = $(SRCS:$(PATH_SRCS)/%.c=$(PATH_OBJS)/%.o)
 INCS = incs $(PATH_LIB)/includes

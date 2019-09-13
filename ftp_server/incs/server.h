@@ -14,7 +14,7 @@
 # include <sys/stat.h>
 # include <sys/mman.h>
 
-# define OPTIONS		"d"
+# define OPTIONS		"46d"
 # define IP_V4			AF_INET
 # define IP_V6			AF_INET6
 
@@ -90,7 +90,7 @@ typedef struct			s_command
 
 extern t_server			g_server;
 extern t_command		g_commands[NB_COMMAND];
-
+extern int				g_flags;
 /*
 ** SERVER
 */
@@ -155,5 +155,7 @@ void					handle_child_signals(void);
 int						ret_error(char *message);
 t_ex_ret				ret_failure(char *message);
 char					*ft_strdup2(char *s1, char *s2);
+int						get_options(int *argc, char ***argv);
+t_bool					is_option_activated(char option);
 
 #endif
