@@ -12,7 +12,7 @@ void		read_line_crlf(int fd, char *buf, int len)
 		{
 			write(fd, start, stop - start);
 			write(fd, "\n", 1);
-			log_info(ft_strsub(start, 0, stop - start));
+			logger(LOG_INFO, ft_strsub(start, 0, stop - start), NULL);
 			start = stop + ft_strlen(END_OF_MESG);
 		}
 		else
@@ -29,14 +29,14 @@ void		read_data_ascii(t_user *user, int fd)
 	int		total;
 	int		ret;
 
-	log_data("ASCII mode");
+	logger(LOG_DATA,  "ASCII mode", NULL);
 	total = 0;
 	while ((ret = read(user->data_sock, &buf, BUF_SIZE - 1)) > 0)
 	{
 		read_line_crlf(fd, buf, ret);
 		total += ret;
 	}
-	log_data_nbr("Total bytes", total);
+	logger_nb(LOG_DATA, "Total bytes", total);
 	if (close(fd) < 0)
 		return(send_to_user_ctrl(user, RESP_451));
 	if (ret < 0)
@@ -50,15 +50,15 @@ void		read_data_bin(t_user *user, int fd)
 	int		total;
 	int		ret;
 
-	log_data("BIN mode");
+	logger(LOG_DATA, "BIN mode", NULL);
 	total = 0;
 	while ((ret = read(user->data_sock, &buf, BUF_SIZE - 1)) > 0)
 	{
 		total += ret;
-		log_data_nbr("Bytes", ret);
+		logger_nb(LOG_DATA, "Bytes", ret);
 		write(fd, buf, ret);
 	}
-	log_data_nbr("Total bytes", total);
+	logger_nb(LOG_DATA, "Total bytes", total);
 	if (close(fd) < 0)
 		return(send_to_user_ctrl(user, RESP_451));
 	if (ret < 0)
@@ -76,7 +76,7 @@ void		put_file(t_user *user, char *filename)
 	{
 		return(send_to_user_ctrl(user, RESP_451));
 	}
-	log_data_str("Receiving", filename);
+	logger(LOG_DATA,  "Receiving", filename);
 	if (user->data_type == ASCII)
 		return(read_data_ascii(user, fd));
 	else if (user->data_type == BIN)
@@ -94,7 +94,7 @@ void		cmd_stor(t_user *user, char **cmd)
 		return (send_to_user_ctrl(user, RESP_426));
 	else
 		send_to_user_ctrl(user, RESP_125);
-	log_info_str("Preparing to receive", cmd[1]);
+	logger(LOG_INFO, "Preparing to receive", cmd[1]);
 	put_file(user, cmd[1]);
 	close_data_channel(user);
 }

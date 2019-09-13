@@ -44,10 +44,10 @@ int					main(int argc, char **argv)
 	if ((g_server.server_sock = create_server(g_server.port)) == -1)
 		return (FAILURE);
 	signal(SIGINT, handle_sigint);
-	log_info_str("Protocol", (g_server.family == IP_V6 ? "ipv6" : "ipv4"));
-	log_info_nbr("Port", g_server.port);
-	log_info_str("Root", g_server.root_dir);
-	log_info_nbr("Level", g_server.tree_lvl);
+	logger(LOG_INFO, "Protocol", (g_server.family == IP_V6 ? "ipv6" : "ipv4"));
+	logger_nb(LOG_INFO, "Port", g_server.port);
+	logger(LOG_INFO, "Root", g_server.root_dir);
+	logger_nb(LOG_INFO, "Level", g_server.tree_lvl);
 	handle_clients(g_server.server_sock);
 	return (close_server(SUCCESS));
 }

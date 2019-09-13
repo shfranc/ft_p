@@ -1,41 +1,5 @@
 #include "server.h"
 
-static uint16_t		get_random_port(void)
-{
-	srand(time(NULL));
-	return ((uint16_t)rand() % (USHRT_MAX + 1023) - 1023);
-}
-
-static int				create_DTP_server(t_user *user)
-{
-	struct protoent			*proto;
-	struct sockaddr_in		server_sin;
-	int						i;
-
-	proto = getprotobyname("tcp");
-	if (!proto)
-		return (ret_error("getprotobyname: error"));
-	if (!(user->server_dtp_sock = socket(PF_INET, SOCK_STREAM, proto->p_proto)))
-		return (ret_error("socket: error"));
-	server_sin.sin_family = AF_INET;
-	server_sin.sin_addr.s_addr = htonl(INADDR_ANY);
-	i = 0;
-	while (i < 100)
-	{
-		user->dtp_port = get_random_port();
-		log_info_nbr("Trying to bind a random port", user->dtp_port);
-		server_sin.sin_port = htons(user->dtp_port);
-		if (bind(user->server_dtp_sock, (const struct sockaddr *)&server_sin, sizeof(server_sin)) == 0)
-		{
-			log_info("Port binded, server DTP created");
-			listen(user->server_dtp_sock, NB_CONNECT);
-			return (0);
-		}
-		i++;
-	}
-	return (ret_error("Maximum tries to find a port reach"));
-}
-
 void		cmd_pasv(t_user *user, char **cmd)
 {
 	int					ret;
@@ -48,7 +12,7 @@ void		cmd_pasv(t_user *user, char **cmd)
 		close_data_channel(user);
 		return (send_to_user_ctrl(user, RESP_501));
 	}
-	log_info("Passive mode");
+	logger(LOG_INFO, "Passive mode", NULL);
 	if ((ret = create_DTP_server(user)) == -1)
 		return (send_to_user_ctrl(user, RESP_425));
 	message = NULL;
@@ -58,6 +22,6 @@ void		cmd_pasv(t_user *user, char **cmd)
 		(struct sockaddr *)&data_sin, &data_sin_len)) < 0)
 		send_to_user_ctrl(user, RESP_425);
 	else
-		log_info("Data connection accepted.");
+		logger(LOG_INFO, "Data connection accepted.", NULL);
 	return ;
 }

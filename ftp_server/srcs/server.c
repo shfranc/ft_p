@@ -18,6 +18,12 @@ uint16_t			get_port(char *port_str)
 	return ((uint16_t)port);
 }
 
+uint16_t		get_random_port(void)
+{
+	srand(time(NULL));
+	return ((uint16_t)rand() % (USHRT_MAX + 1023) - 1023);
+}
+
 int				create_socket(int family)
 {
 	int						server_sock;
@@ -79,7 +85,29 @@ int				create_server(uint16_t port)
 	return (server_sock);
 }
 
-int					close_server(t_ex_ret ret)
+int				create_DTP_server(t_user *user)
+{
+	int						i;
+
+	if (!(user->server_dtp_sock = create_socket(g_server.family)))
+		return (-1);
+	i = 0;
+	while (i < 100)
+	{
+		user->dtp_port = get_random_port();
+		logger_nb(LOG_INFO, "Trying to bind a random port", user->dtp_port);
+		if (bind_server(user->server_dtp_sock, user->dtp_port) == 0)
+		{
+			logger(LOG_INFO, "Port binded, server DTP created", NULL);
+			listen(user->server_dtp_sock, NB_CONNECT);
+			return (0);
+		}
+		i++;
+	}
+	return (ret_error("Maximum tries to find a port reach"));
+}
+
+int				close_server(t_ex_ret ret)
 {
 	printf("Exiting...\n");
 	if (g_server.server_sock == -1)

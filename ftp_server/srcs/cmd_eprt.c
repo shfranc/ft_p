@@ -33,16 +33,16 @@ static int			connect_to_client(char *addr, int port)
 
 void				cmd_eprt(t_user *user, char **cmd)
 {
-	log_info("Extended active mode");
+	logger(LOG_INFO, "Extended active mode", NULL);
 	if (ft_tablen(cmd) != 2)
 		return (send_to_user_ctrl(user, RESP_501));
-	log_info("Fetching port...");
+	logger(LOG_INFO, "Fetching port...", NULL);
 	if ((user->dtp_port = get_port_from_cmd_ipv6(cmd[1])) == 0)
 		return (send_to_user_ctrl(user, RESP_501));
-	log_info("Fetching addr...");
+	logger(LOG_INFO, "Fetching addr...", NULL);
 	if ((user->addr = get_addr_from_cmd_ipv6(cmd[1])) == 0)
 		return (send_to_user_ctrl(user, RESP_501));
-	log_info("Connect to the data channel...");
+	logger(LOG_INFO, "Connect to the data channel...", NULL);
 	if ((user->data_sock = connect_to_client(user->addr, user->dtp_port)) == -1)
 		return (send_to_user_ctrl(user, RESP_425));
 	send_to_user_ctrl(user, RESP_200);

@@ -26,7 +26,7 @@ static char			*get_addr_from_cmd_ipv4(char *client_info)
 	addr = ft_strcat(ft_strcat(addr, details[2]), ".");
 	addr = ft_strcat(addr, details[3]);
 	ft_freetab(&details);
-	log_info_str("address", addr);
+	logger(LOG_INFO, "address", addr);
 	return (addr);
 }
 
@@ -48,7 +48,7 @@ static uint16_t		get_port_from_cmd_ipv4(char *client_info)
 		ft_freetab(&details);
 		return (0);
 	}
-	log_info_nbr("port", port);
+	logger_nb(LOG_INFO, "port", port);
 	ft_freetab(&details);
 	return (port);
 }
@@ -74,16 +74,16 @@ static int			connect_to_client(char *addr, int port)
 
 void				cmd_port(t_user *user, char **cmd)
 {
-	log_info("Active mode");
+	logger(LOG_INFO, "Active mode", NULL);
 	if (ft_tablen(cmd) != 2)
 		return (send_to_user_ctrl(user, RESP_501));
-	log_info("Fetching port...");
+	logger(LOG_INFO, "Fetching port...", NULL);
 	if ((user->dtp_port = get_port_from_cmd_ipv4(cmd[1])) == 0)
 		return (send_to_user_ctrl(user, RESP_501));
-	log_info("Fetching addr...");
+	logger(LOG_INFO, "Fetching addr...", NULL);
 	if ((user->addr = get_addr_from_cmd_ipv4(cmd[1])) == 0)
 		return (send_to_user_ctrl(user, RESP_501));
-	log_info("Connect to the data channel...");
+	logger(LOG_INFO, "Connect to the data channel...", NULL);
 	if ((user->data_sock = connect_to_client(user->addr, user->dtp_port)) == -1)
 		return (send_to_user_ctrl(user, RESP_425));
 	send_to_user_ctrl(user, RESP_200);
