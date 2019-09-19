@@ -54,6 +54,7 @@ void		handle_clients(int server_sock)
 			send_to_user_ctrl(&user, RESP_220);
 			get_client_commands(&user);
 			user.cwd ? free(user.cwd) : 0;
+			user.addr ? free(user.addr) : 0;
 			logger(LOG_INFO, "Client disconnected", NULL);
 			exit(0);
 		}

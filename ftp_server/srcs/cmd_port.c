@@ -77,11 +77,11 @@ void				cmd_port(t_user *user, char **cmd)
 	logger(LOG_INFO, "Active mode", NULL);
 	if (ft_tablen(cmd) != 2)
 		return (send_to_user_ctrl(user, RESP_501));
-	logger(LOG_INFO, "Fetching port...", NULL);
-	if ((user->dtp_port = get_port_from_cmd_ipv4(cmd[1])) == 0)
-		return (send_to_user_ctrl(user, RESP_501));
 	logger(LOG_INFO, "Fetching addr...", NULL);
 	if ((user->addr = get_addr_from_cmd_ipv4(cmd[1])) == 0)
+		return (send_to_user_ctrl(user, RESP_501));
+	logger(LOG_INFO, "Fetching port...", NULL);
+	if ((user->dtp_port = get_port_from_cmd_ipv4(cmd[1])) == 0)
 		return (send_to_user_ctrl(user, RESP_501));
 	logger(LOG_INFO, "Connect to the data channel...", NULL);
 	if ((user->data_sock = connect_to_client(user->addr, user->dtp_port)) == -1)
