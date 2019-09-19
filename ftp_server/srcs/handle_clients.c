@@ -33,6 +33,18 @@ static void		init_root_dir_user(t_user *user)
 	logger(LOG_INFO, "cwd", user->cwd);
 }
 
+static int				handle_client(t_user *user)
+{
+		handle_child_signals();
+		logger(LOG_INFO, "Client connected", NULL);
+		init_root_dir_user(user);
+		send_to_user_ctrl(user, RESP_220);
+		get_client_commands(user);
+		ft_strdel(&user->cwd);
+		ft_strdel(&user->addr);
+		logger(LOG_INFO, "Client disconnected", NULL);
+		exit(0);
+}
 void			handle_clients(int server_sock)
 {
 	t_user				user;
@@ -50,17 +62,7 @@ void			handle_clients(int server_sock)
 		if ((pid = fork()) < 0)
 			return(log_error("fork: error"));
 		if (pid == 0)
-		{
-			handle_child_signals();
-			logger(LOG_INFO, "Client connected", NULL);
-			init_root_dir_user(&user);
-			send_to_user_ctrl(&user, RESP_220);
-			get_client_commands(&user);
-			ft_strdel(&user.cwd);
-			ft_strdel(&user.addr);
-			logger(LOG_INFO, "Client disconnected", NULL);
-			exit(0);
-		}
+			handle_client(&user);
 		else
 			close(user.control_sock);
 	}
