@@ -55,10 +55,7 @@ void				get_client_commands(t_user *user)
 		ft_freetab(&cmd);
 	}
 	if (ret == -1)
-	{
-		close(user->control_sock);
-		return (log_error("read: Failed to read from client"));
-	}
+		log_error("read: Failed to read from client");
 	close(user->control_sock);
 	return ;
 }

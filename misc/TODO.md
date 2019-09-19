@@ -13,8 +13,8 @@
 	- protect path
 	- symlink
 - replace asprintf in cmd_pasv
-- stor
-- refaire mieux les logs
+√ stor
+√ refaire mieux les logs
 - close_server avec pas de t_ex_ret en param
 
 ## Client
@@ -27,13 +27,14 @@
 
 ## Bonus
 √ RFC
-- IPV6
-- others:
+√ IPV6
+- others server:
 	√ logs server
 	- stack nb de clients
+	- basic user/pass authent
+- others client:
 	- logs client
 	- prompt client avec le path
-	- basic user/pass authent
 
 ## Stuff
 - asprintf PASV + EPSV

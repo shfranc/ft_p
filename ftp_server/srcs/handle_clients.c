@@ -17,11 +17,14 @@ void			close_data_channel(t_user *user)
 
 static void		init_user(t_user *user)
 {
+	ft_bzero(user, sizeof(user));
 	user->control_sock = -1;
 	user->server_dtp_sock = -1;
 	user->data_sock = -1;
 	user->dtp_port = 0;
 	user->data_type = ASCII;
+	user->cwd = NULL;
+	user->addr = NULL;
 }
 
 static void		init_root_dir_user(t_user *user)
@@ -30,7 +33,7 @@ static void		init_root_dir_user(t_user *user)
 	logger(LOG_INFO, "cwd", user->cwd);
 }
 
-void		handle_clients(int server_sock)
+void			handle_clients(int server_sock)
 {
 	t_user				user;
 	struct sockaddr_in	client_sin;
@@ -53,15 +56,13 @@ void		handle_clients(int server_sock)
 			init_root_dir_user(&user);
 			send_to_user_ctrl(&user, RESP_220);
 			get_client_commands(&user);
-			user.cwd ? free(user.cwd) : 0;
-			user.addr ? free(user.addr) : 0;
+			ft_strdel(&user.cwd);
+			ft_strdel(&user.addr);
 			logger(LOG_INFO, "Client disconnected", NULL);
 			exit(0);
 		}
 		else
-		{
 			close(user.control_sock);
-		}
 	}
 	return ;
 }

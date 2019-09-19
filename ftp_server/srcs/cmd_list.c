@@ -26,19 +26,43 @@ int				exec_cmd(t_user *user, char **args)
 	return (ret);
 }
 
-void		prepare_args(char **args, char *param)
+void		prepare_args(char **args, char *path)
 {
 	args[0] = LS_PATH;
 	args[1] = LS_OPTIONS;
 	args[2] = LS_SEP;
-	args[3] = param;
+	args[3] = path;
 	args[4] = NULL;
+}
+
+static void		list_directory(t_user *user, char *path)
+{
+	char	*args[5];
+	char	*virtual_path;
+
+	if (path)
+	{
+		virtual_path = convert_path_real_to_virtual(path);
+		if (is_valid_path(virtual_path) == FALSE)
+		{
+			free(virtual_path);
+			logger(LOG_INFO, "Invalid move, no ls performed.", NULL);
+			return (send_to_user_ctrl(user, RESP_550));
+		}
+		free(virtual_path);
+	}
+	prepare_args(args, path);
+	logger(LOG_DATA,  "Sending ls output", NULL);
+	if (exec_cmd(user, args) != 0)
+		return (send_to_user_ctrl(user, RESP_550));
+	else
+		return (send_to_user_ctrl(user, RESP_226));
 }
 
 void		cmd_list(t_user *user, char **cmd)
 {
-	char	*args[5];
-	int		ret;
+	char 	*abs_virtual_path;
+	char 	*real_path;
 
 	if (ft_tablen(cmd) > 2)
 	{
@@ -49,12 +73,16 @@ void		cmd_list(t_user *user, char **cmd)
 		send_to_user_ctrl(user, RESP_125);
 	else
 		return (send_to_user_ctrl(user, RESP_425));
-	logger(LOG_DATA,  "Sending ls output", NULL);
-	prepare_args(args, cmd[1]);
-	ret = exec_cmd(user, args);
-	if (ret != 0)
-		send_to_user_ctrl(user, RESP_550);
-	else
-		send_to_user_ctrl(user, RESP_226);
+	abs_virtual_path = NULL;
+	real_path = NULL;
+	if (cmd[1])
+	{
+		abs_virtual_path = get_virtual_absolute_path(user, cmd[1]);
+		real_path = convert_path_virtual_to_real(abs_virtual_path);
+	}
+	list_directory(user, real_path);
+	abs_virtual_path ? free(abs_virtual_path) : 0;
+	real_path ? free(real_path) : 0;
 	close_data_channel(user);
+	logger(LOG_DATA,  "Output ls sent", NULL);
 }
