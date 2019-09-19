@@ -72,6 +72,7 @@ typedef struct			s_user
 	int					control_sock;
 	int					server_dtp_sock;
 	int					data_sock;
+	uint8_t				family;
 	uint16_t			dtp_port;
 	char				*addr;
 	t_data_type			data_type;

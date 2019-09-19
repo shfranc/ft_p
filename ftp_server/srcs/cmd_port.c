@@ -67,7 +67,7 @@ static int			connect_to_client(char *addr, int port)
 	client_sin.sin_family = AF_INET;
 	client_sin.sin_port = htons(port);
 	client_sin.sin_addr.s_addr = inet_addr(addr);
-	if (connect(client_sock, (const struct sockaddr *)&client_sin, sizeof(client_sin)))
+	if (connect(client_sock, (const struct sockaddr *)&client_sin, sizeof(client_sin)) == -1)
 		return (ret_error("connect: error"));
 	return (client_sock);
 }
@@ -85,6 +85,9 @@ void				cmd_port(t_user *user, char **cmd)
 		return (send_to_user_ctrl(user, RESP_501));
 	logger(LOG_INFO, "Connect to the data channel...", NULL);
 	if ((user->data_sock = connect_to_client(user->addr, user->dtp_port)) == -1)
+	{
+		close_data_channel(user);
 		return (send_to_user_ctrl(user, RESP_425));
+	}
 	send_to_user_ctrl(user, RESP_200);
 }

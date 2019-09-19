@@ -12,61 +12,57 @@ static uint8_t		get_family_protocol(char *str_family)
 	return (0);
 }
 
-static int			connect_to_client_sock(uint8_t family, int client_sock, char *addr, uint16_t port)
+static int			connect_to_client_sock(int client_dtp_sock, t_user *user)
 {
 	struct sockaddr_in		client_sin;
 	struct sockaddr_in6		client_sin6;
 
-	if (family == IP_V4)
+	if (user->family == IP_V4)
 	{
 		client_sin.sin_family = AF_INET;
-		client_sin.sin_port = htons(port);
-		client_sin.sin_addr.s_addr = inet_addr(addr);
-		if (connect(client_sock, (const struct sockaddr *)&client_sin,
+		client_sin.sin_port = htons(user->dtp_port);
+		client_sin.sin_addr.s_addr = inet_addr(user->addr);
+		if (connect(client_dtp_sock, (const struct sockaddr *)&client_sin,
 			sizeof(client_sin)))
 			return (ret_error("connect: error"));
 	}
-	else if (family == IP_V6)
+	else if (user->family == IP_V6)
 	{
 		client_sin6.sin6_family = AF_INET6;
-		client_sin6.sin6_port = htons(port);
-		inet_pton(AF_INET6, addr, &client_sin6.sin6_addr);
-		if (connect(client_sock, (const struct sockaddr *)&client_sin6,
-			sizeof(client_sin6)))
+		client_sin6.sin6_port = htons(user->dtp_port);
+		if (inet_pton(AF_INET6, user->addr, &client_sin6.sin6_addr) == 0)
+			return (ret_error("inet_pton: error"));
+		if (connect(client_dtp_sock, (const struct sockaddr *)&client_sin6,
+			sizeof(client_sin6)) == -1)
 			return (ret_error("connect: error"));
 	}
 	return (0);
 }
 
 
-static int			connect_to_client(uint8_t family, char *addr, uint16_t port)
+static int			connect_to_user_DTP(t_user *user)
 {
-	int						client_sock;
-	struct protoent			*proto;
+	int						client_dtp_sock;
 
-	proto = getprotobyname("tcp");
-	if (!proto)
-		return (ret_error("getprotobyname: error"));
-	if (!(client_sock = socket(PF_INET, SOCK_STREAM, proto->p_proto)))
-		return (ret_error("socket: error"));
-	if (connect_to_client_sock(family, client_sock, addr, port) != 0)
+	if (!(client_dtp_sock = create_socket(user->family)))
 		return (-1);
-	return (client_sock);
+	if (connect_to_client_sock(client_dtp_sock, user) != 0)
+		return (-1);
+	return (client_dtp_sock);
 }
 
 void				cmd_eprt(t_user *user, char **cmd)
 {
 	char		**client_infos;
-	uint8_t		family;
 
 	logger(LOG_INFO, "Extended active mode", NULL);
 	if (ft_tablen(cmd) != 2)
 		return (send_to_user_ctrl(user, RESP_501));
 	client_infos = ft_strsplit(cmd[1], *cmd[1]);
 	logger(LOG_INFO, "Fetching family protocol...", NULL);
-	if ((family = get_family_protocol(client_infos[0])) == 0)
+	if ((user->family = get_family_protocol(client_infos[0])) == 0)
 		return (send_to_user_ctrl(user, RESP_501));
-	logger(LOG_INFO, "protocol", (family == IP_V6 ? "ipv6" : "ipv4"));
+	logger(LOG_INFO, "protocol", (user->family == IP_V6 ? "ipv6" : "ipv4"));
 	logger(LOG_INFO, "Fetching addr...", NULL);
 	if (!(user->addr = ft_strdup(client_infos[1])))
 		return (send_to_user_ctrl(user, RESP_501));
@@ -76,7 +72,10 @@ void				cmd_eprt(t_user *user, char **cmd)
 		return (send_to_user_ctrl(user, RESP_501));
 	logger_nb(LOG_INFO, "port", user->dtp_port);
 	logger(LOG_INFO, "Connect to the data channel...", NULL);
-	if ((user->data_sock = connect_to_client(family, user->addr, user->dtp_port)) == -1)
+	if ((user->data_sock = connect_to_user_DTP(user)) == -1)
+	{
+		close_data_channel(user);
 		return (send_to_user_ctrl(user, RESP_425));
+	}
 	send_to_user_ctrl(user, RESP_200);
 }
