@@ -14,7 +14,10 @@
 # include <sys/stat.h>
 # include <sys/mman.h>
 
-# define OPTIONS		"d"
+# define OPTIONS		"46dv"
+# define IP_V4			AF_INET
+# define IP_V6			AF_INET6
+
 # define LS_PATH		"/bin/ls"
 # define LS_OPTIONS		"-l"
 # define LS_SEP			"--"
@@ -25,7 +28,7 @@
 
 # define BUF_SIZE		1024
 # define NB_CONNECT		42
-# define NB_COMMAND		8
+# define NB_COMMAND		10
 # define TYPE_ASCII		"A"
 # define TYPE_BIN		"I"
 
@@ -50,6 +53,7 @@
 
 typedef struct 			s_server
 {
+	uint8_t				family;
 	uint16_t			port;
 	int					server_sock;
 	char				*root_dir;
@@ -68,6 +72,7 @@ typedef struct			s_user
 	int					control_sock;
 	int					server_dtp_sock;
 	int					data_sock;
+	uint8_t				family;
 	uint16_t			dtp_port;
 	char				*addr;
 	t_data_type			data_type;
@@ -86,12 +91,16 @@ typedef struct			s_command
 
 extern t_server			g_server;
 extern t_command		g_commands[NB_COMMAND];
-
+extern int				g_flags;
 /*
 ** SERVER
 */
 int						create_server(uint16_t port);
+int						create_DTP_server(t_user *user);
+int						create_socket(int family);
+int						bind_server(int server_sock, uint16_t port);
 uint16_t				get_port(char *port_str);
+uint16_t				get_random_port(void);
 int						close_server(t_ex_ret ret);
 
 /*
@@ -106,6 +115,8 @@ void					close_data_channel(t_user *user);
 ** CMD
 */
 void					cmd_cwd(t_user *user, char **cmd);
+void					cmd_eprt(t_user *user, char **cmd);
+void					cmd_epsv(t_user *user, char **cmd);
 void					cmd_list(t_user *user, char **cmd);
 void					cmd_pasv(t_user *user, char **cmd);
 void					cmd_port(t_user *user, char **cmd);
@@ -127,16 +138,11 @@ void					going_back_to_root_dir(t_user *user);
 /*
 ** LOGS
 */
+void					log_error(char *message);
 void					log_client_command(char *cmd);
 void					log_server_response(char *cmd);
-void					log_info(char *message);
-void					log_info_nbr(char *message, int nb);
-void					log_info_str(char *desc, char *message);
-void					log_data(char *message);
-void					log_data_str(char *desc, char *message);
-void					log_data_nbr(char *desc, int nb);
-void					log_data_progress(int progress);
-void					log_error(char *message);
+void					logger(char *lvl, char *info1, char *info2);
+void					logger_nb(char *lvl, char *info1, int nb);
 
 /*
 ** TOOLS
@@ -147,5 +153,7 @@ void					handle_child_signals(void);
 int						ret_error(char *message);
 t_ex_ret				ret_failure(char *message);
 char					*ft_strdup2(char *s1, char *s2);
+int						get_options(int *argc, char ***argv);
+t_bool					is_option_activated(char option);
 
 #endif

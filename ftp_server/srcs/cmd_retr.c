@@ -5,15 +5,15 @@ static void				send_file(t_user *user, const void *ptr, size_t size)
 	size_t	count;
 	int		ret;
 
-	log_info_nbr("Size", size);
+	logger_nb(LOG_INFO ,"Size", size);
 	count = 0;
 	while (count < size)
 	{
 		if ((ret = send(user->data_sock, ptr, size, 0)) == -1)
 			return(send_to_user_ctrl(user, RESP_451));
 		count += ret;
-		log_info_nbr("Bytes sent", count);
-		log_data_progress((count / size) * 100);
+		logger_nb(LOG_INFO, "Bytes sent", count);
+		logger_nb(LOG_DATA,  "Progress...",(count / size) * 100);
 	}
 	send_to_user_ctrl(user, RESP_226);
 }
@@ -31,7 +31,7 @@ static void 			get_file(t_user *user, char *filename)
 	if ((ptr = mmap(ptr, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0))
 		== MAP_FAILED)
 		return(send_to_user_ctrl(user, RESP_451));
-	log_data_str("Sending", filename);
+	logger(LOG_DATA,  "Sending", filename);
 	send_file(user, ptr, buf.st_size);
 	if (munmap(ptr, buf.st_size) < 0)
 		return(send_to_user_ctrl(user, RESP_451));
@@ -50,7 +50,7 @@ void				cmd_retr(t_user *user, char **cmd)
 		return (send_to_user_ctrl(user, RESP_426));
 	else
 		send_to_user_ctrl(user, RESP_125);
-	log_info_str("Fetching", cmd[1]);
+	logger(LOG_INFO, "Fetching", cmd[1]);
 	get_file(user, cmd[1]);
 	close_data_channel(user);
 }

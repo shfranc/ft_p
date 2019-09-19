@@ -27,7 +27,7 @@ static void		init_user(t_user *user)
 static void		init_root_dir_user(t_user *user)
 {
 	user->cwd = ft_strdup("/");
-	log_info_str("cwd", user->cwd);
+	logger(LOG_INFO, "cwd", user->cwd);
 }
 
 void		handle_clients(int server_sock)
@@ -37,7 +37,7 @@ void		handle_clients(int server_sock)
 	unsigned int		client_sin_len;
 	int					pid;
 
-	log_info("Waiting for clients");
+	logger(LOG_INFO, "Waiting for clients", NULL);
 	init_user(&user);
 	while (1)
 	{
@@ -49,12 +49,13 @@ void		handle_clients(int server_sock)
 		if (pid == 0)
 		{
 			handle_child_signals();
-			log_info("Client connected");
+			logger(LOG_INFO, "Client connected", NULL);
 			init_root_dir_user(&user);
 			send_to_user_ctrl(&user, RESP_220);
 			get_client_commands(&user);
 			user.cwd ? free(user.cwd) : 0;
-			log_info("Client disconnected");
+			user.addr ? free(user.addr) : 0;
+			logger(LOG_INFO, "Client disconnected", NULL);
 			exit(0);
 		}
 		else

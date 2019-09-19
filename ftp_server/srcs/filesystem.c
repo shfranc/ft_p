@@ -75,7 +75,7 @@ t_bool		is_valid_path(char *virtual_path)
 
 void		going_back_to_root_dir(t_user *user)
 {
-	log_info_str("Going back to root dir", g_server.root_dir);
+	logger(LOG_INFO, "Going back to root dir", g_server.root_dir);
 	if (chdir(g_server.root_dir) == 0)
 	{
 		free(user->cwd);

@@ -3,6 +3,8 @@
 t_command		g_commands[NB_COMMAND] =
 {
 	{"CWD", &cmd_cwd},
+	{"EPRT", &cmd_eprt},
+	{"EPSV", &cmd_epsv},
 	{"LIST", &cmd_list},
 	{"PASV", &cmd_pasv},
 	{"PORT", &cmd_port},

@@ -49,7 +49,7 @@ void		cmd_list(t_user *user, char **cmd)
 		send_to_user_ctrl(user, RESP_125);
 	else
 		return (send_to_user_ctrl(user, RESP_425));
-	log_data_str("Sending", "ls output");
+	logger(LOG_DATA,  "Sending ls output", NULL);
 	prepare_args(args, cmd[1]);
 	ret = exec_cmd(user, args);
 	if (ret != 0)

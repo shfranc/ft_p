@@ -13,6 +13,8 @@ SRCS = $(addprefix $(PATH_SRCS)/,\
 	handle_clients.c \
 	get_commands.c \
 	cmd_cwd.c \
+	cmd_epsv.c \
+	cmd_eprt.c \
 	cmd_list.c \
 	cmd_pasv.c \
 	cmd_port.c \
@@ -24,6 +26,7 @@ SRCS = $(addprefix $(PATH_SRCS)/,\
 	logs.c \
 	signals.c \
 	utils.c \
+	options.c \
 	)
 OBJS = $(SRCS:$(PATH_SRCS)/%.c=$(PATH_OBJS)/%.o)
 INCS = incs $(PATH_LIB)/includes

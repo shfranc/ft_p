@@ -1,6 +1,6 @@
 #include "server.h"
 
-static char			*get_addr_from_cmd(char *client_info)
+static char			*get_addr_from_cmd_ipv4(char *client_info)
 {
 	char 		**details;
 	char		*addr;
@@ -26,11 +26,11 @@ static char			*get_addr_from_cmd(char *client_info)
 	addr = ft_strcat(ft_strcat(addr, details[2]), ".");
 	addr = ft_strcat(addr, details[3]);
 	ft_freetab(&details);
-	log_info_str("address", addr);
+	logger(LOG_INFO, "address", addr);
 	return (addr);
 }
 
-static uint16_t		get_port_from_cmd(char *client_info)
+static uint16_t		get_port_from_cmd_ipv4(char *client_info)
 {
 	char 		**details;
 	uint16_t	port;
@@ -48,16 +48,9 @@ static uint16_t		get_port_from_cmd(char *client_info)
 		ft_freetab(&details);
 		return (0);
 	}
-	log_info_nbr("port", port);
+	logger_nb(LOG_INFO, "port", port);
 	ft_freetab(&details);
 	return (port);
-}
-
-static int		get_inet_addr(char *addr)
-{
-	if (ft_strcmp(addr, "localhost") == 0)
-		return (INADDR_ANY);
-	else return (inet_addr(addr));
 }
 
 static int			connect_to_client(char *addr, int port)
@@ -73,25 +66,28 @@ static int			connect_to_client(char *addr, int port)
 		return (ret_error("socket: error"));
 	client_sin.sin_family = AF_INET;
 	client_sin.sin_port = htons(port);
-	client_sin.sin_addr.s_addr = get_inet_addr(addr);
-	if (connect(client_sock, (const struct sockaddr *)&client_sin, sizeof(client_sin)))
+	client_sin.sin_addr.s_addr = inet_addr(addr);
+	if (connect(client_sock, (const struct sockaddr *)&client_sin, sizeof(client_sin)) == -1)
 		return (ret_error("connect: error"));
 	return (client_sock);
 }
 
 void				cmd_port(t_user *user, char **cmd)
 {
-	log_info("Active mode");
+	logger(LOG_INFO, "Active mode", NULL);
 	if (ft_tablen(cmd) != 2)
 		return (send_to_user_ctrl(user, RESP_501));
-	log_info("Fetching port...");
-	if ((user->dtp_port = get_port_from_cmd(cmd[1])) == 0)
+	logger(LOG_INFO, "Fetching addr...", NULL);
+	if ((user->addr = get_addr_from_cmd_ipv4(cmd[1])) == 0)
 		return (send_to_user_ctrl(user, RESP_501));
-	log_info("Fetching addr...");
-	if ((user->addr = get_addr_from_cmd(cmd[1])) == 0)
+	logger(LOG_INFO, "Fetching port...", NULL);
+	if ((user->dtp_port = get_port_from_cmd_ipv4(cmd[1])) == 0)
 		return (send_to_user_ctrl(user, RESP_501));
-	log_info("Connect to the data channel...");
+	logger(LOG_INFO, "Connect to the data channel...", NULL);
 	if ((user->data_sock = connect_to_client(user->addr, user->dtp_port)) == -1)
+	{
+		close_data_channel(user);
 		return (send_to_user_ctrl(user, RESP_425));
+	}
 	send_to_user_ctrl(user, RESP_200);
 }

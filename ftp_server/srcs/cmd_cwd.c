@@ -28,12 +28,12 @@ void		change_directory(t_user *user, char *path)
 {
 	char	*virtual_path;
 
-	log_info_str("Trying to move to", path);
+	logger(LOG_INFO, "Trying to move to", path);
 	virtual_path = convert_path_real_to_virtual(path);
 	if (is_valid_path(virtual_path) == FALSE)
 	{
 		free(virtual_path);
-		log_info("Invalid move, no chdir performed.");
+		logger(LOG_INFO, "Invalid move, no chdir performed.", NULL);
 		return (send_to_user_ctrl(user, RESP_550_1));
 	}
 	free(virtual_path);
@@ -55,5 +55,5 @@ void		cmd_cwd(t_user *user, char **cmd)
 	change_directory(user, real_path);
 	free(abs_virtual_path);
 	free(real_path);
-	log_info_str("User cwd", user->cwd);
+	logger(LOG_INFO, "User cwd", user->cwd);
 }
