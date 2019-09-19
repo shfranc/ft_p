@@ -50,7 +50,6 @@
 # define RESP_550_1		"550 Path unavailable"
 # define END_OF_MESG	"\r\n"
 
-
 typedef struct 			s_server
 {
 	uint8_t				family;
@@ -77,9 +76,6 @@ typedef struct			s_user
 	char				*addr;
 	t_data_type			data_type;
 }						t_user;
-
-
-
 
 typedef void (f_command)(t_user *user, char **cmd);
 
