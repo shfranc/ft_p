@@ -10,8 +10,8 @@
 √ stor
 √ refaire mieux les logs
 √ ls:  add valid path
-- close_server avec pas de t_ex_ret en param
-- replace asprintf in cmd_pasv
+√ close_server avec pas de t_ex_ret en param
+- replace asprintf in cmd_pasv/cmd_epsv
 √ valid path: forbid ../ftp_server.
 √ get: add valid path
 √ get: type ascii
@@ -29,7 +29,7 @@
 √ IPV6
 - others server:
 	√ logs server
-	- stack nb de clients
+	- stack nb de clients // SIGCHILD
 	- basic user/pass authent
 - others client:
 	- logs client

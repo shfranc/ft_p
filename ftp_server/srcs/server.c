@@ -107,12 +107,11 @@ int				create_DTP_server(t_user *user)
 	return (ret_error("Maximum tries to find a port reach"));
 }
 
-int				close_server(t_ex_ret ret)
+int				close_server(void)
 {
 	printf("Exiting...\n");
-	if (g_server.server_sock == -1)
-		exit(ret);
-	if (close(g_server.server_sock) == -1)
+	if (g_server.server_sock == -1
+		|| close(g_server.server_sock) == -1)
 		return (FAILURE);
-	return (ret);
+	return (SUCCESS);
 }
