@@ -12,9 +12,9 @@
 √ ls:  add valid path
 - close_server avec pas de t_ex_ret en param
 - replace asprintf in cmd_pasv
-- valid path: forbid ../ftp_server.
-- get: add valid path
-- get: type ascii
+√ valid path: forbid ../ftp_server.
+√ get: add valid path
+√ get: type ascii
 
 ## Client
 - ls
