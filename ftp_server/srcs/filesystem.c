@@ -4,9 +4,9 @@ char		*get_virtual_absolute_path(t_user *user, char *path)
 {
 	char	*tmp;
 
-	if (ft_strcmp(user->cwd, path) == 0)
+	if (ft_strcmp("/", path) == 0)
 		return (ft_strdup("/"));
-	if (ft_strcmp(".", path) == 0)
+	else if (ft_strcmp(".", path) == 0 || ft_strcmp(user->cwd, path) == 0)
 		return (ft_strdup(user->cwd));
 	else
 	{
@@ -57,8 +57,7 @@ t_bool		is_valid_path(char *virtual_path)
 	{
 		if (ft_strcmp(steps[i], "..") == 0)
 			move--;
-		else if (move < g_server.tree_lvl
-			&& !ft_strstr(g_server.root_dir, steps[i]))
+		else if (move < g_server.tree_lvl)
 		{
 			move = -1;
 			break ;
