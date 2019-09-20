@@ -35,14 +35,14 @@ void		prepare_args(char **args, char *path)
 	args[4] = NULL;
 }
 
-static void		list_directory(t_user *user, char *path)
+static void		list_directory(t_user *user, char *real_path)
 {
 	char	*args[5];
 	char	*virtual_path;
 
-	if (path)
+	if (real_path)
 	{
-		virtual_path = convert_path_real_to_virtual(path);
+		virtual_path = convert_path_real_to_virtual(real_path);
 		if (is_valid_path(virtual_path) == FALSE)
 		{
 			free(virtual_path);
@@ -51,7 +51,7 @@ static void		list_directory(t_user *user, char *path)
 		}
 		free(virtual_path);
 	}
-	prepare_args(args, path);
+	prepare_args(args, real_path);
 	logger(LOG_DATA,  "Sending ls output", NULL);
 	if (exec_cmd(user, args) != 0)
 		return (send_to_user_ctrl(user, RESP_550));
