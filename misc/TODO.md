@@ -11,7 +11,7 @@
 √ refaire mieux les logs
 √ ls:  add valid path
 √ close_server avec pas de t_ex_ret en param
-- replace asprintf in cmd_pasv/cmd_epsv
+√ replace asprintf in cmd_pasv/cmd_epsv
 √ valid path: forbid ../ftp_server.
 √ get: add valid path
 √ get: type ascii
