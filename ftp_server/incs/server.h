@@ -40,6 +40,7 @@
 # define RESP_220		"220 Server is ready"
 # define RESP_226		"226 Transfer done, closing the data channel"
 # define RESP_227		"227 Entering passive mode (0,0,0,0,"
+# define RESP_229		"229 Entering extended passive mode (|||"
 # define RESP_250		"250 Change working directory done"
 # define RESP_257		"257 \""
 # define RESP_425		"425 Error while openning the data channel"
