@@ -39,6 +39,8 @@
 # define RESP_200_1		"200 New type set"
 # define RESP_220		"220 Server is ready"
 # define RESP_226		"226 Transfer done, closing the data channel"
+# define RESP_227		"227 Entering passive mode (0,0,0,0,"
+# define RESP_229		"229 Entering extended passive mode (|||"
 # define RESP_250		"250 Change working directory done"
 # define RESP_257		"257 \""
 # define RESP_425		"425 Error while openning the data channel"
@@ -49,7 +51,6 @@
 # define RESP_550		"550 No such file or directory"
 # define RESP_550_1		"550 Path unavailable"
 # define END_OF_MESG	"\r\n"
-
 
 typedef struct 			s_server
 {
@@ -78,9 +79,6 @@ typedef struct			s_user
 	t_data_type			data_type;
 }						t_user;
 
-
-
-
 typedef void (f_command)(t_user *user, char **cmd);
 
 typedef struct			s_command
@@ -101,7 +99,7 @@ int						create_socket(int family);
 int						bind_server(int server_sock, uint16_t port);
 uint16_t				get_port(char *port_str);
 uint16_t				get_random_port(void);
-int						close_server(t_ex_ret ret);
+int						close_server(void);
 
 /*
 ** CLIENT

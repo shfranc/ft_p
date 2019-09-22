@@ -3,19 +3,18 @@
 ## Server
 √ pasv
 √ list:
-	- protect path
-	- symlink
 √ port
-√ retr:
-	√ type
+√ retr
+√ type
 √ pwd
-- cd:
-	- protect path
-	- symlink
-- replace asprintf in cmd_pasv
-- stor
-- refaire mieux les logs
-- close_server avec pas de t_ex_ret en param
+√ stor
+√ refaire mieux les logs
+√ ls:  add valid path
+√ close_server avec pas de t_ex_ret en param
+√ replace asprintf in cmd_pasv/cmd_epsv
+√ valid path: forbid ../ftp_server.
+√ get: add valid path
+√ get: type ascii
 
 ## Client
 - ls
@@ -27,16 +26,12 @@
 
 ## Bonus
 √ RFC
-- IPV6
-- others:
+√ IPV6
+- others server:
 	√ logs server
-	- stack nb de clients
+	- stack nb de clients // SIGCHILD
+	- basic user/pass authent
+- others client:
 	- logs client
 	- prompt client avec le path
-	- basic user/pass authent
 
-## Stuff
-- asprintf PASV + EPSV
-- protect ls path
-- potect get path
-- get ascii

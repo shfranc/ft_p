@@ -49,5 +49,5 @@ int					main(int argc, char **argv)
 	logger(LOG_INFO, "Root", g_server.root_dir);
 	logger_nb(LOG_INFO, "Level", g_server.tree_lvl);
 	handle_clients(g_server.server_sock);
-	return (close_server(SUCCESS));
+	return (close_server());
 }
