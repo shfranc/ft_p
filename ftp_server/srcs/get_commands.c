@@ -35,10 +35,8 @@ void				get_client_commands(t_user *user)
 {
 	int					ret;
 	char				buf[BUF_SIZE];
-	int 				client_data_sock;
 	char				**cmd;
 
-	client_data_sock = -1;
 	while ((ret = read(user->control_sock, &buf, BUF_SIZE - 1)) > 0)
 	{
 		if (buf[ret - 2] == '\r')
