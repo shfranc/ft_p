@@ -2,9 +2,14 @@
 
 void			send_to_user_ctrl(t_user *user, char *message)
 {
+	char		*formatted_msg;
+
 	log_server_response(message);
-	send(user->control_sock, message, ft_strlen(message), 0);
-	send(user->control_sock, END_OF_MESG, ft_strlen(END_OF_MESG), 0);
+	if (!(formatted_msg = ft_strnew(ft_strlen(message) + 2)))
+		ft_exit("malloc", 1);
+	formatted_msg = ft_strcat(ft_strcpy(formatted_msg, message), END_OF_MESG);
+	send(user->control_sock, formatted_msg, ft_strlen(formatted_msg), 0);
+	free(formatted_msg);
 }
 
 void			close_data_channel(t_user *user)

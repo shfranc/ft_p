@@ -22,6 +22,7 @@
 # define LOG_DATA		"\033[1;35m[DATA]\033[0m"
 
 # define RESP_220		"220 Server is ready"
+# define END_OF_MESG	"\r\n"
 
 typedef struct 			s_client
 {
@@ -50,7 +51,9 @@ t_client				g_client;
 
 int						connect_to_server(char *addr, int port);
 int						close_ctrl_sock();
+
 void					get_user_input(void);
+void					send_to_server_ctrl(char *message);
 void					get_server_response(void);
 
 /*

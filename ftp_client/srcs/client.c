@@ -23,7 +23,7 @@ int				connect_to_server(char *addr, int port)
 	client_sin.sin_addr.s_addr = get_inet_addr(addr);
 	if (connect(client_sock, (const struct sockaddr *)&client_sin,
 		sizeof(client_sin)))
-		return (ret_error("connect: error"));
+		return (ret_error("Connection refused"));
 	return (client_sock);
 }
 

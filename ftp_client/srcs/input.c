@@ -49,6 +49,6 @@ void				get_user_input(void)
 		if (ft_strcmp(cmd, "exit") == 0
 			|| ft_strcmp(cmd, "quit") == 0)
 			return (cmd_quit(cmd));
-		loop_commands(cmd);		
+		loop_commands(cmd);
 	}
 }
