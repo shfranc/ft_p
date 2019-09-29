@@ -24,6 +24,13 @@
 # define RESP_220		"220 Server is ready"
 # define END_OF_MESG	"\r\n"
 
+typedef enum			e_reply
+{
+	RESP_SUCCESS,
+	RESP_FAILURE,
+	RESP_ERROR
+}						t_reply;
+
 typedef struct 			s_client
 {
 	t_bool				handcheck;
@@ -31,6 +38,7 @@ typedef struct 			s_client
 	char				*addr;
 	uint16_t			port;
 	int					ctrl_sock;
+	char				*cwd;
 	char				*resp;
 }						t_client;
 
@@ -55,6 +63,7 @@ int						close_ctrl_sock();
 void					get_user_input(void);
 void					send_to_server_ctrl(char *message);
 void					get_server_response(void);
+t_reply					parse_response(char *response);
 
 /*
 ** CMD

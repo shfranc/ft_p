@@ -14,6 +14,7 @@ static void		init_client(char *addr, char *port)
 	g_client.addr = addr;
 	g_client.port = ft_atoi(port);
 	g_client.ctrl_sock = -1;
+	g_client.cwd = ft_strdup("/");
 	g_client.resp = NULL;
 }
 
