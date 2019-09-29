@@ -5,6 +5,7 @@ t_command		g_commands[NB_COMMAND] =
 	{"cd", &cmd_cd},
 	{"get", &cmd_get},
 	{"ls", &cmd_ls},
+	{"pass", &cmd_pass},
 	{"put", &cmd_put},
 	{"pwd", &cmd_pwd},
 	{"quit", &cmd_quit}
@@ -22,7 +23,8 @@ static void			loop_commands(char *cmd)
 	i = 0;
 	while (i < NB_COMMAND && cmd)
 	{
-		if (ft_strncmp(cmd, g_commands[i].name, ft_strlen(cmd)) == 0)
+		if (ft_strncmp(cmd, g_commands[i].name,
+			ft_strlen(g_commands[i].name)) == 0)
 		{
 			g_commands[i].run(cmd);
 			return ;

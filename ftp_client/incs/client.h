@@ -13,7 +13,7 @@
 # define IP_V6			AF_INET6
 
 # define BUF_SIZE		1024
-# define NB_COMMAND		6
+# define NB_COMMAND		7
 
 # define INVALID_CMD	"?Invalid command."
 # define LOG_ERROR		"\033[1;31m[ERROR]\033[0m"
@@ -31,13 +31,22 @@ typedef enum			e_reply
 	RESP_ERROR
 }						t_reply;
 
+typedef enum			e_pass
+{
+	AUTO,
+	ON,
+	OFF
+}						t_pass;
+
 typedef struct 			s_client
 {
 	t_bool				handcheck;
 	uint8_t				family;
 	char				*addr;
 	uint16_t			port;
+	t_pass				pass;
 	int					ctrl_sock;
+	int					data_sock;
 	char				*cwd;
 	char				*resp;
 }						t_client;
@@ -66,11 +75,16 @@ void					get_server_response(void);
 t_reply					parse_response(char *response);
 
 /*
+** DATA CHANNEL
+*/
+
+/*
 ** CMD
 */
 void					cmd_ls(char *cmd);
 void					cmd_cd(char *cmd);
 void					cmd_get(char *cmd);
+void					cmd_pass(char *cmd);
 void					cmd_put(char *cmd);
 void					cmd_pwd(char *cmd);
 void					cmd_quit(char *cmd);
