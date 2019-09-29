@@ -2,13 +2,14 @@
 
 t_command		g_commands[NB_COMMAND] =
 {
-	{"cd", &cmd_cd},
-	{"get", &cmd_get},
-	{"ls", &cmd_ls},
-	{"pass", &cmd_pass},
-	{"put", &cmd_put},
-	{"pwd", &cmd_pwd},
-	{"quit", &cmd_quit}
+	{"cd", &cmd_cd, "change directory"},
+	{"get", &cmd_get, "get a file"},
+	{"help", &cmd_help, "display help"},
+	{"ls", &cmd_ls, "list directroy"},
+	{"pass", &cmd_pass, "switch passive/active mode"},
+	{"put", &cmd_put, "put a file"},
+	{"pwd", &cmd_pwd, "get current working directory"},
+	{"quit", &cmd_quit, "exit the server"}
 };
 
 static void			promt(void)
@@ -47,7 +48,6 @@ void				get_user_input(void)
 		if (ret_read == -1)
 			return (log_error("Failed to read from stdin"));
 		cmd[ret_read - 1] = '\0';
-		ft_putendl(cmd);
 		if (ft_strcmp(cmd, "exit") == 0
 			|| ft_strcmp(cmd, "quit") == 0)
 			return (cmd_quit(cmd));

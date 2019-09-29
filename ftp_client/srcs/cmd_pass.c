@@ -15,7 +15,6 @@ void			cmd_pass(char *cmd)
 	char	**params;
 
 	params = ft_strsplit(cmd, ' ');
-	ft_puttab(params);
 	if (ft_tablen(params) > 2)
 		return (ft_putendl("usage: pass [ on | off | auto ]"));
 	if (!params[1])

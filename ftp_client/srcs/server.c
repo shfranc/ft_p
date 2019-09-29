@@ -19,7 +19,6 @@ void				get_server_response()
 
 	g_client.resp ? free(g_client.resp) : 0;
 	ret = read(g_client.ctrl_sock, &buf, BUF_SIZE - 1);
-	printf("%d\n", ret);
 	if (ret == -1)
 		return (log_error("read: Failed to read from client"));
 	if (buf[ret - 2] == '\r')
@@ -28,7 +27,6 @@ void				get_server_response()
 		buf[ret - 1] = '\0';
 	else
 		buf[ret] = '\0';
-	ft_putendl(buf);
 	g_client.resp = ft_strdup(buf);
 	return (log_server_response(g_client.resp));
 }

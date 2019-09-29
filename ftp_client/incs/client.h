@@ -13,7 +13,7 @@
 # define IP_V6			AF_INET6
 
 # define BUF_SIZE		1024
-# define NB_COMMAND		7
+# define NB_COMMAND		8
 
 # define INVALID_CMD	"?Invalid command."
 # define LOG_ERROR		"\033[1;31m[ERROR]\033[0m"
@@ -57,10 +57,11 @@ typedef struct			s_command
 {
 	char				*name;
 	f_command			*run;
+	char				*desc;
 }						t_command;
 
-
 t_client				g_client;
+extern t_command		g_commands[NB_COMMAND];
 
 /*
 ** CLIENT
@@ -84,6 +85,7 @@ t_reply					parse_response(char *response);
 void					cmd_ls(char *cmd);
 void					cmd_cd(char *cmd);
 void					cmd_get(char *cmd);
+void					cmd_help(char *cmd);
 void					cmd_pass(char *cmd);
 void					cmd_put(char *cmd);
 void					cmd_pwd(char *cmd);
