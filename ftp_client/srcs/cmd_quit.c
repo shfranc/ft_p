@@ -3,5 +3,5 @@
 void		cmd_quit(char *cmd)
 {
 	(void)cmd;
-	printf("Exiting...\n");
+	send_to_server_ctrl("QUIT");
 }

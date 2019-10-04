@@ -26,10 +26,7 @@ static void			loop_commands(char *cmd)
 	{
 		if (ft_strncmp(cmd, g_commands[i].name,
 			ft_strlen(g_commands[i].name)) == 0)
-		{
-			g_commands[i].run(cmd);
-			return ;
-		}
+			return (g_commands[i].run(cmd));
 		i++;
 	}
 	printf("%s\n", INVALID_CMD);
