@@ -10,7 +10,18 @@ PATH_OBJS = objs
 SRCS = $(addprefix $(PATH_SRCS)/,\
 	main.c \
 	client.c \
-	send_commands.c \
+	server.c \
+	input.c \
+	cmd_cd.c \
+	cmd_get.c \
+	cmd_help.c \
+	cmd_ls.c \
+	cmd_pass.c \
+	cmd_put.c \
+	cmd_pwd.c \
+	cmd_quit.c \
+	parse_response.c \
+	logs.c \
 	signals.c \
 	utils.c \
 	)
