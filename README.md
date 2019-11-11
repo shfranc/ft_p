@@ -11,16 +11,27 @@ make
 ```
 
 ### Commands
-- CWD: change directory
-- LIST: list content of the directory, send the result in the data channel
-- PASV: Passive mode, create a data channel and send IP + port to the client
-- EPSV: Extended passive mode, passive mode with ipv6 protocol
-- PORT: Active mode, connect to the data channel the client already openned
-- EPRT: Extended active mode, active mode with ipv6 protocol
-- PWD: send the path of the current working directory
-- RETR: get and send a file to the client through the data channel
-- STOR: get and store a file the client has sent through the data channel
-- TYPE: set type for the tranfer (ascii or binary)
+**Command** | **Description** | **Usage**
+:---: | --- | ---
+CWD | Change directory | `CWD <somewhere>`
+LIST | List content of the directory, send the result in the data channel | `LIST <something>`
+PASV | Passive mode, create a data channel and send IP + port to the client | `PASV`
+EPSV | Extended passive mode, passive mode with ipv6 protocol | `EPSV`
+PORT | Active mode, connect to the data channel the client already openned | `PORT <addr1>,<addr2>,<addr3>,<addr4>,<port1>,<port2>`
+EPRT | Extended active mode, active mode with ipv6 protocol | `EPRT \|<protocol>\|<addr>\|<port>\|`
+PWD | Send the path of the current working directory | `PWD`
+RETR | Get and send a file to the client through the data channel | `RETR <file>`
+STOR | Get and store a file the client has sent through the data channel | `STOR <file>`
+TYPE | Set type for the tranfer (ascii or binary) | `TYPE <A\|I>`
+
+### Options
+```bash
+usage: ./server [-46dv] port
+	4	force protocol IPV4
+	6	force protocol IPV6
+	d	debug mode
+	v	verbose mode
+```
 
 ## Client
 
