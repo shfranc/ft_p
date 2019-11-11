@@ -35,17 +35,24 @@ usage: ./server [-46dv] port
 
 ## Client
 
+### Requirements
+- rlwrap
+
 ### Usage
 ```bash
 cd ftp_client
 make
-./client 127.0.0.1 4242
+rlwrap ./client 127.0.0.1 4242
 ```
 
 ### Commands
-- ls
-- cd
-- get
-- put
-- pwd
-- quit
+**Command** | **Description** | **Usage**
+:---: | --- | ---
+cd | change directory | `cd <somewhere>`
+get | get a file | `get <file>`
+help | display help | `help`
+ls | list directroy | `ls <something>`
+pass | switch passive/active mode | `pass [on\|off\|auto]`
+put | put a file | `put <file>`
+pwd | get current working directory | `pwd`
+quit | exit the server | `quit`
