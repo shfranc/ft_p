@@ -17,12 +17,15 @@
 √ get: type ascii
 
 ## Client
+√ cd
+√ pwd
+√ quit
+- recup options
+- pasv / epsv
+- port / eprt
 - ls
-- cd
-- get
-- put
-- pwd
-- quit
+- get avec type A et I
+- put avec type A et I
 
 ## Bonus
 √ RFC
