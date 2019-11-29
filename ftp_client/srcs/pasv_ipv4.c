@@ -1,9 +1,43 @@
 #include "client.h"
 
+static char		*format_addr(char **details)
+{
+	char		*addr;
+	int			len;
+	int			i;
+
+	len = 3;
+	i = 0;
+	while (i < 4)
+	{
+		len += ft_strlen(details[i]);
+		i++;
+	}
+	addr = ft_strnew(len);
+	addr = ft_strcat(ft_strcpy(addr, details[0]), ".");
+	addr = ft_strcat(ft_strcat(addr, details[1]), ".");
+	addr = ft_strcat(ft_strcat(addr, details[2]), ".");
+	addr = ft_strcat(addr, details[3]);
+	return (addr);
+}
+
 static char		*parse_response_addr_ipv4(char *msg)
 {
-	(void)msg;
-	return (ft_strdup("0.0.0.0"));
+	char	**details;
+	char	*start;
+	char	*end;
+	char	*tmp;
+	char	*addr;
+
+	start = ft_strchr(msg, '(');
+	end = ft_strrchr(msg, ')');
+	tmp = ft_strsub(msg, start - msg + 1, end - start);
+	details = ft_strsplit(tmp, ',');
+	addr = format_addr(details);
+	printf("%s\n", addr);
+	free(tmp);
+	ft_freetab(&details);
+	return (addr);
 }
 
 static int		parse_response_port_ipv4(char *msg)

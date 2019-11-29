@@ -1,11 +1,5 @@
 #include "client.h"
 
-// static void		connect_data_channel_ipv6()
-// {
-// 	send_to_server_ctrl("EPSV");
-// }
-
-
 static void		passive_mode() // PASV - EPSV
 {
 	if (g_client.family == IP_V4)
