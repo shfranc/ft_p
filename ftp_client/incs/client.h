@@ -78,6 +78,8 @@ t_reply					parse_response(char *response);
 /*
 ** DATA CHANNEL
 */
+t_ex_ret				open_data_channel();
+void					connect_data_channel_ipv4();
 
 /*
 ** CMD

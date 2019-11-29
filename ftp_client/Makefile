@@ -20,6 +20,8 @@ SRCS = $(addprefix $(PATH_SRCS)/,\
 	cmd_put.c \
 	cmd_pwd.c \
 	cmd_quit.c \
+	data_channel.c \
+	pasv_ipv4.c \
 	parse_response.c \
 	logs.c \
 	signals.c \
