@@ -9,8 +9,8 @@ void					cmd_cd(char *cmd)
 		return (ft_putendl("Not connected."));
 	printf("%s\n", cmd);
 	params = ft_strsplit(cmd, ' ');
-	if (ft_tablen(params) > 2)
-		return (ft_putendl("usage: cd [dir]"));
+	if (ft_tablen(params) != 2)
+		return (ft_putendl("usage: cd <directory>"));
 	message = ft_strjoin("CWD ", params[1]);
 	printf("%s\n", message);
 	send_to_server_ctrl(message);
