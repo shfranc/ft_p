@@ -17,7 +17,7 @@
 
 # define INVALID_CMD	"?Invalid command."
 # define LOG_ERROR		"\033[1;31m[ERROR]\033[0m"
-# define LOG_CTRL		"\033[1;36m[CTRL]\033[0m"
+# define LOG_INFO		"\033[1;37m[INFO]\033[0m"
 # define LOG_CTRL		"\033[1;36m[CTRL]\033[0m"
 # define LOG_DATA		"\033[1;35m[DATA]\033[0m"
 
@@ -69,6 +69,7 @@ extern t_command		g_commands[NB_COMMAND];
 
 int						connect_to_server(char *addr, int port);
 int						close_ctrl_sock();
+int						close_data_sock();
 
 void					get_user_input(void);
 void					send_to_server_ctrl(char *message);
@@ -80,6 +81,12 @@ t_reply					parse_response(char *response);
 */
 t_ex_ret				open_data_channel();
 void					connect_data_channel_ipv4();
+
+/*
+** READER
+*/
+void					read_data_bin();
+
 
 /*
 ** CMD
@@ -96,6 +103,9 @@ void					cmd_quit(char *cmd);
 /*
 ** LOGS
 */
+void					log_info(char *message);
+void					log_info_msg(char *desc, char *message);
+void					log_info_nb(char *desc, int nb);
 void					log_error(char *message);
 void					log_client_command(char *cmd);
 void					log_server_response(char *cmd);

@@ -3,7 +3,10 @@
 static void		passive_mode() // PASV - EPSV
 {
 	if (g_client.family == IP_V4)
+	{
 		connect_data_channel_ipv4();
+		log_info("data channel connected");
+	}
 	else if (g_client.family == IP_V6)
 		;
 }
@@ -25,8 +28,7 @@ t_ex_ret		open_data_channel()
 		if (g_client.data_sock == -1)
 			active_mode();
 	}
-	get_server_response();
-	if (parse_response(g_client.resp) == RESP_SUCCESS)
+	if (g_client.data_sock != -1)
 		return (SUCCESS);
 	return (FAILURE);
 }

@@ -1,6 +1,6 @@
 #include "client.h"
 
-static char		*format_addr(char **details)
+static char		*get_addr(char **details)
 {
 	char		*addr;
 	int			len;
@@ -21,32 +21,28 @@ static char		*format_addr(char **details)
 	return (addr);
 }
 
-static char		*parse_response_addr_ipv4(char *msg)
+static uint16_t	get_port(char **details)
+{
+	return ((uint16_t)(ft_atoi(details[4]) << 8)
+		+ ft_atoi(details[5]));
+}
+
+static char		**parse_response_pasv(char *msg)
 {
 	char	**details;
 	char	*start;
 	char	*end;
 	char	*tmp;
-	char	*addr;
 
 	start = ft_strchr(msg, '(');
 	end = ft_strrchr(msg, ')');
 	tmp = ft_strsub(msg, start - msg + 1, end - start);
 	details = ft_strsplit(tmp, ',');
-	addr = format_addr(details);
-	printf("%s\n", addr);
 	free(tmp);
-	ft_freetab(&details);
-	return (addr);
+	return (details);
 }
 
-static int		parse_response_port_ipv4(char *msg)
-{	(void)msg;
-
-	return (65000);
-}
-
-static int		connect_to_DTP_server(char *addr, int port)
+static int		connect_to_DTP_server_ipv4(char *addr, int port)
 {
 	int						server_sock;
 	struct protoent			*proto;
@@ -69,8 +65,9 @@ static int		connect_to_DTP_server(char *addr, int port)
 
 void			connect_data_channel_ipv4()
 {
-	char	*addr;
-	int		port;
+	char		**details;
+	char		*addr;
+	uint16_t	port;
 
 	send_to_server_ctrl("PASV");
 	get_server_response();
@@ -79,8 +76,14 @@ void			connect_data_channel_ipv4()
 		log_error("Failed to connect to the data channel.");
 		return ;
 	}
-	addr = parse_response_addr_ipv4(g_client.resp);
-	port = parse_response_port_ipv4(g_client.resp);
-	g_client.data_sock = connect_to_DTP_server(addr, port);
+	details = parse_response_pasv(g_client.resp);
+	if (ft_tablen(details) != 6)
+		return (log_error("PASV answer: Wrong format"));
+	addr = get_addr(details);
+	port = get_port(details);
+	log_info_msg("addr", addr);
+	log_info_nb("port", port);
+	g_client.data_sock = connect_to_DTP_server_ipv4(addr, port);
+	free(addr);
 }
 

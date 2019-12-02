@@ -31,5 +31,12 @@ int				close_ctrl_sock()
 {
 	if (g_client.ctrl_sock != -1 && close(g_client.ctrl_sock) != -1)
 		return (SUCCESS);
-	return (FAILURE);	
-}		
+	return (FAILURE);
+}
+
+int				close_data_sock()
+{
+	if (g_client.data_sock != -1 && close(g_client.data_sock) != -1)
+		return (SUCCESS);
+	return (FAILURE);
+}

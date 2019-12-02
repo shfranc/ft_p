@@ -13,11 +13,12 @@ void					cmd_ls(char *cmd)
 	if (open_data_channel() == FAILURE)
 	{
 		ft_freetab(&params);
-		log_error("ls command aborted");
+		return (log_error("ls command aborted"));
 	}
 	message = params[1] ? ft_strjoin("LIST ", params[1]) : ft_strdup("LIST");
 	send_to_server_ctrl(message);
-	// read data channel
+	read_data_bin();
+	close_data_sock();
 	get_server_response();
 	parse_response(g_client.resp);
 	free(message);
