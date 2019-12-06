@@ -15,9 +15,14 @@ static void		active_mode() // PORT - EPRT
 	if (g_client.family == IP_V4)
 		cmd_port();
 	else if (g_client.family == IP_V6)
-		;
+	{
+		ft_putendl("PLOP1");
+		cmd_eprt();
+		ft_putendl("PLOP2");
+	}
+	ft_putendl("PLOP3");
 	if (g_client.data_sock != -1)
-		log_info("Data channel connected");
+		ft_putendl("Data channel connected");
 }
 
 t_ex_ret		open_data_channel()

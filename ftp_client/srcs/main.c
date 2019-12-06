@@ -15,7 +15,7 @@ static void	usage(char *prog_name)
 
 static void		init_client(char *addr, char *port)
 {
-	ft_bzero(&g_client, sizeof(g_client));
+	ft_bzero(&g_client, sizeof(t_client));
 	g_client.handcheck = FALSE;
 	g_client.family = IP_V6;
 	g_client.addr = get_localhost_addr(g_client.family, addr);

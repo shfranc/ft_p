@@ -55,6 +55,28 @@ int				bind_server(int server_sock, uint16_t port)
 	return (0);
 }
 
+int				create_DTP_server()
+{
+	int						i;
+
+	if (!(g_client.server_dtp_sock = create_socket(g_client.family)))
+		return (-1);
+	i = 0;
+	while (i < 100)
+	{
+		g_client.data_port = get_random_port();
+		log_info_nb("Trying to bind a random port", g_client.data_port);
+		if (bind_server(g_client.server_dtp_sock, g_client.data_port) == 0)
+		{
+			log_info("Port binded, server DTP created");
+			listen(g_client.server_dtp_sock, 1);
+			return (0);
+		}
+		i++;
+	}
+	return (ret_error("Maximum tries to find a port reach"));
+}
+
 void				send_to_server_ctrl(char *message)
 {
 	char		*formatted_msg;

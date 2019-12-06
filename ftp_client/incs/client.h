@@ -83,9 +83,11 @@ t_reply					parse_response(char *response);
 /*
 ** DATA CHANNEL
 */
+int						create_DTP_server();
 t_ex_ret				open_data_channel();
 int						close_data_sock();
 int						close_server_dtp_sock();
+void					cmd_eprt();
 void					cmd_epsv();
 void					cmd_pasv();
 void					cmd_port();
