@@ -40,15 +40,15 @@ static void		init_root_dir_user(t_user *user)
 
 static int				handle_client(t_user *user)
 {
-		handle_child_signals();
-		logger(LOG_INFO, "Client connected", NULL);
-		init_root_dir_user(user);
-		send_to_user_ctrl(user, RESP_220);
-		get_client_commands(user);
-		ft_strdel(&user->cwd);
-		ft_strdel(&user->addr);
-		logger(LOG_INFO, "Client disconnected", NULL);
-		exit(0);
+	handle_child_signals();
+	logger(LOG_INFO, "Client connected", NULL);
+	init_root_dir_user(user);
+	send_to_user_ctrl(user, RESP_220);
+	get_client_commands(user);
+	ft_strdel(&user->cwd);
+	ft_strdel(&user->addr);
+	logger(LOG_INFO, "Client disconnected", NULL);
+	exit(0);
 }
 void			handle_clients(int server_sock)
 {

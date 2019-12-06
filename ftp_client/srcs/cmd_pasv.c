@@ -44,24 +44,22 @@ static char		**parse_response_pasv(char *msg)
 
 static int		connect_to_DTP_server_ipv4(char *addr, int port)
 {
-	int						server_sock;
+	int						data_sock;
 	struct protoent			*proto;
 	struct sockaddr_in		server_sin;
 
 	proto = getprotobyname("tcp");
 	if (!proto)
 		return (ret_error("getprotobyname: error"));
-	if (!(server_sock = socket(PF_INET, SOCK_STREAM, proto->p_proto)))
+	if (!(data_sock = socket(PF_INET, SOCK_STREAM, proto->p_proto)))
 		return (ret_error("socket: error"));
 	server_sin.sin_family = AF_INET;
 	server_sin.sin_port = htons(port);
 	server_sin.sin_addr.s_addr = inet_addr(addr);
-	if (connect(server_sock, (const struct sockaddr *)&server_sin, sizeof(server_sin)) == -1)
+	if (connect(data_sock, (const struct sockaddr *)&server_sin, sizeof(server_sin)) == -1)
 		return (ret_error("connect: error"));
-	return (server_sock);
+	return (data_sock);
 }
-
-// 227 Entering passive mode (0,0,0,0,39,130)
 
 void			cmd_pasv()
 {
@@ -69,6 +67,7 @@ void			cmd_pasv()
 	char		*addr;
 	uint16_t	port;
 
+	log_info("Passive mode");
 	send_to_server_ctrl("PASV");
 	get_server_response();
 	if (parse_response(g_client.resp) != RESP_SUCCESS)
@@ -83,7 +82,9 @@ void			cmd_pasv()
 	port = get_port(details);
 	log_info_msg("addr", addr);
 	log_info_nb("port", port);
-	g_client.data_sock = connect_to_DTP_server_ipv4(addr, port);
+	if ((g_client.data_sock = connect_to_DTP_server_ipv4(addr, port)) == -1)
+		return (log_error("Failed to connect to the data channel."));
+	ft_freetab(&details);
 	free(addr);
 }
 

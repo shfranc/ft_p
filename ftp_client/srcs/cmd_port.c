@@ -50,6 +50,7 @@ void			cmd_port()
 	struct sockaddr_in	data_sin;
 	unsigned int		data_sin_len;
 
+	log_info("Active mode");
 	if (create_DTP_server() == -1)
 		return (log_error("Fail to create data channel"));
 	message = prepare_port_message(g_client.data_port);

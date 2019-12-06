@@ -10,6 +10,7 @@
 # include <signal.h>
 # include <time.h>
 # include <limits.h>
+# include <netinet/in.h>
 
 # define IP_V4			AF_INET
 # define IP_V6			AF_INET6
@@ -70,10 +71,9 @@ extern t_command		g_commands[NB_COMMAND];
 /*
 ** CLIENT
 */
-
-int						connect_to_server(char *addr, int port);
+int						connect_to_server_sock(int data_sock, char *addr, uint16_t port);
+int						connect_to_server(char *addr, uint16_t port);
 int						close_ctrl_sock();
-
 
 void					get_user_input(void);
 void					send_to_server_ctrl(char *message);
@@ -86,6 +86,7 @@ t_reply					parse_response(char *response);
 t_ex_ret				open_data_channel();
 int						close_data_sock();
 int						close_server_dtp_sock();
+void					cmd_epsv();
 void					cmd_pasv();
 void					cmd_port();
 uint16_t				get_random_port(void);
