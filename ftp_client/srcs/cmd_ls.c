@@ -17,10 +17,11 @@ void					cmd_ls(char *cmd)
 	}
 	message = params[1] ? ft_strjoin("LIST ", params[1]) : ft_strdup("LIST");
 	send_to_server_ctrl(message);
+	get_server_response();
 	read_data_bin();
-	close_data_sock();
 	get_server_response();
 	parse_response(g_client.resp);
 	free(message);
 	ft_freetab(&params);
+	close_data_sock();
 }

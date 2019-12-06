@@ -7,6 +7,7 @@ void		read_data_bin()
 	int		ret;
 
 	total = 0;
+	log_info_nb("data sock", g_client.data_sock);
 	while ((ret = read(g_client.data_sock, &buf, BUF_SIZE - 1)) > 0)
 	{
 		total += ret;

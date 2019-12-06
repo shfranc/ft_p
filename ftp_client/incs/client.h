@@ -8,6 +8,8 @@
 # include <netdb.h>
 # include <arpa/inet.h>
 # include <signal.h>
+# include <time.h>
+# include <limits.h>
 
 # define IP_V4			AF_INET
 # define IP_V6			AF_INET6
@@ -44,6 +46,7 @@ typedef struct 			s_client
 	uint8_t				family;
 	char				*addr;
 	uint16_t			port;
+	uint16_t			data_port;
 	t_pass				pass;
 	int					ctrl_sock;
 	int					data_sock;
@@ -81,12 +84,15 @@ t_reply					parse_response(char *response);
 */
 t_ex_ret				open_data_channel();
 void					cmd_pasv();
+void					cmd_port();
+uint16_t				get_random_port(void);
+int						create_socket(int family);
+int						bind_server(int server_sock, uint16_t port);
 
 /*
 ** READER
 */
 void					read_data_bin();
-
 
 /*
 ** CMD
