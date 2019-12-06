@@ -44,3 +44,14 @@ int				close_data_sock()
 	g_client.data_sock = -1;
 	return (ret == -1 ? FAILURE : SUCCESS);
 }
+
+int				close_server_dtp_sock()
+{
+	int		ret;
+
+	ret = -1;
+	if (g_client.server_dtp_sock != -1)
+		ret = close(g_client.server_dtp_sock);
+	g_client.server_dtp_sock = -1;
+	return (ret == -1 ? FAILURE : SUCCESS);
+}

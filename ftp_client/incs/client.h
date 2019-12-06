@@ -49,6 +49,7 @@ typedef struct 			s_client
 	uint16_t			data_port;
 	t_pass				pass;
 	int					ctrl_sock;
+	int					server_dtp_sock;
 	int					data_sock;
 	char				*cwd;
 	char				*resp;
@@ -72,7 +73,7 @@ extern t_command		g_commands[NB_COMMAND];
 
 int						connect_to_server(char *addr, int port);
 int						close_ctrl_sock();
-int						close_data_sock();
+
 
 void					get_user_input(void);
 void					send_to_server_ctrl(char *message);
@@ -83,6 +84,8 @@ t_reply					parse_response(char *response);
 ** DATA CHANNEL
 */
 t_ex_ret				open_data_channel();
+int						close_data_sock();
+int						close_server_dtp_sock();
 void					cmd_pasv();
 void					cmd_port();
 uint16_t				get_random_port(void);

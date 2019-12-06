@@ -24,4 +24,5 @@ void					cmd_ls(char *cmd)
 	free(message);
 	ft_freetab(&params);
 	close_data_sock();
+	close_server_dtp_sock();
 }

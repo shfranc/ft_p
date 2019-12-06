@@ -8,7 +8,7 @@ static void		passive_mode() // PASV - EPSV
 	else if (g_client.family == IP_V6)
 		;
 	if (g_client.data_sock != -1)
-		log_info("data channel connected");
+		log_info("Data channel connected");
 }
 
 static void		active_mode() // PORT - EPRT
