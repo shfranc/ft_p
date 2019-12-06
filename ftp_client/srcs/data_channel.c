@@ -4,7 +4,7 @@ static void		passive_mode() // PASV - EPSV
 {
 	if (g_client.family == IP_V4)
 	{
-		connect_data_channel_ipv4();
+		cmd_pasv();
 		log_info("data channel connected");
 	}
 	else if (g_client.family == IP_V6)

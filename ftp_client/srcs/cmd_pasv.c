@@ -63,7 +63,7 @@ static int		connect_to_DTP_server_ipv4(char *addr, int port)
 
 // 227 Entering passive mode (0,0,0,0,39,130)
 
-void			connect_data_channel_ipv4()
+void			cmd_pasv()
 {
 	char		**details;
 	char		*addr;

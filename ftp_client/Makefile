@@ -17,12 +17,12 @@ SRCS = $(addprefix $(PATH_SRCS)/,\
 	cmd_help.c \
 	cmd_ls.c \
 	cmd_pass.c \
+	cmd_pasv.c \
 	cmd_put.c \
 	cmd_pwd.c \
 	cmd_quit.c \
 	data_channel.c \
 	reader.c \
-	pasv_ipv4.c \
 	parse_response.c \
 	logs.c \
 	signals.c \
