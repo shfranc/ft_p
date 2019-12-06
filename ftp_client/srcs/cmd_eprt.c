@@ -41,21 +41,16 @@ void		cmd_eprt()
 	message = prepare_eprt_message();
 	send_to_server_ctrl(message);
 	get_server_response();
-	log_info("COUCOUUUU");
 	if (parse_response(g_client.resp) != RESP_SUCCESS)
 	{
-		ft_putendl("COUCOUUUU2");
 		log_error("Server failed to connect to the data channel.");
 		close_server_dtp_sock();
 	}
 	else if ((g_client.data_sock = accept(g_client.server_dtp_sock,
 		(struct sockaddr *)&data_sin, &data_sin_len)) < 0)
 	{
-		ft_putendl("COUCOUUUU1");
 		log_error("Server failed to connect to the data channel.");
 		close_server_dtp_sock();
 	}
-	ft_putendl("COUCOUUUU3");
 	free(message);
-	ft_putendl("COUCOUUUU4");
 }

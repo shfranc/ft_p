@@ -17,7 +17,7 @@ static void		init_client(char *addr, char *port)
 {
 	ft_bzero(&g_client, sizeof(t_client));
 	g_client.handcheck = FALSE;
-	g_client.family = IP_V6;
+	g_client.family = is_option_activated('6') ? IP_V6 : IP_V4;
 	g_client.addr = get_localhost_addr(g_client.family, addr);
 	g_client.port = ft_atoi(port);
 	g_client.pass = AUTO;
@@ -26,6 +26,9 @@ static void		init_client(char *addr, char *port)
 	g_client.data_sock = -1;
 	g_client.cwd = ft_strdup("/");
 	g_client.resp = NULL;
+	log_info_msg("Protocol", (g_client.family == IP_V6 ? "ipv6" : "ipv4"));
+	log_info_msg("Server Address", g_client.addr);
+	log_info_nb("Server Port", g_client.port);
 }
 
 void	server_handcheck()
@@ -36,11 +39,25 @@ void	server_handcheck()
 		g_client.handcheck = TRUE;
 }
 
+t_client 		g_client;
+int 			g_flags;
+
 int		main(int argc, char **argv)
 {
-	if (argc != 3)
-		usage(argv[0]);
-	init_client(argv[1], argv[2]);
+	char	*prog_name;
+	char	*addr;
+	char	*port;
+
+	prog_name = argv[0];
+	if (argc < 3 || get_options(&argc, &argv))
+		usage(prog_name);
+	if (!argc)
+		usage(prog_name);
+	addr = *argv++;
+	port = *argv;
+	if (!addr || !port)
+		usage(prog_name);
+	init_client(addr, port);
 	signal(SIGINT, handle_sigint);
 	if ((g_client.ctrl_sock = connect_to_server(g_client.addr, g_client.port)) != -1)
 		server_handcheck();
