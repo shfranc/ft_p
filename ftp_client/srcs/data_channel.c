@@ -1,26 +1,43 @@
 #include "client.h"
 
-static void		connect_data_channel()
+static void		passive_mode() // PASV - EPSV
 {
-	
-
+	if (g_client.family == IP_V4)
+		cmd_pasv();
+	else if (g_client.family == IP_V6)
+		cmd_epsv();
+	if (g_client.data_sock != -1)
+		log_info("Data channel connected");
 }
 
-static void		create_data_channel()
+static void		active_mode() // PORT - EPRT
 {
-
+	if (g_client.family == IP_V4)
+		cmd_port();
+	else if (g_client.family == IP_V6)
+	{
+		ft_putendl("PLOP1");
+		cmd_eprt();
+		ft_putendl("PLOP2");
+	}
+	ft_putendl("PLOP3");
+	if (g_client.data_sock != -1)
+		ft_putendl("Data channel connected");
 }
 
-void		open_data_channel()
+t_ex_ret		open_data_channel()
 {
 	if (g_client.pass == ON)
-		return (connect_data_channel());
-	if (g_client.pass == OFF)
-		return (create_data_channel());
+		passive_mode();
+	else if (g_client.pass == OFF)
+		active_mode();
 	else if (g_client.pass == AUTO)
 	{
-		connect_data_channel();
+		passive_mode();
 		if (g_client.data_sock == -1)
-			return (create_data_channel());
+			active_mode();
 	}
+	if (g_client.data_sock != -1)
+		return (SUCCESS);
+	return (FAILURE);
 }

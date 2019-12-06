@@ -1,5 +1,82 @@
 #include "client.h"
 
+uint16_t		get_random_port(void)
+{
+	srand(time(NULL));
+	return ((uint16_t)rand() % (USHRT_MAX + 1023) - 1023);
+}
+
+int				create_socket(int family)
+{
+	int						server_sock;
+	struct protoent			*proto;
+
+	proto = getprotobyname("tcp");
+	if (!proto)
+		return (ret_error("getprotobyname: error"));
+	if (family == IP_V4)
+	{
+		if (!(server_sock = socket(PF_INET, SOCK_STREAM, proto->p_proto)))
+			return (ret_error("socket inet: error"));
+		return (server_sock);
+	}
+	else if (family == IP_V6)
+	{
+		if (!(server_sock = socket(PF_INET6, SOCK_STREAM, proto->p_proto)))
+			return (ret_error("socket inet6: error"));
+		return (server_sock);
+	}
+	return (0);
+}
+
+int				bind_server(int server_sock, uint16_t port)
+{
+	struct sockaddr_in		server_sin;
+	struct sockaddr_in6		server_sin6;
+
+	if (g_client.family == IP_V4)
+	{
+		server_sin.sin_family = AF_INET;
+		server_sin.sin_port = htons(port);
+		server_sin.sin_addr.s_addr = INADDR_ANY;
+		if (bind(server_sock, (const struct sockaddr *)&server_sin,
+			sizeof(server_sin)) != 0)
+			return (ret_error("bind: error"));
+	}
+	else if (g_client.family == IP_V6)
+	{
+		server_sin6.sin6_family = AF_INET6;
+		server_sin6.sin6_port = htons(port);
+		server_sin6.sin6_addr = in6addr_any;
+		if (bind(server_sock, (const struct sockaddr *)&server_sin6,
+			sizeof(server_sin6)) != 0)
+			return (ret_error("bind: error"));
+	}
+	return (0);
+}
+
+int				create_DTP_server()
+{
+	int						i;
+
+	if (!(g_client.server_dtp_sock = create_socket(g_client.family)))
+		return (-1);
+	i = 0;
+	while (i < 100)
+	{
+		g_client.data_port = get_random_port();
+		log_info_nb("Trying to bind a random port", g_client.data_port);
+		if (bind_server(g_client.server_dtp_sock, g_client.data_port) == 0)
+		{
+			log_info("Port binded, server DTP created");
+			listen(g_client.server_dtp_sock, 1);
+			return (0);
+		}
+		i++;
+	}
+	return (ret_error("Maximum tries to find a port reach"));
+}
+
 void				send_to_server_ctrl(char *message)
 {
 	char		*formatted_msg;

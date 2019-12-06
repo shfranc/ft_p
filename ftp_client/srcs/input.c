@@ -12,7 +12,7 @@ t_command		g_commands[NB_COMMAND] =
 	{"quit", &cmd_quit, "exit the server"}
 };
 
-static void			promt(void)
+static void			prompt(void)
 {
 	ft_putstr("ftp_client > ");
 }
@@ -39,7 +39,7 @@ void				get_user_input(void)
 
 	while (1)
 	{
-		promt();
+		prompt();
 		ft_bzero(&cmd, BUF_SIZE);
 		ret_read = read(STDIN_FILENO, &cmd, BUF_SIZE - 1);
 		if (ret_read == -1)

@@ -7,12 +7,10 @@ void					cmd_cd(char *cmd)
 
 	if (g_client.ctrl_sock == -1)
 		return (ft_putendl("Not connected."));
-	printf("%s\n", cmd);
 	params = ft_strsplit(cmd, ' ');
-	if (ft_tablen(params) > 2)
-		return (ft_putendl("usage: cd [dir]"));
+	if (ft_tablen(params) != 2)
+		return (ft_putendl("usage: cd directory"));
 	message = ft_strjoin("CWD ", params[1]);
-	printf("%s\n", message);
 	send_to_server_ctrl(message);
 	get_server_response();
 	if (parse_response(g_client.resp) == RESP_SUCCESS)

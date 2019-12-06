@@ -2,7 +2,7 @@
 
 t_reply			parse_response(char *response)
 {
-	if (!*response)
+	if (!response || !*response)
 		return (RESP_ERROR);
 	if (*response == '1' || *response == '2' || *response == '3')
 		return (RESP_SUCCESS);

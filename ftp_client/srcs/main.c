@@ -1,5 +1,12 @@
 #include "client.h"
 
+static char		*get_localhost_addr(int family, char *addr)
+{
+	if (ft_strcmp(addr, "localhost") == 0)
+		return (family == IP_V4 ? "127.0.0.1" : "::1");
+	else return (addr);
+}
+
 static void	usage(char *prog_name)
 {
 	printf("usage: %s: addr port\n", prog_name);
@@ -8,13 +15,14 @@ static void	usage(char *prog_name)
 
 static void		init_client(char *addr, char *port)
 {
-	ft_bzero(&g_client, sizeof(g_client));
+	ft_bzero(&g_client, sizeof(t_client));
 	g_client.handcheck = FALSE;
-	g_client.family = IP_V4;
-	g_client.addr = addr;
+	g_client.family = IP_V6;
+	g_client.addr = get_localhost_addr(g_client.family, addr);
 	g_client.port = ft_atoi(port);
 	g_client.pass = AUTO;
 	g_client.ctrl_sock = -1;
+	g_client.server_dtp_sock = -1;
 	g_client.data_sock = -1;
 	g_client.cwd = ft_strdup("/");
 	g_client.resp = NULL;

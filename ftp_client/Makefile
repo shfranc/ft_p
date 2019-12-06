@@ -13,13 +13,19 @@ SRCS = $(addprefix $(PATH_SRCS)/,\
 	server.c \
 	input.c \
 	cmd_cd.c \
+	cmd_eprt.c \
+	cmd_epsv.c \
 	cmd_get.c \
 	cmd_help.c \
 	cmd_ls.c \
 	cmd_pass.c \
+	cmd_pasv.c \
+	cmd_port.c \
 	cmd_put.c \
 	cmd_pwd.c \
 	cmd_quit.c \
+	data_channel.c \
+	reader.c \
 	parse_response.c \
 	logs.c \
 	signals.c \
