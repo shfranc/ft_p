@@ -17,16 +17,18 @@ static void			prompt(void)
 	ft_putstr("ftp_client > ");
 }
 
-static void			loop_commands(char *cmd)
+static void			loop_commands(char *input)
 {
+	const char			*separator = " \t\0";
 	int 				i;
 
 	i = 0;
-	while (i < NB_COMMAND && cmd)
+	while (i < NB_COMMAND && input)
 	{
-		if (ft_strncmp(cmd, g_commands[i].name,
-			ft_strlen(g_commands[i].name)) == 0)
-			return (g_commands[i].run(cmd));
+		if (ft_strncmp(input, g_commands[i].name,
+			ft_strlen(g_commands[i].name)) == 0
+			&& ft_strchr(separator, input[ft_strlen(g_commands[i].name)]))
+			return (g_commands[i].run(input));
 		i++;
 	}
 	printf("%s\n", INVALID_CMD);
@@ -35,19 +37,19 @@ static void			loop_commands(char *cmd)
 void				get_user_input(void)
 {
 	int					ret_read;
-	char				cmd[BUF_SIZE];
+	char				input[BUF_SIZE];
 
 	while (1)
 	{
 		prompt();
-		ft_bzero(&cmd, BUF_SIZE);
-		ret_read = read(STDIN_FILENO, &cmd, BUF_SIZE - 1);
+		ft_bzero(&input, BUF_SIZE);
+		ret_read = read(STDIN_FILENO, &input, BUF_SIZE - 1);
 		if (ret_read == -1)
 			return (log_error("Failed to read from stdin"));
-		cmd[ret_read - 1] = '\0';
-		if (ft_strcmp(cmd, "exit") == 0
-			|| ft_strcmp(cmd, "quit") == 0)
-			return (cmd_quit(cmd));
-		loop_commands(cmd);
+		input[ret_read - 1] = '\0';
+		if (ft_strcmp(input, "exit") == 0
+			|| ft_strcmp(input, "quit") == 0)
+			return (cmd_quit(input));
+		loop_commands(input);
 	}
 }
