@@ -15,6 +15,7 @@ static void	usage(char *prog_name)
 
 static void		init_client(char *addr, char *port)
 {
+	srand(time(NULL));
 	ft_bzero(&g_client, sizeof(t_client));
 	g_client.handcheck = FALSE;
 	g_client.family = is_option_activated('6') ? IP_V6 : IP_V4;

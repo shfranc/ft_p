@@ -10,6 +10,7 @@ static t_ex_ret		init_server(char *port_str)
 {
 	char	**lvl;
 
+	srand(time(NULL));
 	ft_bzero(&g_server, sizeof(g_server));
 	g_server.family = is_option_activated('6') ? IP_V6 : IP_V4;
 	if (!(g_server.root_dir = getcwd(NULL, 0)))
