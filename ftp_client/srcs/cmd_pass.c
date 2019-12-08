@@ -31,4 +31,5 @@ void			cmd_pass(char *cmd)
 	else
 		return (ft_putendl("usage: pass [ on | off | auto ]"));
 	put_passive_desc();
+	ft_freetab(&params);
 }

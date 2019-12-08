@@ -18,7 +18,9 @@
 # define BUF_SIZE		1024
 # define NB_COMMAND		8
 
+# define OPTIONS		"dv46"
 # define INVALID_CMD	"?Invalid command."
+# define RESP_500		"500 Invalid command"
 # define LOG_ERROR		"\033[1;31m[ERROR]\033[0m"
 # define LOG_INFO		"\033[1;37m[INFO]\033[0m"
 # define LOG_CTRL		"\033[1;36m[CTRL]\033[0m"
@@ -65,8 +67,9 @@ typedef struct			s_command
 	char				*desc;
 }						t_command;
 
-t_client				g_client;
+extern t_client			g_client;
 extern t_command		g_commands[NB_COMMAND];
+extern int				g_flags;
 
 /*
 ** CLIENT
@@ -127,5 +130,7 @@ void					log_server_response(char *cmd);
 */
 void					handle_sigint(int sig);
 int						ret_error(char *message);
+int						get_options(int *argc, char ***argv);
+t_bool					is_option_activated(char option);
 
 #endif

@@ -20,8 +20,7 @@ uint16_t			get_port(char *port_str)
 
 uint16_t		get_random_port(void)
 {
-	srand(time(NULL));
-	return ((uint16_t)rand() % (USHRT_MAX + 1023) - 1023);
+	return ((uint16_t)(rand() % (USHRT_MAX - 1025 + 1) + 1025));
 }
 
 int				create_socket(int family)

@@ -20,10 +20,10 @@
 √ cd
 √ pwd
 √ quit
-- recup options
-- pasv / epsv
-- port / eprt
-- ls
+√ recup options
+√ pasv / epsv
+√ port / eprt
+√ ls
 - get avec type A et I
 - put avec type A et I
 
@@ -33,8 +33,7 @@
 - others server:
 	√ logs server
 	- stack nb de clients // SIGCHILD
-	- basic user/pass authent
 - others client:
-	- logs client
-	- prompt client avec le path
+	√ logs client
+	√ prompt client avec le path
 

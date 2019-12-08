@@ -29,6 +29,7 @@ SRCS = $(addprefix $(PATH_SRCS)/,\
 	parse_response.c \
 	logs.c \
 	signals.c \
+	options.c \
 	utils.c \
 	)
 OBJS = $(SRCS:$(PATH_SRCS)/%.c=$(PATH_OBJS)/%.o)
