@@ -13,8 +13,8 @@ void					cmd_cd(char *cmd)
 	message = ft_strjoin("CWD ", params[1]);
 	send_to_server_ctrl(message);
 	get_server_response();
-	if (parse_response(g_client.resp) == RESP_SUCCESS)
-		printf("%s\n", g_client.resp);
+	// if (parse_response(g_client.resp) == RESP_SUCCESS)
+	// 	printf("%s\n", g_client.resp);
 	free(message);
 	ft_freetab(&params);
 }

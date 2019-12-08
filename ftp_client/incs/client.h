@@ -18,7 +18,7 @@
 # define BUF_SIZE		1024
 # define NB_COMMAND		8
 
-# define OPTIONS		"46"
+# define OPTIONS		"dv46"
 # define INVALID_CMD	"?Invalid command."
 # define LOG_ERROR		"\033[1;31m[ERROR]\033[0m"
 # define LOG_INFO		"\033[1;37m[INFO]\033[0m"
