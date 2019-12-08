@@ -18,7 +18,7 @@ void		cmd_epsv(t_user *user, char **cmd)
 	int					ret;
 	char				*message;
 	struct sockaddr_in	data_sin;
-	unsigned int		data_sin_len;
+	socklen_t			data_sin_len;
 
 	if (ft_tablen(cmd) > 1)
 	{

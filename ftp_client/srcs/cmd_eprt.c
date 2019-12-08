@@ -33,8 +33,9 @@ void		cmd_eprt()
 {
 	char				*message;
 	struct sockaddr_in	data_sin;
-	unsigned int		data_sin_len;
+	socklen_t			data_sin_len;
 
+	data_sin_len = 0;
 	log_info("Extended active mode");
 	if (create_DTP_server() == -1)
 		return (log_error("Fail to create data channel"));

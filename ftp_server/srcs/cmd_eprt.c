@@ -42,7 +42,7 @@ static int			connect_to_client_sock(int client_dtp_sock, t_user *user)
 
 static int			connect_to_user_DTP(t_user *user)
 {
-	int						client_dtp_sock;
+	int			client_dtp_sock;
 
 	if (!(client_dtp_sock = create_socket(user->family)))
 		return (-1);

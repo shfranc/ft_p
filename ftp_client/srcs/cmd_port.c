@@ -25,7 +25,7 @@ void			cmd_port()
 {
 	char				*message;
 	struct sockaddr_in	data_sin;
-	unsigned int		data_sin_len;
+	socklen_t			data_sin_len;
 
 	log_info("Active mode");
 	if (create_DTP_server() == -1)
