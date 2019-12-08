@@ -20,6 +20,7 @@
 
 # define OPTIONS		"dv46"
 # define INVALID_CMD	"?Invalid command."
+# define RESP_500		"500 Invalid command"
 # define LOG_ERROR		"\033[1;31m[ERROR]\033[0m"
 # define LOG_INFO		"\033[1;37m[INFO]\033[0m"
 # define LOG_CTRL		"\033[1;36m[CTRL]\033[0m"

@@ -14,7 +14,9 @@ t_command		g_commands[NB_COMMAND] =
 
 static void			prompt(void)
 {
-	ft_putstr("ftp_client > ");
+	printf("ftp_client:%s %s > ", g_client.cwd,
+		parse_response(g_client.resp) == SUCCESS ? "✓" : "✗");
+	fflush(stdout);
 }
 
 static void			loop_commands(char *input)
@@ -32,6 +34,7 @@ static void			loop_commands(char *input)
 		i++;
 	}
 	printf("%s\n", INVALID_CMD);
+	g_client.resp = ft_strdup(RESP_500);
 }
 
 void				get_user_input(void)

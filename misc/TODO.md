@@ -20,7 +20,7 @@
 √ cd
 √ pwd
 √ quit
-- recup options
+√ recup options
 √ pasv / epsv
 √ port / eprt
 √ ls
@@ -34,6 +34,6 @@
 	√ logs server
 	- stack nb de clients // SIGCHILD
 - others client:
-	- logs client
-	- prompt client avec le path
+	√ logs client
+	√ prompt client avec le path
 
