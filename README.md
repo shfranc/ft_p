@@ -1,6 +1,6 @@
 # FT_P
 Implementing a server and a client in C, for file transfers over network with TCP/IP.
-Both the client and the server as close as [RFC959](https://tools.ietf.org/html/rfc959) and [RFC2428](https://tools.ietf.org/html/rfc2428) (IPv6 extension).
+Both the client and the server are following the [RFC959](https://tools.ietf.org/html/rfc959) and [RFC2428](https://tools.ietf.org/html/rfc2428) (IPv6 extension).
 
 ![FTP schema](misc/ftp.png)
 
