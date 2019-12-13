@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_commands.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 15:27:02 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 15:38:48 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "server.h"
 
 t_command		g_commands[NB_COMMAND] =
@@ -16,7 +28,7 @@ t_command		g_commands[NB_COMMAND] =
 
 void			loop_commands(t_user *user, char **cmd)
 {
-	int 				i;
+	int		i;
 
 	i = 0;
 	while (i < NB_COMMAND && cmd[0])
@@ -31,7 +43,7 @@ void			loop_commands(t_user *user, char **cmd)
 	send_to_user_ctrl(user, RESP_500);
 }
 
-void				get_client_commands(t_user *user)
+void			get_client_commands(t_user *user)
 {
 	int					ret;
 	char				buf[BUF_SIZE];

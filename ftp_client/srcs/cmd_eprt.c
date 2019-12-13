@@ -37,7 +37,7 @@ void		cmd_eprt()
 
 	data_sin_len = 0;
 	log_info("Extended active mode");
-	if (create_DTP_server() == -1)
+	if (create_dtp_server() == -1)
 		return (log_error("Fail to create data channel"));
 	message = prepare_eprt_message();
 	send_to_server_ctrl(message);

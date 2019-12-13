@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_eprt.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 15:26:06 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 15:33:14 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "server.h"
 
 static uint8_t		get_family_protocol(char *str_family)
@@ -39,8 +51,7 @@ static int			connect_to_client_sock(int client_dtp_sock, t_user *user)
 	return (0);
 }
 
-
-static int			connect_to_user_DTP(t_user *user)
+static int			connect_to_user_dtp(t_user *user)
 {
 	int			client_dtp_sock;
 
@@ -72,7 +83,7 @@ void				cmd_eprt(t_user *user, char **cmd)
 		return (send_to_user_ctrl(user, RESP_501));
 	logger_nb(LOG_INFO, "port", user->dtp_port);
 	logger(LOG_INFO, "Connect to the data channel...", NULL);
-	if ((user->data_sock = connect_to_user_DTP(user)) == -1)
+	if ((user->data_sock = connect_to_user_dtp(user)) == -1)
 	{
 		close_data_channel(user);
 		return (send_to_user_ctrl(user, RESP_425));

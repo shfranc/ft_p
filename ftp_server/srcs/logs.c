@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   logs.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 15:27:11 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 15:45:56 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "server.h"
 
 void			logger(char *lvl, char *info1, char *info2)
@@ -14,7 +26,7 @@ void			logger_nb(char *lvl, char *info1, int nb)
 {
 	if (is_option_activated('d') == FALSE)
 		return ;
-		printf("%s\t%s: %d\n", lvl, info1, nb);
+	printf("%s\t%s: %d\n", lvl, info1, nb);
 }
 
 void			log_error(char *message)

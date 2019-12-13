@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 15:27:15 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 15:49:29 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "server.h"
 
 static void			usage(char *prog_name)
@@ -28,8 +40,8 @@ static t_ex_ret		init_server(char *port_str)
 	return (SUCCESS);
 }
 
-t_server 		g_server;
-int 			g_flags;
+t_server			g_server;
+int					g_flags;
 
 int					main(int argc, char **argv)
 {

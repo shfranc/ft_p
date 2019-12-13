@@ -1,27 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 15:27:20 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 16:19:49 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "server.h"
-
-uint16_t			get_port(char *port_str)
-{
-	uint32_t	port;
-
-	if (!ft_isnumber(port_str))
-	{
-		dprintf(STDERR_FILENO, "Unknown port: %s\n", port_str);
-		return (0);
-	}
-	port = ft_atoi(port_str);
-	if (port < 1024 || port > USHRT_MAX)
-	{
-		dprintf(STDERR_FILENO, "Port range not valid: %s\n", port_str);
-		return (0);
-	}
-	return ((uint16_t)port);
-}
-
-uint16_t		get_random_port(void)
-{
-	return ((uint16_t)(rand() % (USHRT_MAX - 1025 + 1) + 1025));
-}
 
 int				create_socket(int family)
 {
@@ -84,7 +73,7 @@ int				create_server(uint16_t port)
 	return (server_sock);
 }
 
-int				create_DTP_server(t_user *user)
+int				create_dtp_server(t_user *user)
 {
 	int						i;
 

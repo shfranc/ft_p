@@ -69,12 +69,10 @@ typedef struct 			s_client
 
 }						t_client;
 
-typedef void (f_command)(char *);
-
 typedef struct			s_command
 {
 	char				*name;
-	f_command			*run;
+	void 				(*run)(char *);
 	char				*desc;
 }						t_command;
 
@@ -97,7 +95,7 @@ t_reply					parse_response(char *response);
 /*
 ** DATA CHANNEL
 */
-int						create_DTP_server();
+int						create_dtp_server();
 t_ex_ret				open_data_channel();
 int						close_data_sock();
 int						close_server_dtp_sock();

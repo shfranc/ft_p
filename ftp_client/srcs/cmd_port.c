@@ -28,7 +28,7 @@ void			cmd_port()
 	socklen_t			data_sin_len;
 
 	log_info("Active mode");
-	if (create_DTP_server() == -1)
+	if (create_dtp_server() == -1)
 		return (log_error("Fail to create data channel"));
 	message = prepare_port_message(g_client.data_port);
 	send_to_server_ctrl(message);

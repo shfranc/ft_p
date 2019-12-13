@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_cwd.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 15:26:02 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 15:29:04 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "server.h"
 
 void		update_user_cwd(t_user *user)
@@ -45,8 +57,8 @@ void		change_directory(t_user *user, char *path)
 
 void		cmd_cwd(t_user *user, char **cmd)
 {
-	char 	*abs_virtual_path;
-	char 	*real_path;
+	char	*abs_virtual_path;
+	char	*real_path;
 
 	if (ft_tablen(cmd) != 2)
 		return (send_to_user_ctrl(user, RESP_501));

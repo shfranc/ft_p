@@ -54,7 +54,7 @@ int				bind_server(int server_sock, uint16_t port)
 	return (0);
 }
 
-int				create_DTP_server()
+int				create_dtp_server()
 {
 	int						i;
 

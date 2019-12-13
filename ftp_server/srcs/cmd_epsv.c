@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_epsv.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 15:26:10 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 16:19:49 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "server.h"
 
 static char		*prepare_epsv_message(uint16_t port)
@@ -13,7 +25,7 @@ static char		*prepare_epsv_message(uint16_t port)
 	return (message);
 }
 
-void		cmd_epsv(t_user *user, char **cmd)
+void			cmd_epsv(t_user *user, char **cmd)
 {
 	int					ret;
 	char				*message;
@@ -26,7 +38,7 @@ void		cmd_epsv(t_user *user, char **cmd)
 		return (send_to_user_ctrl(user, RESP_501));
 	}
 	logger(LOG_INFO, "Extended passive mode", NULL);
-	if ((ret = create_DTP_server(user)) == -1)
+	if ((ret = create_dtp_server(user)) == -1)
 		return (send_to_user_ctrl(user, RESP_425));
 	message = prepare_epsv_message(user->dtp_port);
 	send_to_user_ctrl(user, message);

@@ -1,24 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_clients.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 15:27:08 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 15:49:04 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "server.h"
-
-void			send_to_user_ctrl(t_user *user, char *message)
-{
-	char		*formatted_msg;
-
-	log_server_response(message);
-	if (!(formatted_msg = ft_strnew(ft_strlen(message) + 2)))
-		ft_exit("malloc", 1);
-	formatted_msg = ft_strcat(ft_strcpy(formatted_msg, message), END_OF_MESG);
-	send(user->control_sock, formatted_msg, ft_strlen(formatted_msg), 0);
-	free(formatted_msg);
-}
-
-void			close_data_channel(t_user *user)
-{
-	close(user->data_sock);
-	close(user->server_dtp_sock);
-	user->data_sock = -1;
-	user->server_dtp_sock = -1;
-}
 
 static void		init_user(t_user *user)
 {
@@ -38,7 +30,7 @@ static void		init_root_dir_user(t_user *user)
 	logger(LOG_INFO, "cwd", user->cwd);
 }
 
-static int				handle_client(t_user *user)
+static int		handle_client(t_user *user)
 {
 	handle_child_signals();
 	logger(LOG_INFO, "Client connected", NULL);
@@ -50,6 +42,7 @@ static int				handle_client(t_user *user)
 	logger(LOG_INFO, "Client disconnected", NULL);
 	exit(0);
 }
+
 void			handle_clients(int server_sock)
 {
 	t_user				user;
@@ -63,9 +56,9 @@ void			handle_clients(int server_sock)
 	{
 		if ((user.control_sock = accept(server_sock,
 			(struct sockaddr *)&client_sin, &client_sin_len)) < 0)
-			return(log_error("accept: error"));
+			return (log_error("accept: error"));
 		if ((pid = fork()) < 0)
-			return(log_error("fork: error"));
+			return (log_error("fork: error"));
 		if (pid == 0)
 			handle_client(&user);
 		else
