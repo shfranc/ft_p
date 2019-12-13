@@ -6,7 +6,7 @@
 /*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 16:30:40 by sfranc            #+#    #+#             */
-/*   Updated: 2019/12/13 16:37:16 by sfranc           ###   ########.fr       */
+/*   Updated: 2019/12/13 18:46:33 by sfranc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ static void			list_directory(void)
 {
 	read_data_bin(STDOUT_FILENO);
 	get_server_response();
-	parse_response(g_client.resp);
+	if (parse_response(g_client.resp) != RESP_SUCCESS)
+		ft_putendl(g_client.resp);
 }
 
 void				cmd_ls(char *cmd)

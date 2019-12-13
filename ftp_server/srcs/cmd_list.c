@@ -6,7 +6,7 @@
 /*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 15:26:13 by sfranc            #+#    #+#             */
-/*   Updated: 2019/12/13 15:30:14 by sfranc           ###   ########.fr       */
+/*   Updated: 2019/12/13 18:12:20 by sfranc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ static void		list_directory(t_user *user, char *real_path)
 	if (exec_cmd(user, args) != 0)
 		return (send_to_user_ctrl(user, RESP_550));
 	else
+	{
+		logger(LOG_DATA, "Output ls sent", NULL);
 		return (send_to_user_ctrl(user, RESP_226));
+	}
 }
 
 void			cmd_list(t_user *user, char **cmd)
@@ -96,5 +99,4 @@ void			cmd_list(t_user *user, char **cmd)
 	abs_virtual_path ? free(abs_virtual_path) : 0;
 	real_path ? free(real_path) : 0;
 	close_data_channel(user);
-	logger(LOG_DATA, "Output ls sent", NULL);
 }

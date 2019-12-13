@@ -6,7 +6,7 @@
 /*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 16:31:40 by sfranc            #+#    #+#             */
-/*   Updated: 2019/12/13 16:44:43 by sfranc           ###   ########.fr       */
+/*   Updated: 2019/12/13 18:37:06 by sfranc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void			server_handcheck(void)
 {
 	printf("Connected to %s\n", g_client.addr);
 	get_server_response();
-	if (g_client.resp && ft_strncmp(g_client.resp, RESP_220, 3) == 0)
+	if (parse_response(g_client.resp) == RESP_SUCCESS)
 		g_client.handcheck = TRUE;
 }
 

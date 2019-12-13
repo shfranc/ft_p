@@ -6,7 +6,7 @@
 /*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 16:31:35 by sfranc            #+#    #+#             */
-/*   Updated: 2019/12/13 16:42:00 by sfranc           ###   ########.fr       */
+/*   Updated: 2019/12/13 18:39:16 by sfranc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static void			loop_commands(char *input)
 		i++;
 	}
 	printf("%s\n", INVALID_CMD);
+	g_client.resp ? free(g_client.resp) : 0;
 	g_client.resp = ft_strdup(RESP_500);
 }
 

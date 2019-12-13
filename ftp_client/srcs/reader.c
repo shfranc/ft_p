@@ -6,7 +6,7 @@
 /*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 16:32:14 by sfranc            #+#    #+#             */
-/*   Updated: 2019/12/13 16:45:16 by sfranc           ###   ########.fr       */
+/*   Updated: 2019/12/13 18:32:25 by sfranc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int				read_data_ascii(int fd)
 	}
 	log_info_nb("Total bytes", total);
 	if (ret < 0)
-		log_error("Errorc reading data from data channel");
+		log_error("Error reading data from data channel");
 	if (fd != 0 && close(fd) < 0)
 		log_error("Error closing the file");
 	return (ret < 0 ? ret : total);
@@ -63,15 +63,17 @@ int				read_data_bin(int fd)
 
 	total = 0;
 	log_info("BIN mode");
-	while ((ret = read(g_client.data_sock, &buf, BUF_SIZE - 1)) > 0)
+	while ((ret = read(g_client.data_sock, &buf, BUF_SIZE - 1)) >= 0)
 	{
 		total += ret;
 		write(fd, buf, ret);
+		if (ret == 0)
+			break ;
 	}
 	log_info_nb("Total bytes", total);
 	if (ret < 0)
-		log_error("Errorc reading data from data channel");
-	if (fd != 1 && close(fd) < 0)
+		log_error("Error reading data from data channel");
+	if (fd != STDOUT_FILENO && close(fd) < 0)
 		log_error("Error closing the file");
 	return (ret < 0 ? ret : total);
 }
