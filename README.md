@@ -46,8 +46,11 @@ rlwrap ./client 127.0.0.1 4242
 ```
 
 ### Commands
+#### User commands
 **Command** | **Description** | **Usage**
 :---: | --- | ---
+ascii | switch to ascii mode | `ascii`
+bin | switch to binary mode | `bin`
 cd | change directory | `cd <somewhere>`
 get | get a file | `get <file>`
 help | display help | `help`
@@ -56,3 +59,11 @@ pass | switch passive/active mode | `pass [on\|off\|auto]`
 put | put a file | `put <file>`
 pwd | get current working directory | `pwd`
 quit | exit the server | `quit`
+
+#### Client commands
+**Command** | **Description**
+:---: | ---
+PASS | Passive mode, connect to the data channel createdby the server
+EPSV | Extended passive mode, passive mode with ipv6 protocol
+PORT | Active mode, open the data channel so the server can connect
+EPRT | Extended active mode, active mode with ipv6 protocol

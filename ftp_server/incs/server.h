@@ -61,11 +61,11 @@ typedef struct 			s_server
 	int					tree_lvl;
 }						t_server;
 
-typedef enum e_data_type
+typedef enum			e_data_type
 {
 	ASCII,
 	BIN
-}	t_data_type;
+}						t_data_type;
 
 typedef struct			s_user
 {

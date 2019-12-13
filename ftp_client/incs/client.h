@@ -11,12 +11,14 @@
 # include <time.h>
 # include <limits.h>
 # include <netinet/in.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 
 # define IP_V4			AF_INET
 # define IP_V6			AF_INET6
 
 # define BUF_SIZE		1024
-# define NB_COMMAND		8
+# define NB_COMMAND		10
 
 # define OPTIONS		"dv46"
 # define INVALID_CMD	"?Invalid command."
@@ -43,6 +45,12 @@ typedef enum			e_pass
 	OFF
 }						t_pass;
 
+typedef enum			e_data_type
+{
+	ASCII,
+	BIN
+}						t_data_type;
+
 typedef struct 			s_client
 {
 	t_bool				handcheck;
@@ -56,6 +64,8 @@ typedef struct 			s_client
 	int					data_sock;
 	char				*cwd;
 	char				*resp;
+	t_data_type			data_type;
+
 }						t_client;
 
 typedef void (f_command)(char *);
@@ -101,11 +111,14 @@ int						bind_server(int server_sock, uint16_t port);
 /*
 ** READER
 */
-void					read_data_bin();
+int						read_data_ascii(int fd);
+int						read_data_bin(int fd);
 
 /*
 ** CMD
 */
+void					cmd_ascii(char *cmd);
+void					cmd_bin(char *cmd);
 void					cmd_ls(char *cmd);
 void					cmd_cd(char *cmd);
 void					cmd_get(char *cmd);
