@@ -55,7 +55,8 @@ static void				send_data_ascii(t_user *user, int fd, size_t size)
 			return(send_to_user_ctrl(user, RESP_451));
 		count += len + 2;
 	}
-	logger_nb(LOG_DATA,  "Bytes sent", count);				
+	logger_nb(LOG_DATA,  "Bytes sent", count);
+	ft_strdel(&line);
 	if (ret < 0)
 		return(send_to_user_ctrl(user, RESP_451));
 	send_to_user_ctrl(user, RESP_226);

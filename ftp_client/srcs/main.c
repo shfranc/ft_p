@@ -9,7 +9,7 @@ static char		*get_localhost_addr(int family, char *addr)
 
 static void	usage(char *prog_name)
 {
-	printf("usage: %s: addr port\n", prog_name);
+	printf("usage: %s: [-%s] addr port\n", prog_name, OPTIONS);
 	exit(1);
 }
 
