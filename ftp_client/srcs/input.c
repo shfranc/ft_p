@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 16:31:35 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 16:42:00 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "client.h"
 
 t_command		g_commands[NB_COMMAND] =
@@ -23,8 +35,8 @@ static void			prompt(void)
 
 static void			loop_commands(char *input)
 {
-	const char			*separator = " \t\0";
-	int 				i;
+	const char		*separator = " \t\0";
+	int				i;
 
 	i = 0;
 	while (i < NB_COMMAND && input)

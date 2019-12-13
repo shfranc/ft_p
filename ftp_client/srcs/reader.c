@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   reader.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 16:32:14 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 16:45:16 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "client.h"
 
 static void		read_line_crlf(int fd, char *buf, int len)
@@ -22,7 +34,7 @@ static void		read_line_crlf(int fd, char *buf, int len)
 	}
 }
 
-int		read_data_ascii(int fd)
+int				read_data_ascii(int fd)
 {
 	char	buf[BUF_SIZE];
 	int		total;
@@ -43,7 +55,7 @@ int		read_data_ascii(int fd)
 	return (ret < 0 ? ret : total);
 }
 
-int			read_data_bin(int fd)
+int				read_data_bin(int fd)
 {
 	char	buf[BUF_SIZE];
 	int		total;
@@ -63,5 +75,3 @@ int			read_data_bin(int fd)
 		log_error("Error closing the file");
 	return (ret < 0 ? ret : total);
 }
-
-

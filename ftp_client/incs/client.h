@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 16:48:06 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 16:49:29 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CLIENT_H
 # define CLIENT_H
 
@@ -52,7 +64,7 @@ typedef enum			e_data_type
 	BIN
 }						t_data_type;
 
-typedef struct 			s_client
+typedef struct			s_client
 {
 	t_bool				handcheck;
 	uint8_t				family;
@@ -72,7 +84,7 @@ typedef struct 			s_client
 typedef struct			s_command
 {
 	char				*name;
-	void 				(*run)(char *);
+	void				(*run)(char *);
 	char				*desc;
 }						t_command;
 
@@ -83,7 +95,8 @@ extern int				g_flags;
 /*
 ** CLIENT
 */
-int						connect_to_server_sock(int data_sock, char *addr, uint16_t port);
+int						connect_to_server_sock(int data_sock,
+							char *addr, uint16_t port);
 int						connect_to_server(char *addr, uint16_t port);
 int						close_ctrl_sock();
 

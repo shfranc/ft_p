@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_port.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 16:31:23 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 16:39:40 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "client.h"
 
 static char		*prepare_port_message(uint16_t port)
 {
-	const char *start = "PORT 0,0,0,0,";
-	char	*message;
-	char	*port_part1;
-	char	*port_part2;
+	const char	*start = "PORT 0,0,0,0,";
+	char		*message;
+	char		*port_part1;
+	char		*port_part2;
 
 	port_part1 = ft_itoa((unsigned char)(port >> 8));
 	port_part2 = ft_itoa((unsigned char)port);
@@ -21,7 +33,7 @@ static char		*prepare_port_message(uint16_t port)
 	return (message);
 }
 
-void			cmd_port()
+void			cmd_port(void)
 {
 	char				*message;
 	struct sockaddr_in	data_sin;

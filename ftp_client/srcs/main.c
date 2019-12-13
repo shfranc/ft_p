@@ -1,13 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 16:31:40 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 16:44:43 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "client.h"
 
 static char		*get_localhost_addr(int family, char *addr)
 {
 	if (ft_strcmp(addr, "localhost") == 0)
-		return (family == IP_V4 ? "127.0.0.1" : "::1");
-	else return (addr);
+		return ((family == IP_V4) ? "127.0.0.1" : "::1");
+	else
+		return (addr);
 }
 
-static void	usage(char *prog_name)
+static void		usage(char *prog_name)
 {
 	printf("usage: %s: [-%s] addr port\n", prog_name, OPTIONS);
 	exit(1);
@@ -33,7 +46,7 @@ static void		init_client(char *addr, char *port)
 	log_info_nb("Server Port", g_client.port);
 }
 
-void	server_handcheck()
+void			server_handcheck(void)
 {
 	printf("Connected to %s\n", g_client.addr);
 	get_server_response();
@@ -41,10 +54,10 @@ void	server_handcheck()
 		g_client.handcheck = TRUE;
 }
 
-t_client 		g_client;
-int 			g_flags;
+t_client		g_client;
+int				g_flags;
 
-int		main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	char	*prog_name;
 	char	*addr;
@@ -61,7 +74,8 @@ int		main(int argc, char **argv)
 		usage(prog_name);
 	init_client(addr, port);
 	signal(SIGINT, handle_sigint);
-	if ((g_client.ctrl_sock = connect_to_server(g_client.addr, g_client.port)) != -1)
+	if ((g_client.ctrl_sock = connect_to_server(g_client.addr,
+		g_client.port)) != -1)
 		server_handcheck();
 	else
 		printf("Can't connect to %s\n", g_client.addr);

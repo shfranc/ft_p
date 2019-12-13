@@ -1,9 +1,16 @@
-#include "client.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 16:32:17 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 16:47:55 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-uint16_t		get_random_port(void)
-{
-	return ((uint16_t)(rand() % (USHRT_MAX - 1025 + 1) + 1025));
-}
+#include "client.h"
 
 int				create_socket(int family)
 {
@@ -54,7 +61,7 @@ int				bind_server(int server_sock, uint16_t port)
 	return (0);
 }
 
-int				create_dtp_server()
+int				create_dtp_server(void)
 {
 	int						i;
 
@@ -76,7 +83,7 @@ int				create_dtp_server()
 	return (ret_error("Maximum tries to find a port reach"));
 }
 
-void				send_to_server_ctrl(char *message)
+void			send_to_server_ctrl(char *message)
 {
 	char		*formatted_msg;
 
@@ -88,7 +95,7 @@ void				send_to_server_ctrl(char *message)
 	free(formatted_msg);
 }
 
-void				get_server_response()
+void			get_server_response(void)
 {
 	int					ret;
 	char				buf[BUF_SIZE];

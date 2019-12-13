@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   data_channel.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 16:31:33 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 16:40:45 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "client.h"
 
-static void		passive_mode() // PASV - EPSV
+static void		passive_mode(void)
 {
 	if (g_client.family == IP_V4)
 		cmd_pasv();
@@ -10,7 +22,7 @@ static void		passive_mode() // PASV - EPSV
 		log_info("Data channel connected");
 }
 
-static void		active_mode() // PORT - EPRT
+static void		active_mode(void)
 {
 	if (g_client.family == IP_V4)
 		cmd_port();
@@ -20,7 +32,7 @@ static void		active_mode() // PORT - EPRT
 		ft_putendl("Data channel connected");
 }
 
-t_ex_ret		open_data_channel()
+t_ex_ret		open_data_channel(void)
 {
 	if (g_client.pass == ON)
 		passive_mode();

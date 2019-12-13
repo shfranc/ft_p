@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_get.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 16:30:35 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 16:36:51 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "client.h"
 
 static void			recieve_file(char *filename)
@@ -9,7 +21,7 @@ static void			recieve_file(char *filename)
 	ret = 0;
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 00644);
 	if (fd < 0 || fstat(fd, &buf_stat) < 0)
-		return(log_error("Failed to create a file"));
+		return (log_error("Failed to create a file"));
 	log_info_msg("Receiving", filename);
 	if (g_client.data_type == ASCII)
 		ret = read_data_ascii(fd);

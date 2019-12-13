@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 16:30:19 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 16:34:05 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "client.h"
 
 int				connect_to_server_sock(int data_sock, char *addr, uint16_t port)
@@ -27,7 +39,7 @@ int				connect_to_server_sock(int data_sock, char *addr, uint16_t port)
 	return (0);
 }
 
-int			connect_to_server(char *addr, uint16_t port)
+int				connect_to_server(char *addr, uint16_t port)
 {
 	int						sock;
 
@@ -38,14 +50,14 @@ int			connect_to_server(char *addr, uint16_t port)
 	return (sock);
 }
 
-int					close_ctrl_sock()
+int				close_ctrl_sock(void)
 {
 	if (g_client.ctrl_sock != -1 && close(g_client.ctrl_sock) != -1)
 		return (SUCCESS);
 	return (FAILURE);
 }
 
-int					close_data_sock()
+int				close_data_sock(void)
 {
 	int		ret;
 
@@ -56,7 +68,7 @@ int					close_data_sock()
 	return (ret == -1 ? FAILURE : SUCCESS);
 }
 
-int					close_server_dtp_sock()
+int				close_server_dtp_sock(void)
 {
 	int		ret;
 

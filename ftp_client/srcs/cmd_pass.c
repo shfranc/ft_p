@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_pass.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 16:30:43 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 16:37:22 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "client.h"
 
 static void			put_passive_desc(void)
@@ -10,7 +22,7 @@ static void			put_passive_desc(void)
 		ft_putendl("Passive mode: on; fallback to active mode: on.");
 }
 
-void			cmd_pass(char *cmd)
+void				cmd_pass(char *cmd)
 {
 	char	**params;
 
