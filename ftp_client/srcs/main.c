@@ -27,7 +27,7 @@ static void		init_client(char *addr, char *port)
 	g_client.data_sock = -1;
 	g_client.cwd = ft_strdup("/");
 	g_client.resp = NULL;
-	g_client.data_type = BIN;
+	g_client.data_type = ASCII;
 	log_info_msg("Protocol", (g_client.family == IP_V6 ? "ipv6" : "ipv4"));
 	log_info_msg("Server Address", g_client.addr);
 	log_info_nb("Server Port", g_client.port);

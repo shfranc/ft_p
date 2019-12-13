@@ -13,6 +13,7 @@
 # include <netinet/in.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <sys/mman.h>
 
 # define IP_V4			AF_INET
 # define IP_V6			AF_INET6
@@ -109,10 +110,12 @@ int						create_socket(int family);
 int						bind_server(int server_sock, uint16_t port);
 
 /*
-** READER
+** READER - SENDER
 */
 int						read_data_ascii(int fd);
 int						read_data_bin(int fd);
+void					send_data_ascii(int fd, size_t size);
+void					send_data_bin(int fd, size_t size);
 
 /*
 ** CMD

@@ -28,6 +28,7 @@ SRCS = $(addprefix $(PATH_SRCS)/,\
 	cmd_quit.c \
 	data_channel.c \
 	reader.c \
+	sender.c \
 	parse_response.c \
 	logs.c \
 	signals.c \
