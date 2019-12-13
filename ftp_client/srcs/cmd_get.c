@@ -1,6 +1,6 @@
 #include "client.h"
 
-void		get_file(char *filename)
+static void			recieve_file(char *filename)
 {
 	int			fd;
 	struct stat buf_stat;
@@ -19,11 +19,20 @@ void		get_file(char *filename)
 		printf("%d bytes received\n", ret);
 }
 
-void					cmd_get(char *cmd)
+static void			get_file(char **params)
+{
+	char	*filename;
+
+	filename = params[2] ? params[2] : params[1];
+	recieve_file(filename);
+	get_server_response();
+	parse_response(g_client.resp);
+}
+
+void				cmd_get(char *cmd)
 {
 	char	**params;
 	char	*message;
-	char	*filename;
 
 	if (g_client.ctrl_sock == -1)
 		return (ft_putendl("Not connected."));
@@ -41,10 +50,7 @@ void					cmd_get(char *cmd)
 	message = ft_strjoin("RETR ", params[1]);
 	send_to_server_ctrl(message);
 	get_server_response();
-	filename = params[2] ? params[2] : params[1];
-	get_file(filename);
-	get_server_response();
-	parse_response(g_client.resp);
+	get_file(params);
 	free(message);
 	ft_freetab(&params);
 	close_data_sock();
