@@ -2,6 +2,8 @@
 
 t_command		g_commands[NB_COMMAND] =
 {
+	{"ascii", &cmd_ascii, "switch to ascii mode"},
+	{"bin", &cmd_bin, "switch to binary mode"},
 	{"cd", &cmd_cd, "change directory"},
 	{"get", &cmd_get, "get a file"},
 	{"help", &cmd_help, "display help"},

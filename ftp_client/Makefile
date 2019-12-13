@@ -12,6 +12,8 @@ SRCS = $(addprefix $(PATH_SRCS)/,\
 	client.c \
 	server.c \
 	input.c \
+	cmd_ascii.c \
+	cmd_bin.c \
 	cmd_cd.c \
 	cmd_eprt.c \
 	cmd_epsv.c \
@@ -26,6 +28,7 @@ SRCS = $(addprefix $(PATH_SRCS)/,\
 	cmd_quit.c \
 	data_channel.c \
 	reader.c \
+	sender.c \
 	parse_response.c \
 	logs.c \
 	signals.c \
