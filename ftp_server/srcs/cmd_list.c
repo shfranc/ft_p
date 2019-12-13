@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_list.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 15:26:13 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 15:30:14 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "server.h"
 
 int				exec_cmd(t_user *user, char **args)
@@ -7,7 +19,7 @@ int				exec_cmd(t_user *user, char **args)
 	int		ret;
 
 	if ((pid = fork()) < 0)
-		return(ret_error("fork: error"));
+		return (ret_error("fork: error"));
 	if (pid == 0)
 	{
 		handle_child_signals();
@@ -20,13 +32,13 @@ int				exec_cmd(t_user *user, char **args)
 	}
 	else
 	{
-        wait(&waitstatus);
-        ret = WEXITSTATUS(waitstatus);
+		wait(&waitstatus);
+		ret = WEXITSTATUS(waitstatus);
 	}
 	return (ret);
 }
 
-void		prepare_args(char **args, char *path)
+void			prepare_args(char **args, char *path)
 {
 	args[0] = LS_PATH;
 	args[1] = LS_OPTIONS;
@@ -52,17 +64,17 @@ static void		list_directory(t_user *user, char *real_path)
 		free(virtual_path);
 	}
 	prepare_args(args, real_path);
-	logger(LOG_DATA,  "Sending ls output", NULL);
+	logger(LOG_DATA, "Sending ls output", NULL);
 	if (exec_cmd(user, args) != 0)
 		return (send_to_user_ctrl(user, RESP_550));
 	else
 		return (send_to_user_ctrl(user, RESP_226));
 }
 
-void		cmd_list(t_user *user, char **cmd)
+void			cmd_list(t_user *user, char **cmd)
 {
-	char 	*abs_virtual_path;
-	char 	*real_path;
+	char	*abs_virtual_path;
+	char	*real_path;
 
 	if (ft_tablen(cmd) > 2)
 	{
@@ -84,5 +96,5 @@ void		cmd_list(t_user *user, char **cmd)
 	abs_virtual_path ? free(abs_virtual_path) : 0;
 	real_path ? free(real_path) : 0;
 	close_data_channel(user);
-	logger(LOG_DATA,  "Output ls sent", NULL);
+	logger(LOG_DATA, "Output ls sent", NULL);
 }

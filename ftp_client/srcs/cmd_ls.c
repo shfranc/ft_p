@@ -1,6 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_ls.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 16:30:40 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 16:37:16 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "client.h"
 
-void					cmd_ls(char *cmd)
+static void			list_directory(void)
+{
+	read_data_bin(STDOUT_FILENO);
+	get_server_response();
+	parse_response(g_client.resp);
+}
+
+void				cmd_ls(char *cmd)
 {
 	char	**params;
 	char	*message;
@@ -21,9 +40,7 @@ void					cmd_ls(char *cmd)
 	message = params[1] ? ft_strjoin("LIST ", params[1]) : ft_strdup("LIST");
 	send_to_server_ctrl(message);
 	get_server_response();
-	read_data_bin(STDOUT_FILENO);
-	get_server_response();
-	parse_response(g_client.resp);
+	list_directory();
 	free(message);
 	ft_freetab(&params);
 	close_data_sock();

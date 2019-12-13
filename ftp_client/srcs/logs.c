@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   logs.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 16:31:38 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 16:41:10 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "client.h"
 
 void			log_info(char *message)
@@ -16,11 +28,6 @@ void			log_info_nb(char *desc, int nb)
 {
 	if (is_option_activated('d'))
 		printf("%s\t%s: %d\n", LOG_INFO, desc, nb);
-}
-
-void			log_error(char *message)
-{
-	dprintf(STDERR_FILENO, "%s\t%s\n", LOG_ERROR, message);
 }
 
 void			log_client_command(char *cmd)

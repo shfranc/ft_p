@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_eprt.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 16:30:29 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 16:37:09 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "client.h"
 
 static char		*get_family_protocol(int family)
@@ -5,7 +17,7 @@ static char		*get_family_protocol(int family)
 	return (family == IP_V4 ? ft_strdup("1") : ft_strdup("2"));
 }
 
-static char		*prepare_eprt_message()
+static char		*prepare_eprt_message(void)
 {
 	const char	*start = "EPRT |";
 	char		*family;
@@ -29,7 +41,7 @@ static char		*prepare_eprt_message()
 	return (message);
 }
 
-void		cmd_eprt()
+void			cmd_eprt(void)
 {
 	char				*message;
 	struct sockaddr_in	data_sin;
@@ -37,7 +49,7 @@ void		cmd_eprt()
 
 	data_sin_len = 0;
 	log_info("Extended active mode");
-	if (create_DTP_server() == -1)
+	if (create_dtp_server() == -1)
 		return (log_error("Fail to create data channel"));
 	message = prepare_eprt_message();
 	send_to_server_ctrl(message);

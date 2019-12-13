@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 15:53:12 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 16:27:27 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SERVER_H
 # define SERVER_H
 
@@ -52,7 +64,7 @@
 # define RESP_550_1		"550 Path unavailable"
 # define END_OF_MESG	"\r\n"
 
-typedef struct 			s_server
+typedef struct			s_server
 {
 	uint8_t				family;
 	uint16_t			port;
@@ -79,12 +91,10 @@ typedef struct			s_user
 	t_data_type			data_type;
 }						t_user;
 
-typedef void (f_command)(t_user *user, char **cmd);
-
 typedef struct			s_command
 {
 	char				*name;
-	f_command			*run;
+	void				(*run)(t_user *user, char **cmd);
 }						t_command;
 
 extern t_server			g_server;
@@ -94,7 +104,7 @@ extern int				g_flags;
 ** SERVER
 */
 int						create_server(uint16_t port);
-int						create_DTP_server(t_user *user);
+int						create_dtp_server(t_user *user);
 int						create_socket(int family);
 int						bind_server(int server_sock, uint16_t port);
 uint16_t				get_port(char *port_str);
@@ -132,6 +142,14 @@ char					*convert_path_virtual_to_real(char *path);
 t_bool					is_valid_path(char *path);
 void					update_user_cwd(t_user *user);
 void					going_back_to_root_dir(t_user *user);
+
+/*
+** READER - SENDER
+*/
+void					send_data_ascii(t_user *user, int fd, size_t size);
+void					send_data_bin(t_user *user, int fd, size_t size);
+void					read_data_ascii(t_user *user, int fd);
+void					read_data_bin(t_user *user, int fd);
 
 /*
 ** LOGS

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   filesystem.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 15:26:58 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 15:46:23 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "server.h"
 
 char		*get_virtual_absolute_path(t_user *user, char *path)
@@ -82,5 +94,5 @@ void		going_back_to_root_dir(t_user *user)
 		return (send_to_user_ctrl(user, RESP_250));
 	}
 	else
-	return (send_to_user_ctrl(user, RESP_550_1));
+		return (send_to_user_ctrl(user, RESP_550_1));
 }

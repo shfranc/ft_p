@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_port.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 15:26:19 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 15:37:29 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "server.h"
 
 static char			*get_addr_from_cmd_ipv4(char *client_info)
 {
-	char 		**details;
+	char		**details;
 	char		*addr;
 	int			len;
 	int			i;
@@ -16,10 +28,7 @@ static char			*get_addr_from_cmd_ipv4(char *client_info)
 	len = 3;
 	i = 0;
 	while (i < 4)
-	{
-		len += ft_strlen(details[i]);
-		i++;
-	}
+		len += ft_strlen(details[i++]);
 	addr = ft_strnew(len);
 	addr = ft_strcat(ft_strcpy(addr, details[0]), ".");
 	addr = ft_strcat(ft_strcat(addr, details[1]), ".");
@@ -32,7 +41,7 @@ static char			*get_addr_from_cmd_ipv4(char *client_info)
 
 static uint16_t		get_port_from_cmd_ipv4(char *client_info)
 {
-	char 		**details;
+	char		**details;
 	uint16_t	port;
 
 	details = ft_strsplit(client_info, ',');
@@ -67,7 +76,8 @@ static int			connect_to_client(char *addr, int port)
 	client_sin.sin_family = AF_INET;
 	client_sin.sin_port = htons(port);
 	client_sin.sin_addr.s_addr = inet_addr(addr);
-	if (connect(client_sock, (const struct sockaddr *)&client_sin, sizeof(client_sin)) == -1)
+	if (connect(client_sock, (const struct sockaddr *)&client_sin,
+		sizeof(client_sin)) == -1)
 		return (ret_error("connect: error"));
 	return (client_sock);
 }

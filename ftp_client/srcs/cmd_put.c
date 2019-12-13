@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_put.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 16:31:25 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 16:40:15 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "client.h"
 
 static void				send_file(char *filename)
@@ -7,7 +19,7 @@ static void				send_file(char *filename)
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0 || fstat(fd, &buf) < 0)
-		return(log_error("Failed to open file"));
+		return (log_error("Failed to open file"));
 	if (g_client.data_type == ASCII)
 		send_data_ascii(fd, buf.st_size);
 	else if (g_client.data_type == BIN)

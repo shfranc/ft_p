@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/13 16:32:14 by sfranc            #+#    #+#             */
-/*   Updated: 2019/12/13 16:45:16 by sfranc           ###   ########.fr       */
+/*   Created: 2019/12/13 15:42:26 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 15:52:00 by sfranc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "client.h"
+#include "server.h"
 
 static void		read_line_crlf(int fd, char *buf, int len)
 {
@@ -24,6 +24,7 @@ static void		read_line_crlf(int fd, char *buf, int len)
 		{
 			write(fd, start, stop - start);
 			write(fd, "\n", 1);
+			logger(LOG_INFO, ft_strsub(start, 0, stop - start), NULL);
 			start = stop + ft_strlen(END_OF_MESG);
 		}
 		else
@@ -34,44 +35,45 @@ static void		read_line_crlf(int fd, char *buf, int len)
 	}
 }
 
-int				read_data_ascii(int fd)
+void			read_data_ascii(t_user *user, int fd)
 {
 	char	buf[BUF_SIZE];
 	int		total;
 	int		ret;
 
-	log_info("ASCII mode");
+	logger(LOG_DATA, "ASCII mode", NULL);
 	total = 0;
-	while ((ret = read(g_client.data_sock, &buf, BUF_SIZE - 1)) > 0)
+	while ((ret = read(user->data_sock, &buf, BUF_SIZE - 1)) > 0)
 	{
 		read_line_crlf(fd, buf, ret);
 		total += ret;
 	}
-	log_info_nb("Total bytes", total);
+	logger_nb(LOG_DATA, "Total bytes", total);
+	if (close(fd) < 0)
+		return (send_to_user_ctrl(user, RESP_451));
 	if (ret < 0)
-		log_error("Errorc reading data from data channel");
-	if (fd != 0 && close(fd) < 0)
-		log_error("Error closing the file");
-	return (ret < 0 ? ret : total);
+		return (send_to_user_ctrl(user, RESP_451));
+	return (send_to_user_ctrl(user, RESP_226));
 }
 
-int				read_data_bin(int fd)
+void			read_data_bin(t_user *user, int fd)
 {
 	char	buf[BUF_SIZE];
 	int		total;
 	int		ret;
 
+	logger(LOG_DATA, "BIN mode", NULL);
 	total = 0;
-	log_info("BIN mode");
-	while ((ret = read(g_client.data_sock, &buf, BUF_SIZE - 1)) > 0)
+	while ((ret = read(user->data_sock, &buf, BUF_SIZE - 1)) > 0)
 	{
 		total += ret;
+		logger_nb(LOG_DATA, "Bytes", ret);
 		write(fd, buf, ret);
 	}
-	log_info_nb("Total bytes", total);
+	logger_nb(LOG_DATA, "Total bytes", total);
+	if (close(fd) < 0)
+		return (send_to_user_ctrl(user, RESP_451));
 	if (ret < 0)
-		log_error("Errorc reading data from data channel");
-	if (fd != 1 && close(fd) < 0)
-		log_error("Error closing the file");
-	return (ret < 0 ? ret : total);
+		return (send_to_user_ctrl(user, RESP_451));
+	return (send_to_user_ctrl(user, RESP_226));
 }

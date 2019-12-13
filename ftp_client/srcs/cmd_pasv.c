@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_pasv.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/13 16:31:20 by sfranc            #+#    #+#             */
+/*   Updated: 2019/12/13 16:39:03 by sfranc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "client.h"
 
 static char		*get_addr(char **details)
@@ -42,7 +54,7 @@ static char		**parse_response_pasv(char *msg)
 	return (details);
 }
 
-static int		connect_to_DTP_server_ipv4(char *addr, int port)
+static int		connect_to_dtp_server_ipv4(char *addr, int port)
 {
 	int						data_sock;
 	struct protoent			*proto;
@@ -56,12 +68,13 @@ static int		connect_to_DTP_server_ipv4(char *addr, int port)
 	server_sin.sin_family = AF_INET;
 	server_sin.sin_port = htons(port);
 	server_sin.sin_addr.s_addr = inet_addr(addr);
-	if (connect(data_sock, (const struct sockaddr *)&server_sin, sizeof(server_sin)) == -1)
+	if (connect(data_sock, (const struct sockaddr *)&server_sin,
+		sizeof(server_sin)) == -1)
 		return (ret_error("connect: error"));
 	return (data_sock);
 }
 
-void			cmd_pasv()
+void			cmd_pasv(void)
 {
 	char		**details;
 	char		*addr;
@@ -82,9 +95,8 @@ void			cmd_pasv()
 	port = get_port(details);
 	log_info_msg("addr", addr);
 	log_info_nb("port", port);
-	if ((g_client.data_sock = connect_to_DTP_server_ipv4(addr, port)) == -1)
+	if ((g_client.data_sock = connect_to_dtp_server_ipv4(addr, port)) == -1)
 		return (log_error("Failed to connect to the data channel."));
 	ft_freetab(&details);
 	free(addr);
 }
-
