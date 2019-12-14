@@ -28,7 +28,10 @@ void				cmd_pass(char *cmd)
 
 	params = ft_strsplit(cmd, ' ');
 	if (ft_tablen(params) > 2)
+	{
+		ft_freetab(&params);
 		return (ft_putendl("usage: pass [ on | off | auto ]"));
+	}
 	if (!params[1])
 	{
 		g_client.pass = (g_client.pass == ON

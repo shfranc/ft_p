@@ -21,7 +21,10 @@ void					cmd_cd(char *cmd)
 		return (ft_putendl("Not connected."));
 	params = ft_strsplit(cmd, ' ');
 	if (ft_tablen(params) != 2)
+	{
+		ft_freetab(&params);
 		return (ft_putendl("usage: cd directory"));
+	}
 	message = ft_strjoin("CWD ", params[1]);
 	send_to_server_ctrl(message);
 	get_server_response();
