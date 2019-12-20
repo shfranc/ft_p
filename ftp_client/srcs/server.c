@@ -6,7 +6,7 @@
 /*   By: sfranc <sfranc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 16:32:17 by sfranc            #+#    #+#             */
-/*   Updated: 2019/12/13 18:46:39 by sfranc           ###   ########.fr       */
+/*   Updated: 2019/12/20 20:51:29 by sfranc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,13 @@ void			get_server_response(void)
 	char				buf[BUF_SIZE];
 
 	g_client.resp ? free(g_client.resp) : 0;
-	ret = read(g_client.ctrl_sock, &buf, BUF_SIZE - 1);
+	ft_bzero(buf, BUF_SIZE);
+	ret = recv(g_client.ctrl_sock, &buf, BUF_SIZE - 1, 0);
 	if (ret == -1)
 		return (log_error("read: Failed to read from client"));
-	if (buf[ret - 2] == '\r')
+	if (buf[ret - 2] && buf[ret - 2] == '\r')
 		buf[ret - 2] = '\0';
-	else if (buf[ret - 1] == '\n')
+	else if (buf[ret - 1] && buf[ret - 1] == '\n')
 		buf[ret - 1] = '\0';
 	else
 		buf[ret] = '\0';
