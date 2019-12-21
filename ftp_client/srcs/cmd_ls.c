@@ -16,8 +16,6 @@ static void			list_directory(void)
 {
 	read_data_bin(STDOUT_FILENO);
 	get_server_response();
-	if (parse_response(g_client.resp) != RESP_SUCCESS)
-		ft_putendl(g_client.resp);
 }
 
 void				cmd_ls(char *cmd)

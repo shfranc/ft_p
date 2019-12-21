@@ -98,19 +98,26 @@ void			send_to_server_ctrl(char *message)
 void			get_server_response(void)
 {
 	int					ret;
-	char				buf[BUF_SIZE];
+	int					len;
+	static char			buf[BUF_SIZE];
+	char				*stop;
 
+	ret = 0;
 	g_client.resp ? free(g_client.resp) : 0;
-	ft_bzero(buf, BUF_SIZE);
-	ret = recv(g_client.ctrl_sock, &buf, BUF_SIZE - 1, 0);
-	if (ret == -1)
+	if (buf[0] == '\0')
+		ret = recv(g_client.ctrl_sock, &buf, BUF_SIZE - 1, 0);
+	stop = ft_strstr(buf, END_OF_MESG);
+	if (ret == -1 || !stop)
 		return (log_error("read: Failed to read from client"));
-	if (buf[ret - 2] && buf[ret - 2] == '\r')
-		buf[ret - 2] = '\0';
-	else if (buf[ret - 1] && buf[ret - 1] == '\n')
-		buf[ret - 1] = '\0';
+	g_client.resp = ft_strsub(buf, 0, stop - buf);
+	if (*(stop + ft_strlen(END_OF_MESG)))
+	{
+		len = ft_strlen(stop) - ft_strlen(END_OF_MESG);
+		ft_memcpy(buf, stop + ft_strlen(END_OF_MESG), len);
+		ft_bzero(buf + len, BUF_SIZE - len);
+	}
 	else
-		buf[ret] = '\0';
-	g_client.resp = ft_strdup(buf);
-	return (log_server_response(g_client.resp));
+		ft_bzero(buf, BUF_SIZE);
+	log_server_response(g_client.resp);
+	return ;
 }
